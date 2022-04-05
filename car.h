@@ -8,11 +8,16 @@ class Car : public QObject
 {
     Q_OBJECT
 public:
+    enum MovementType {
+        LtoR, RtoL, BtoT
+    };
+
     explicit Car(QObject *parent = nullptr);
-    Car(qreal speed, QColor* color);
+    Car(qreal speed, QColor* color, MovementType movement);
 
     QColor* getColor();
-    qreal getPosition();
+    qreal getX();
+    qreal getY();
 
     qreal getLength();
     qreal getWidth();
@@ -40,6 +45,8 @@ private:
     QColor* color;
     qreal x;
     qreal y;
+
+    MovementType movement;
 
     bool shouldMove;
 

@@ -8,8 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // define which preset each road made in the ui should have
-    ui->RoadA->setPreset(Road::RoadPreset::A);
+    ui->RoadA->setPreset(Road::A);
     ui->RoadB->setPreset(Road::RoadPreset::B);
+    ui->Road1->setPreset(Road::C);
 }
 
 MainWindow::~MainWindow()

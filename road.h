@@ -27,20 +27,12 @@ protected:
     void paintGL();
     void initializeGL();
 
-signals:
-    void presetChanged();
-
-
-private:
-    QTimer* timer;
-
-    QOpenGLFunctions *openGLFunctions;
-
     // right now just draws a rectangle by grabbing length and width of cars
     // wanna make it pull a sprite
-    void drawCar(Car* car);
+    virtual void drawCar(Car* car);
+
     // helper function to construct new cars with random parameters
-    Car* createCar();
+    virtual Car* createCar();
 
     // used like a queue to keep track of cars that are on the road
     std::vector<Car*> cars;
@@ -51,9 +43,16 @@ private:
     // will loop over
     std::vector<qreal> m_gaps;
 
-
-
     int currentCar;
+
+signals:
+    void presetChanged();
+
+
+private:
+    QTimer* timer;
+
+    QOpenGLFunctions *openGLFunctions;
 
 };
 

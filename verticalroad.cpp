@@ -1,45 +1,18 @@
-#include "road.h"
+#include "verticalroad.h"
 
-Road::Road(QWidget* parent) : QOpenGLWidget(parent)
+VerticalRoad::VerticalRoad(QWidget* parent) : Road(parent)
 {
-    currentCar = 0;
-    setPreset(C);
 
-    timer = new QTimer(this);
-    timer->start(30);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
 }
 
-Road::RoadPreset Road::getPreset() const {
-    return m_preset;
-}
-
-void Road::setPreset(Road::RoadPreset preset) {
-    // hard-coded traffic flow
-    // if you put a number larger than 2, the traffic will basically just restart when
-    // that car goes off screen (spatial gaps longer than the screen don't work with the current setup)
-    // if we want the road to stay empty for a while we might have to use temporal gaps
-    m_preset = preset;
-    switch(m_preset) {
-    case A:
-        m_gaps = {0.1,0.6};
-        break;
-    case B:
-        m_gaps = {0.05, 1.0};
-        break;
-    default:
-        m_gaps = {0.1};
-    }
-}
-
-void Road::initializeGL() {
+void VerticalRoad::initializeGL() {
     openGLFunctions = QOpenGLContext::currentContext()->functions();
 }
 
-void Road::paintGL() {
+void VerticalRoad::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     setAttribute(Qt::WA_AlwaysStackOnTop);
-    glClearColor(0.0,0.0,0.0,0.0);
+    glClearColor(0.0, 0.0, 0.0, 0.0);
     glLoadIdentity();
 
     // for every car currently on the road...
@@ -47,8 +20,18 @@ void Road::paintGL() {
         // draw it
         drawCar(cars[i]);
 
+        if (cars[i]->getY() > -0.2) {
+            cars[i]->setBlocked(true);
+        }
+
+        if (cars.size() > 1 && i!=cars.size()-1) {
+            if(cars[i]->getY() > cars[i+1]->getY() - Car::l - 0.1) {
+                cars[i]->setBlocked(true);
+            }
+        }
+
         // if it's off-screen, free the pointer and pop it from the queue
-        if (cars[i]->getX() > 1) {
+        if (cars[i]->getY() > (1+Car::w)) {
             delete cars[i];
             cars.pop_back();
         }
@@ -57,8 +40,9 @@ void Road::paintGL() {
     // if the road isn't empty
     if (cars.size() > 0) {
         // if the newest car on the road is past a hard-coded position
-        if (cars[0]->getX() > (-1 + m_gaps[currentCar]))
+        if (cars[0]->getY() > (-1 + m_gaps[currentCar]))
         {
+            qDebug() << "added a car";
             // we're good to add the next car to the road
             cars.insert(cars.begin(), createCar());
             currentCar++;
@@ -73,22 +57,21 @@ void Road::paintGL() {
 
 }
 
-void Road::drawCar(Car* car) {
-//    glClear(GL_DEPTH_BUFFER_BIT);
+void VerticalRoad::drawCar(Car* car) {
     glBegin(GL_QUADS);
         glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
-        glVertex2f(car->getX(), 1.0);
-        glVertex2f(car->getX(), 1.0-Car::w);
-        glVertex2f(car->getX() + Car::l, 1.0-Car::w);
-        glVertex2f(car->getX()+Car::l, 1.0);
+        glVertex2f(1.0, car->getY());
+        glVertex2f(1.0, car->getY()-Car::l);
+        glVertex2f(1.0 - Car::w, car->getY() - Car::l);
+        glVertex2f(1.0 - Car::w, car->getY());
     glEnd();
 }
 
-Car* Road::createCar() {
+Car* VerticalRoad::createCar() {
     // generate random color
     QColor* color = new QColor(QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256));
     // construct new car
-    Car* car = new Car(0.01f, color, Car::LtoR);
+    Car* car = new Car(0.01f, color, Car::BtoT);
 
     return car;
 }

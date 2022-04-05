@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>110</y>
+      <y>260</y>
       <width>600</width>
       <height>60</height>
      </rect>
@@ -28,13 +28,23 @@
     </property>
     <property name="layoutDirection">
      <enum>Qt::LeftToRight</enum>
+    </property>
+   </widget>
+   <widget class="VerticalRoad" name="Road1" native="true">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>-1</y>
+      <width>60</width>
+      <height>600</height>
+     </rect>
     </property>
    </widget>
    <widget class="Road" name="RoadB">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>230</y>
+      <y>140</y>
       <width>600</width>
       <height>60</height>
      </rect>
@@ -46,22 +56,9 @@
      <enum>Qt::LeftToRight</enum>
     </property>
    </widget>
-   <widget class="Road" name="RoadC">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>360</y>
-      <width>600</width>
-      <height>60</height>
-     </rect>
-    </property>
-    <property name="mouseTracking">
-     <bool>false</bool>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
-   </widget>
+   <zorder>Road1</zorder>
+   <zorder>RoadA</zorder>
+   <zorder>RoadB</zorder>
   </widget>
  </widget>
  <customwidgets>
@@ -69,6 +66,12 @@
    <class>Road</class>
    <extends>QOpenGLWidget</extends>
    <header>road.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VerticalRoad</class>
+   <extends>QWidget</extends>
+   <header>verticalroad.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
