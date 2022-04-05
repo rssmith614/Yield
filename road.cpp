@@ -3,16 +3,33 @@
 Road::Road(QWidget* parent) : QOpenGLWidget(parent)
 {
     currentCar = 0;
+    setPreset(C);
 
     timer = new QTimer(this);
     timer->start(30);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+}
 
+Road::RoadPreset Road::getPreset() const {
+    return m_preset;
+}
+
+void Road::setPreset(Road::RoadPreset preset) {
     // hard-coded traffic flow
     // if you put a number larger than 2, the traffic will basically just restart when
     // that car goes off screen (spatial gaps longer than the screen don't work with the current setup)
     // if we want the road to stay empty for a while we might have to use temporal gaps
-    gaps = {0.1,0.5,0.1,0.5,0.1,0.5,0.1,0.5,0.1,0.5};
+    m_preset = preset;
+    switch(m_preset) {
+    case A:
+        m_gaps = {0.1,0.6};
+        break;
+    case B:
+        m_gaps = {0.05, 1.0};
+        break;
+    default:
+        m_gaps = {0.1};
+    }
 }
 
 void Road::initializeGL() {
@@ -33,20 +50,19 @@ void Road::paintGL() {
             delete cars[i];
             cars.pop_back();
         }
-
     }
 
     // if the road isn't empty
     if (cars.size() > 0) {
         // if the newest car on the road is past a hard-coded position
-        if (cars[0]->getPosition() > (-1 + gaps[currentCar]))
+        if (cars[0]->getPosition() > (-1 + m_gaps[currentCar]))
         {
             // we're good to add the next car to the road
             cars.insert(cars.begin(), createCar());
             currentCar++;
         }
         // restart the hard-coded traffic pattern
-        if (currentCar == 10) currentCar = 0;
+        if (currentCar == (int) m_gaps.size()) currentCar = 0;
     } else {
         // add a car if the road is empty
         cars.insert(cars.begin(), createCar());

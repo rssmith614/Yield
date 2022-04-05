@@ -12,12 +12,24 @@
 class Road : public QOpenGLWidget
 {
     Q_OBJECT
+
 public:
     Road(QWidget* parent = nullptr);
+
+    enum RoadPreset {
+        A, B, C
+    };
+
+    RoadPreset getPreset() const;
+    void setPreset(const RoadPreset);
 
 protected:
     void paintGL();
     void initializeGL();
+
+signals:
+    void presetChanged();
+
 
 private:
     QTimer* timer;
@@ -33,11 +45,16 @@ private:
     // used like a queue to keep track of cars that are on the road
     std::vector<Car*> cars;
 
+    RoadPreset m_preset;
+
     // hard-code the spatial gaps between cars
     // will loop over
-    std::array<qreal,10> gaps;
+    std::vector<qreal> m_gaps;
+
+
 
     int currentCar;
+
 };
 
 #endif // ROAD_H
