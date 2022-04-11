@@ -9,9 +9,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // define which preset each road made in the ui should have
     ui->RoadA->setPreset(Road::A);
-//    ui->RoadB->setPreset(Road::B);
+    ui->RoadB->setPreset(Road::B);
     ui->Road1->setPreset(Road::C);
-//    ui->Road2->setPreset(Road::A);
+    ui->Road2->setPreset(Road::DISABLED);
 }
 
 MainWindow::~MainWindow()
@@ -22,6 +22,7 @@ MainWindow::~MainWindow()
 void MainWindow::keyPressEvent(QKeyEvent* event) {
     if (event->key() == Qt::Key_Space) {
         ui->Road1->toggleStop();
+        ui->Road2->toggleStop();
     }
 }
 

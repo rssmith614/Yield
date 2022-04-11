@@ -45,11 +45,11 @@ Car* VerticalRoad::createCar() {
 void VerticalRoad::toggleStop() {
     if (stopped) {
         stopped = false;
-        qDebug() << "unstop";
+//        qDebug() << "unstop";
     }
     else {
         stopped = true;
-        qDebug() << "stop";
+//        qDebug() << "stop";
     }
 }
 
@@ -104,14 +104,13 @@ void VerticalRoad::updateCars() {
         // if the newest car on the road is past a hard-coded position
         if (cars[0]->getY() > (-1 + m_gaps[currentCar]))
         {
-//            qDebug() << "added a car";
             // we're good to add the next car to the road
             cars.insert(cars.begin(), createCar());
             currentCar++;
         }
         // restart the hard-coded traffic pattern
         if (currentCar == (int) m_gaps.size()) currentCar = 0;
-    } else {
+    } else if (m_preset != DISABLED) {
         // add a car if the road is empty
         cars.insert(cars.begin(), createCar());
         currentCar++;

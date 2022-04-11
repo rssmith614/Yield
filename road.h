@@ -17,7 +17,7 @@ public:
     Road(QWidget* parent = nullptr);
 
     enum RoadPreset {
-        A, B, C
+        A, B, C, DISABLED
     };
 
     RoadPreset getPreset() const;
@@ -28,7 +28,6 @@ protected:
     void initializeGL();
 
     // right now just draws a rectangle by grabbing length and width of cars
-    // wanna make it pull a sprite
     virtual void drawCar(Car* car);
 
     // helper function to construct new cars with random parameters
@@ -46,10 +45,9 @@ protected:
     int currentCar;
 
 signals:
-    void presetChanged();
+
 
 public slots:
-    // lol
     virtual void updateCars();
 
 private:

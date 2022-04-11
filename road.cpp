@@ -28,6 +28,9 @@ void Road::setPreset(Road::RoadPreset preset) {
     case B:
         m_gaps = {0.05, 1.0};
         break;
+    case DISABLED:
+        m_gaps = {};
+        break;
     default:
         m_gaps = {0.1};
     }
@@ -91,7 +94,7 @@ void Road::updateCars() {
         }
         // restart the hard-coded traffic pattern
         if (currentCar == (int) m_gaps.size()) currentCar = 0;
-    } else {
+    } else if (m_preset != DISABLED) {
         // add a car if the road is empty
         cars.insert(cars.begin(), createCar());
         currentCar++;
