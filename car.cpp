@@ -11,20 +11,28 @@ qreal Car::w = 2;
 
 Car::Car(qreal speed, QColor* color, MovementType movement) : speed(speed), color(color), movement(movement) {
     switch(movement) {
-    case LtoR:
+    case RIGHT:
         x = -1 - Car::l - 0.1;
         y = 0.0;
         break;
-    case RtoL:
+    case LEFT:
         x = 1 + Car::l + 0.1;
         y = 0.0;
         break;
-    case BtoT:
+    case UP:
         x = 0.0;
         y = -1 - Car::l - 0.1;
+        break;
+    case DOWN:
+        x = 0.0;
+        y = 1 + Car::l + 0.1;
     }
 
-    shouldMove = true;
+    stopped = false;
+    blocked = false;
+
+    state = DRIVING;
+    location = BEFORE_INTERSECTION;
 
     timer = new QTimer(this);
     timer->start(30);
@@ -43,17 +51,30 @@ qreal Car::getY() {
     return y;
 }
 
+void Car::setLoc(Location loc) {
+    location = loc;
+}
+
 void Car::setBlocked(bool blocked) {
-    shouldMove = !blocked;
-//    emit blocked();
+    this->blocked = blocked;
+//    state = (blocked) ? STOPPED : DRIVING;
+}
+
+void Car::setStopped(bool stopped) {
+    this->stopped = stopped;
+}
+
+bool Car::isBeforeIntersection() {
+    return location == BEFORE_INTERSECTION;
 }
 
 void Car::animate() {
-    // this should be more complicated...
-    // probably have movement direction defined alongside speed?
-    if (shouldMove) {
-        if (movement == LtoR) x += speed;
-        else if (movement == RtoL) x -= speed;
-        else if (movement == BtoT) y += speed;
+    state = (!blocked && !stopped) ? DRIVING : IDLE;
+
+    if (state == DRIVING) {
+        if (movement == RIGHT)      x += speed;
+        else if (movement == LEFT)  x -= speed;
+        else if (movement == UP)    y += speed;
+        else if (movement == DOWN)  y -= speed;
     }
 }

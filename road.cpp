@@ -8,6 +8,7 @@ Road::Road(QWidget* parent) : QOpenGLWidget(parent)
     timer = new QTimer(this);
     timer->start(30);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
 }
 
 Road::RoadPreset Road::getPreset() const {
@@ -22,7 +23,7 @@ void Road::setPreset(Road::RoadPreset preset) {
     m_preset = preset;
     switch(m_preset) {
     case A:
-        m_gaps = {0.1,0.6};
+        m_gaps = {0.5,1};
         break;
     case B:
         m_gaps = {0.05, 1.0};
@@ -42,10 +43,35 @@ void Road::paintGL() {
     glClearColor(0.0,0.0,0.0,0.0);
     glLoadIdentity();
 
+    for (Car* car : cars) {
+        drawCar(car);
+    }
+
+}
+
+void Road::drawCar(Car* car) {
+//    glClear(GL_DEPTH_BUFFER_BIT);
+    glBegin(GL_QUADS);
+        glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
+        glVertex2f(car->getX(), 1.0);
+        glVertex2f(car->getX(), 1.0-Car::w);
+        glVertex2f(car->getX() + Car::l, 1.0-Car::w);
+        glVertex2f(car->getX()+Car::l, 1.0);
+    glEnd();
+}
+
+Car* Road::createCar() {
+    // generate random color
+    QColor* color = new QColor(QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256));
+    // construct new car
+    Car* car = new Car(0.01f, color, Car::RIGHT);
+
+    return car;
+}
+
+void Road::updateCars() {
     // for every car currently on the road...
     for (size_t i=0; i < cars.size(); i++)  {
-        // draw it
-        drawCar(cars[i]);
 
         // if it's off-screen, free the pointer and pop it from the queue
         if (cars[i]->getX() > 1) {
@@ -70,25 +96,4 @@ void Road::paintGL() {
         cars.insert(cars.begin(), createCar());
         currentCar++;
     }
-
-}
-
-void Road::drawCar(Car* car) {
-//    glClear(GL_DEPTH_BUFFER_BIT);
-    glBegin(GL_QUADS);
-        glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
-        glVertex2f(car->getX(), 1.0);
-        glVertex2f(car->getX(), 1.0-Car::w);
-        glVertex2f(car->getX() + Car::l, 1.0-Car::w);
-        glVertex2f(car->getX()+Car::l, 1.0);
-    glEnd();
-}
-
-Car* Road::createCar() {
-    // generate random color
-    QColor* color = new QColor(QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256));
-    // construct new car
-    Car* car = new Car(0.01f, color, Car::LtoR);
-
-    return car;
 }

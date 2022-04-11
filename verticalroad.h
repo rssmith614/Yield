@@ -11,7 +11,13 @@ class VerticalRoad : public Road
 public:
     VerticalRoad(QWidget* parent = nullptr);
 
-    bool stopped();
+//    bool stopped();
+    void toggleStop();
+
+    qreal intersectionLoc;
+
+public slots:
+    void updateCars();
 
 protected:
     virtual void drawCar(Car* car);
@@ -21,6 +27,8 @@ protected:
 
 private:
     QOpenGLFunctions* openGLFunctions;
+
+    bool stopped;
 };
 
 #endif // VERTICALROAD_H

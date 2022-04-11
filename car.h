@@ -9,7 +9,15 @@ class Car : public QObject
     Q_OBJECT
 public:
     enum MovementType {
-        LtoR, RtoL, BtoT
+        RIGHT, LEFT, UP, DOWN
+    };
+
+    enum State {
+        DRIVING, IDLE
+    };
+
+    enum Location {
+        BEFORE_INTERSECTION, AFTER_INTERSECTION
     };
 
     explicit Car(QObject *parent = nullptr);
@@ -22,8 +30,15 @@ public:
     qreal getLength();
     qreal getWidth();
 
-    // whether the car should be allowed to continue driving forward
+    // block = something in front of it
     void setBlocked(bool blocked);
+
+    // stop = stop sign in front of it
+    void setStopped(bool stopped);
+
+    void setLoc(Location loc);
+
+    bool isBeforeIntersection();
 
     // for now every car has the same length and width
     static qreal l;
@@ -47,8 +62,11 @@ private:
     qreal y;
 
     MovementType movement;
+    State state;
+    Location location;
 
-    bool shouldMove;
+    bool stopped;
+    bool blocked;
 
 };
 

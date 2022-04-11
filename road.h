@@ -48,6 +48,9 @@ protected:
 signals:
     void presetChanged();
 
+public slots:
+    // lol
+    virtual void updateCars();
 
 private:
     QTimer* timer;
