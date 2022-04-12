@@ -8,7 +8,7 @@ Car::Car(QObject *parent)
 
 }
 
-qreal Car::l = 0.25;
+qreal Car::l = 0.2;
 qreal Car::w = 2;
 
 Car::Car(qreal speed, QColor* color, MovementType movement) : speed(speed), color(color), movement(movement) {

@@ -96,7 +96,7 @@ void Road::updateCars() {
         }
 
         // if the car is too close to the car in front of it (only happens in the event of a collision)
-        if (cars.size() > 1 && i!=cars.size()-1) {
+        if (cars.size() > 1 && i<cars.size()-1) {
             if(cars[i]->getX() > cars[i+1]->getX() - Car::l - 0.05) {
                 cars[i]->setBlocked(true);
             } else {

@@ -14,10 +14,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, SIGNAL(timeout()), this, SLOT(checkIntersections()));
 
     // define which preset each road made in the ui should have
-    ui->RoadA->setPreset(Road::A);
-    ui->RoadB->setPreset(Road::DISABLED);
+    ui->RoadA->setPreset(Road::B);
+    ui->RoadB->setPreset(Road::A);
     ui->Road1->setPreset(Road::C);
-    ui->Road2->setPreset(Road::DISABLED);
+    ui->Road2->setPreset(Road::C);
 }
 
 MainWindow::~MainWindow()

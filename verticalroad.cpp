@@ -4,7 +4,7 @@ VerticalRoad::VerticalRoad(QWidget* parent) : Road(parent)
 {
     stopped = false;
 
-    intersectionLoc = -0.2;
+    intersectionLoc = -0.22;
 }
 
 void VerticalRoad::initializeGL() {
@@ -75,7 +75,7 @@ void VerticalRoad::updateCars() {
         }
 
         // if the car is too close to the car in front of it
-        if (cars.size() > 1 && i!=cars.size()-1) {
+        if (cars.size() > 1 && i<cars.size()-1) {
             if(cars[i]->getY() > cars[i+1]->getY() - Car::l - 0.05) {
                 cars[i]->setBlocked(true);
             } else {
