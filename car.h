@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QRect>
+#include <QColor>
 
 class Car : public QObject
 {
@@ -30,11 +32,15 @@ public:
     qreal getLength();
     qreal getWidth();
 
+    MovementType getMovement();
+
     // block = something in front of it
     void setBlocked(bool blocked);
 
     // stop = stop sign in front of it
     void setStopped(bool stopped);
+
+    void notifyCollision();
 
     void setLoc(Location loc);
 

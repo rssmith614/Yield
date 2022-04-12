@@ -16,12 +16,12 @@ Car::Car(qreal speed, QColor* color, MovementType movement) : speed(speed), colo
         y = 0.0;
         break;
     case LEFT:
-        x = 1 + Car::l + 0.1;
+        x = 1 + 0.1;
         y = 0.0;
         break;
     case UP:
         x = 0.0;
-        y = -1 - Car::l - 0.1;
+        y = -1 - 0.1;
         break;
     case DOWN:
         x = 0.0;
@@ -51,6 +51,10 @@ qreal Car::getY() {
     return y;
 }
 
+Car::MovementType Car::getMovement() {
+    return movement;
+}
+
 void Car::setLoc(Location loc) {
     location = loc;
 }
@@ -62,6 +66,13 @@ void Car::setBlocked(bool blocked) {
 
 void Car::setStopped(bool stopped) {
     this->stopped = stopped;
+}
+
+void Car::notifyCollision() {
+    blocked = true;
+    stopped = true;
+    QColor* red = new QColor(255,0,0);
+    color = red;
 }
 
 bool Car::isBeforeIntersection() {

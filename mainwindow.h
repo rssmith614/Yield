@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QKeyEvent>
+#include <QPushButton>
 #include "road.h"
 
 QT_BEGIN_NAMESPACE
@@ -19,7 +20,14 @@ public:
 
     void keyPressEvent(QKeyEvent* event);
 
+public slots:
+    void checkIntersections();
+
 private:
     Ui::MainWindow *ui;
+
+    QTimer* timer;
+
+    QPushButton test;
 };
 #endif // MAINWINDOW_H

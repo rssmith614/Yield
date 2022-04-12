@@ -15,6 +15,13 @@ Road::RoadPreset Road::getPreset() const {
     return m_preset;
 }
 
+bool Road::hasCarInIntersection(Intersection intersection) {
+//    for (Car* car : cars) {
+//        this->geometry()
+//    }
+    return false;
+}
+
 void Road::setPreset(Road::RoadPreset preset) {
     // hard-coded traffic flow
     // if you put a number larger than 2, the traffic will basically just restart when
@@ -50,6 +57,12 @@ void Road::paintGL() {
         drawCar(car);
     }
 
+}
+
+void Road::halt() {
+    for (Car* car : cars) {
+        car->notifyCollision();
+    }
 }
 
 void Road::drawCar(Car* car) {
