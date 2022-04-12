@@ -74,6 +74,8 @@ private:
     bool stopped;
     bool blocked;
 
+    bool crashed;
+
 };
 
 #endif // CAR_H

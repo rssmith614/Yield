@@ -1,5 +1,7 @@
 #include "car.h"
 
+#include <QDebug>
+
 Car::Car(QObject *parent)
     : QObject{parent}
 {
@@ -30,6 +32,8 @@ Car::Car(qreal speed, QColor* color, MovementType movement) : speed(speed), colo
 
     stopped = false;
     blocked = false;
+
+    crashed = false;
 
     state = DRIVING;
     location = BEFORE_INTERSECTION;
@@ -69,8 +73,7 @@ void Car::setStopped(bool stopped) {
 }
 
 void Car::notifyCollision() {
-    blocked = true;
-    stopped = true;
+    crashed = true;
     QColor* red = new QColor(255,0,0);
     color = red;
 }
@@ -82,7 +85,7 @@ bool Car::isBeforeIntersection() {
 void Car::animate() {
     state = (!blocked && !stopped) ? DRIVING : IDLE;
 
-    if (state == DRIVING) {
+    if (state == DRIVING && !crashed) {
         if (movement == RIGHT)      x += speed;
         else if (movement == LEFT)  x -= speed;
         else if (movement == UP)    y += speed;

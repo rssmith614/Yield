@@ -20,6 +20,7 @@ HEADERS += \
     car.h \
     mainwindow.h \
     road.h \
+    tools.h \
     verticalroad.h
 
 FORMS += \

@@ -45,11 +45,9 @@ Car* VerticalRoad::createCar() {
 void VerticalRoad::toggleStop() {
     if (stopped) {
         stopped = false;
-//        qDebug() << "unstop";
     }
     else {
         stopped = true;
-//        qDebug() << "stop";
     }
 }
 
