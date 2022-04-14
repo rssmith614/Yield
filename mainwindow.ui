@@ -66,6 +66,24 @@
      </rect>
     </property>
    </widget>
+   <widget class="Background" name="backgroundWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>601</width>
+      <height>601</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 249, 0);</string>
+    </property>
+   </widget>
+   <zorder>backgroundWidget</zorder>
+   <zorder>RoadA</zorder>
+   <zorder>Road1</zorder>
+   <zorder>RoadB</zorder>
+   <zorder>Road2</zorder>
   </widget>
  </widget>
  <customwidgets>
@@ -78,6 +96,11 @@
    <class>VerticalRoad</class>
    <extends>QOpenGLWidget</extends>
    <header>verticalroad.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Background</class>
+   <extends>QOpenGLWidget</extends>
+   <header>background.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

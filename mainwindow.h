@@ -21,13 +21,11 @@ public:
     void keyPressEvent(QKeyEvent* event);
 
 public slots:
-    void checkIntersections();
+    void checkCollisions();
 
 private:
     Ui::MainWindow *ui;
 
     QTimer* timer;
-
-    QPushButton test;
 };
 #endif // MAINWINDOW_H

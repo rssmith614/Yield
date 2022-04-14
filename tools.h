@@ -15,6 +15,7 @@ namespace Tools {
         qreal car_x, car_y, car_w, car_h;
         switch(car->getMovement()) {
         case Car::RIGHT:
+        case Car::LEFT:
             // map x-pos from -1 to 1 -> 0 to 600
             car_x = ((car->getX()+1)/2) * road->geometry().width();
             // since car is the width of the road, this works
@@ -25,11 +26,8 @@ namespace Tools {
             // since car is the width of the road, this works
             car_h = road->geometry().height();
             break;
-        case Car::LEFT:
-            // TODO: handle bounding box of car moving r to l
-            car_x = car_y = car_w = car_h = 0;
-            break;
         case Car::UP:
+        case Car::DOWN:
             // car is the width of the road so this works
             car_x = road->geometry().left();
             // map y-pos from -1 to 1 -> 600 to 0
@@ -40,10 +38,6 @@ namespace Tools {
             car_w = road->geometry().width();
             // proportion of the road's length
             car_h = (Car::l/2) * road->geometry().height();
-            break;
-        case Car::DOWN:
-            // TODO: handle bounding box of car moving top to bottom
-            car_x = car_y = car_w = car_h = 0;
             break;
         }
 

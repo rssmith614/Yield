@@ -4,7 +4,7 @@ VerticalRoad::VerticalRoad(QWidget* parent) : Road(parent)
 {
     stopped = false;
 
-    intersectionLoc = -0.22;
+    intersectionLoc = -0.18;
 }
 
 void VerticalRoad::initializeGL() {
@@ -34,10 +34,12 @@ void VerticalRoad::drawCar(Car* car) {
 }
 
 Car* VerticalRoad::createCar() {
-    // generate random color
-    QColor* color = new QColor(QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256));
     // construct new car
-    Car* car = new Car(0.01f, color, Car::UP);
+    Car* car;
+    if (m_direction == UP)
+        car = new Car(0.01f, Car::UP);
+    else
+        car = new Car(0.01f, Car::DOWN);
 
     return car;
 }

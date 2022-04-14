@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QRect>
 #include <QColor>
+#include <QRandomGenerator>
 
 class Car : public QObject
 {
@@ -23,7 +24,7 @@ public:
     };
 
     explicit Car(QObject *parent = nullptr);
-    Car(qreal speed, QColor* color, MovementType movement);
+    Car(qreal speed, MovementType movement);
 
     QColor* getColor();
     qreal getX();
@@ -49,10 +50,6 @@ public:
     // for now every car has the same length and width
     static qreal l;
     static qreal w;
-
-signals:
-    // this is just an idea I had
-//    bool blocked();
 
 protected slots:
     // intended to be connected to QTimer timeout() signal (each frame)

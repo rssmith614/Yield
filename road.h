@@ -20,16 +20,14 @@ public:
         A, B, C, DISABLED
     };
 
-    enum Intersection {
-        A1, A2, B1, B2
+    enum Direction {
+        UP, DOWN, LEFT, RIGHT
     };
 
     RoadPreset getPreset() const;
-    void setPreset(const RoadPreset);
+    void setPreset(const RoadPreset, const Direction);
 
     virtual void halt();
-
-    virtual bool hasCarInIntersection(Intersection);
 
     // used like a queue to keep track of cars that are on the road
     std::vector<Car*> cars;
@@ -44,9 +42,8 @@ protected:
     // helper function to construct new cars with random parameters
     virtual Car* createCar();
 
-
-
     RoadPreset m_preset;
+    Direction m_direction;
 
     // hard-code the spatial gaps between cars
     // will loop over

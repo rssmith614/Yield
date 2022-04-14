@@ -9,15 +9,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     timer = new QTimer();
-    timer->start(30);
+    timer->start(33);
 
-    connect(timer, SIGNAL(timeout()), this, SLOT(checkIntersections()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(checkCollisions()));
 
     // define which preset each road made in the ui should have
-    ui->RoadA->setPreset(Road::B);
-    ui->RoadB->setPreset(Road::A);
-    ui->Road1->setPreset(Road::C);
-    ui->Road2->setPreset(Road::C);
+    ui->RoadA->setPreset(Road::DISABLED, Road::RIGHT);
+    ui->RoadB->setPreset(Road::A, Road::RIGHT);
+    ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
+    ui->Road2->setPreset(Road::B, Road::UP);
+
+    ui->backgroundWidget->init(ui->RoadA->geometry().y(), ui->RoadA->geometry().height());
 }
 
 MainWindow::~MainWindow()
@@ -25,23 +27,25 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::keyPressEvent(QKeyEvent* event) {
+void MainWindow::keyPressEvent(QKeyEvent* event)
+{
     if (event->key() == Qt::Key_Space) {
         ui->Road1->toggleStop();
         ui->Road2->toggleStop();
     }
 }
 
-void MainWindow::checkIntersections() {
+void MainWindow::checkCollisions()
+{
     // for every car on road 1
-    for (Car* car_1 : ui->Road1->cars) {
-
+    for (Car* car_1 : ui->Road1->cars)
+    {
         // define its bounding box
         QRect car_1_bb = Tools::getBoundingBox(car_1, ui->Road1);
 
         // for every car on road a
-        for (Car* car_a : ui->RoadA->cars) {
-
+        for (Car* car_a : ui->RoadA->cars)
+        {
             // define its bounding box
             QRect car_a_bb = Tools::getBoundingBox(car_a, ui->RoadA);
 
@@ -53,8 +57,8 @@ void MainWindow::checkIntersections() {
         }
 
         // for every car on road b
-        for (Car* car_b : ui->RoadB->cars) {
-
+        for (Car* car_b : ui->RoadB->cars)
+        {
             // define its bounding box
             QRect car_b_bb = Tools::getBoundingBox(car_b, ui->RoadB);
 
@@ -67,14 +71,14 @@ void MainWindow::checkIntersections() {
     }
 
     // for every car on road 2
-    for (Car* car_2 : ui->Road2->cars) {
-
+    for (Car* car_2 : ui->Road2->cars)
+    {
         // define its bounding box
         QRect car_2_bb = Tools::getBoundingBox(car_2, ui->Road2);
 
         // for every car on road a
-        for (Car* car_a : ui->RoadA->cars) {
-
+        for (Car* car_a : ui->RoadA->cars)
+        {
             // define its bounding box
             QRect car_a_bb = Tools::getBoundingBox(car_a, ui->RoadA);
 
@@ -86,8 +90,8 @@ void MainWindow::checkIntersections() {
         }
 
         // for every car on road b
-        for (Car* car_b : ui->RoadB->cars) {
-
+        for (Car* car_b : ui->RoadB->cars)
+        {
             // define its bounding box
             QRect car_b_bb = Tools::getBoundingBox(car_b, ui->RoadB);
 

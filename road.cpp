@@ -3,10 +3,10 @@
 Road::Road(QWidget* parent) : QOpenGLWidget(parent)
 {
     currentCar = 0;
-    setPreset(C);
+    setPreset(C, RIGHT);
 
     timer = new QTimer(this);
-    timer->start(30);
+    timer->start(33);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     connect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
 }
@@ -15,14 +15,7 @@ Road::RoadPreset Road::getPreset() const {
     return m_preset;
 }
 
-bool Road::hasCarInIntersection(Intersection intersection) {
-//    for (Car* car : cars) {
-//        this->geometry()
-//    }
-    return false;
-}
-
-void Road::setPreset(Road::RoadPreset preset) {
+void Road::setPreset(Road::RoadPreset preset, Road::Direction direction) {
     // hard-coded traffic flow
     // if you put a number larger than 2, the traffic will basically just restart when
     // that car goes off screen (spatial gaps longer than the screen don't work with the current setup)
@@ -41,6 +34,8 @@ void Road::setPreset(Road::RoadPreset preset) {
     default:
         m_gaps = {0.1};
     }
+
+    m_direction = direction;
 }
 
 void Road::initializeGL() {
@@ -77,10 +72,8 @@ void Road::drawCar(Car* car) {
 }
 
 Car* Road::createCar() {
-    // generate random color
-    QColor* color = new QColor(QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256));
     // construct new car
-    Car* car = new Car(0.01f, color, Car::RIGHT);
+    Car* car = new Car(0.01f, Car::RIGHT);
 
     return car;
 }
