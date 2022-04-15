@@ -15,9 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // define which preset each road made in the ui should have
     ui->RoadA->setPreset(Road::DISABLED, Road::RIGHT);
-    ui->RoadB->setPreset(Road::A, Road::RIGHT);
+    ui->RoadB->setPreset(Road::H_A, Road::RIGHT);
     ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
-    ui->Road2->setPreset(Road::B, Road::UP);
+    ui->Road2->setPreset(Road::V_A, Road::UP);
 
     ui->backgroundWidget->init(ui->RoadA->geometry().y(), ui->RoadA->geometry().height());
 }

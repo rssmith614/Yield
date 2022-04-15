@@ -20,7 +20,7 @@ public:
     };
 
     enum Location {
-        BEFORE_INTERSECTION, AFTER_INTERSECTION
+        BEFORE_INTERSECTION, AFTER_INTERSECTION, OFF_SCREEN
     };
 
     explicit Car(QObject *parent = nullptr);
@@ -45,7 +45,7 @@ public:
 
     void setLoc(Location loc);
 
-    bool isBeforeIntersection();
+    Location getRelativeLoc();
 
     // for now every car has the same length and width
     static qreal l;

@@ -5,6 +5,11 @@ VerticalRoad::VerticalRoad(QWidget* parent) : Road(parent)
     stopped = false;
 
     intersectionLoc = -0.18;
+
+    spawnTimer = new QTimer(this);
+    spawnTimer->start(m_gaps.size() != 0 ? m_gaps[0] : 0);
+
+    connect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
 }
 
 void VerticalRoad::initializeGL() {
@@ -44,6 +49,15 @@ Car* VerticalRoad::createCar() {
     return car;
 }
 
+void VerticalRoad::spawnCar() {
+    if (m_preset == DISABLED) return;
+
+    cars.insert(cars.begin(), createCar());
+    currentCar++;
+    if (currentCar == (int) m_gaps.size()) currentCar = 0;
+    spawnTimer->setInterval(m_gaps[currentCar]);
+}
+
 void VerticalRoad::toggleStop() {
     if (stopped) {
         stopped = false;
@@ -60,9 +74,9 @@ void VerticalRoad::updateCars() {
         // if the stop sign is active
         if (this->stopped) {
             // and the car is in fron of the stop sign
-            if (cars[i]->isBeforeIntersection()) {
+            if (cars[i]->getRelativeLoc() == Car::BEFORE_INTERSECTION) {
                 // and within .05 of the stop sign
-                if (abs(cars[i]->getY() - intersectionLoc) < 0.05) {
+                if (distanceToIntersection(cars[i]) < 0.05) {
                     cars[i]->setStopped(true);
                 } else {
                     cars[i]->setStopped(false);
@@ -78,7 +92,7 @@ void VerticalRoad::updateCars() {
 
         // if the car is too close to the car in front of it
         if (cars.size() > 1 && i<cars.size()-1) {
-            if(cars[i]->getY() > cars[i+1]->getY() - Car::l - 0.05) {
+            if(carsTooClose(cars[i], cars[i+1])) {
                 cars[i]->setBlocked(true);
             } else {
                 cars[i]->setBlocked(false);
@@ -86,33 +100,82 @@ void VerticalRoad::updateCars() {
         }
 
         // tell the car where it is
-        if (cars[i]->getY() < intersectionLoc) {
-            cars[i]->setLoc(Car::BEFORE_INTERSECTION);
-        } else {
-            cars[i]->setLoc(Car::AFTER_INTERSECTION);
-        }
+        updateRelativeLoc(cars[i]);
 
         // if it's off-screen, free the pointer and pop it from the queue
-        if (cars[i]->getY() > (1+Car::w)) {
+        if (cars[i]->getRelativeLoc() == Car::OFF_SCREEN) {
+            // score += 1 (maybe using emit?)
             delete cars[i];
             cars.pop_back();
         }
     }
 
+//    qDebug() << spawnTimer->interval() << spawnTimer->remainingTime();
+
     // if the road isn't empty
-    if (cars.size() > 0) {
-        // if the newest car on the road is past a hard-coded position
-        if (cars[0]->getY() > (-1 + m_gaps[currentCar]))
-        {
-            // we're good to add the next car to the road
-            cars.insert(cars.begin(), createCar());
-            currentCar++;
+//    spawnTimer->setInterval(m_gaps[currentCar]);
+//    if (cars.size() > 0) {
+//        // if the newest car on the road is past a hard-coded position
+//        if (cars[0]->getY() > (-1 + m_gaps[currentCar]))
+//        {
+//           // we're good to add the next car to the road
+//            cars.insert(cars.begin(), createCar());
+//            currentCar++;
+//        }
+//        // restart the hard-coded traffic pattern
+//        if (currentCar == (int) m_gaps.size()) currentCar = 0;
+//    } else if (m_preset != DISABLED) {
+//        // add a car if the road is empty
+//        cars.insert(cars.begin(), createCar());
+//        currentCar++;
+//    }
+}
+
+void VerticalRoad::updateRelativeLoc(Car *car)
+{
+    if (car->getMovement() == Car::UP) {
+        if (car->getY() < intersectionLoc) {
+            car->setLoc(Car::BEFORE_INTERSECTION);
+        } else if (car->getY() - Car::l > 1) {
+            car->setLoc(Car::OFF_SCREEN);
+        } else {
+            car->setLoc(Car::AFTER_INTERSECTION);
         }
-        // restart the hard-coded traffic pattern
-        if (currentCar == (int) m_gaps.size()) currentCar = 0;
-    } else if (m_preset != DISABLED) {
-        // add a car if the road is empty
-        cars.insert(cars.begin(), createCar());
-        currentCar++;
+    } else {
+        if (car->getY() > -intersectionLoc) {
+            car->setLoc(Car::BEFORE_INTERSECTION);
+        } else if (car->getY() < -1) {
+            car->setLoc(Car::OFF_SCREEN);
+        } else {
+            car->setLoc(Car::AFTER_INTERSECTION);
+        }
     }
 }
+
+bool VerticalRoad::carsTooClose(Car *behind, Car *front)
+{
+    if (behind->getMovement() == Car::UP) {
+        if(behind->getY() > front->getY() - Car::l - 0.05) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        if(behind->getY() < front->getY() + Car::l + 0.05) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+qreal VerticalRoad::distanceToIntersection(Car *car)
+{
+    if (car->getMovement() == Car::UP) {
+        return abs(car->getY() - intersectionLoc);
+    } else {
+        return abs(car->getY() - Car::l + intersectionLoc);
+    }
+}
+
+

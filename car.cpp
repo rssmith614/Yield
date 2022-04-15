@@ -80,11 +80,12 @@ void Car::notifyCollision() {
     color = red;
 }
 
-bool Car::isBeforeIntersection() {
-    return location == BEFORE_INTERSECTION;
+Car::Location Car::getRelativeLoc() {
+    return location;
 }
 
 void Car::animate() {
+//    qDebug() << "animating car" << this;
     state = (!blocked && !stopped) ? DRIVING : IDLE;
 
     if (state == DRIVING && !crashed) {

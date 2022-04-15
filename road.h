@@ -17,7 +17,7 @@ public:
     Road(QWidget* parent = nullptr);
 
     enum RoadPreset {
-        A, B, C, DISABLED
+        H_A, H_B, V_A, V_B, DISABLED
     };
 
     enum Direction {
@@ -33,6 +33,9 @@ public:
     std::vector<Car*> cars;
 
 protected:
+
+    QTimer* timer;
+
     void paintGL();
     void initializeGL();
 
@@ -58,7 +61,6 @@ public slots:
     virtual void updateCars();
 
 private:
-    QTimer* timer;
 
     QOpenGLFunctions *openGLFunctions;
 

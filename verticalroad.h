@@ -17,6 +17,7 @@ public:
 
 public slots:
     void updateCars();
+    void spawnCar();
 
 protected:
     virtual void drawCar(Car* car);
@@ -25,7 +26,15 @@ protected:
     virtual void initializeGL();
 
 private:
+    QTimer* spawnTimer;
+
     QOpenGLFunctions* openGLFunctions;
+
+    void updateRelativeLoc(Car* car);
+
+    bool carsTooClose(Car* behind, Car* front);
+
+    qreal distanceToIntersection(Car* car);
 
     bool stopped;
 };

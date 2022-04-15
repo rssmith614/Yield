@@ -3,7 +3,7 @@
 Road::Road(QWidget* parent) : QOpenGLWidget(parent)
 {
     currentCar = 0;
-    setPreset(C, RIGHT);
+    setPreset(DISABLED, RIGHT);
 
     timer = new QTimer(this);
     timer->start(33);
@@ -17,22 +17,24 @@ Road::RoadPreset Road::getPreset() const {
 
 void Road::setPreset(Road::RoadPreset preset, Road::Direction direction) {
     // hard-coded traffic flow
-    // if you put a number larger than 2, the traffic will basically just restart when
-    // that car goes off screen (spatial gaps longer than the screen don't work with the current setup)
-    // if we want the road to stay empty for a while we might have to use temporal gaps
+    // H_ prefix - horizontal traffic, spatial gaps
+    // V_ prefix - vertical traffic, temporal gaps
     m_preset = preset;
     switch(m_preset) {
-    case A:
+    case H_A:
         m_gaps = {0.5,1};
         break;
-    case B:
+    case H_B:
         m_gaps = {0.05, 1.0};
+        break;
+    case V_A:
+        m_gaps = {2000, 5000};
+        break;
+    case V_B:
+        m_gaps = {1000, 4000};
         break;
     case DISABLED:
         m_gaps = {};
-        break;
-    default:
-        m_gaps = {0.1};
     }
 
     m_direction = direction;
