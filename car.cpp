@@ -14,8 +14,11 @@ qreal Car::w = 2;
 Car::Car(qreal speed, MovementType movement) : speed(speed), movement(movement) {
     switch(movement) {
     case RIGHT:
-        x = -1 - Car::l - 0.1;
-        y = 0.0;
+//        x = -1 - Car::l - 0.1;
+//        y = 0.0;
+        this->vertices = { Vertex(-1 - Car::l - 0.1, 1), Vertex(-1 - Car::l - 0.1, -1), Vertex(-1 -(1./3.) * Car::l - 0.1, -1),
+                           Vertex(-1-0.1, -1 + (1./7.)*Car::w), Vertex(-1-0.1, 1-(1./7.)*w), Vertex(-1 - (1./3.)*Car::l - 0.1, 1)};
+
         break;
     case LEFT:
         x = 1 + 0.1;
@@ -32,6 +35,8 @@ Car::Car(qreal speed, MovementType movement) : speed(speed), movement(movement) 
 
     color = new QColor(QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256));
 
+    offsetX = 0;
+    offsetY = 0;
     stopped = false;
     blocked = false;
 
@@ -50,11 +55,11 @@ QColor* Car::getColor() {
 }
 
 qreal Car::getX() {
-    return x;
+    return vertices[0].x + offsetX;
 }
 
 qreal Car::getY() {
-    return y;
+    return vertices[0].y + offsetY;
 }
 
 Car::MovementType Car::getMovement() {
@@ -89,9 +94,9 @@ void Car::animate() {
     state = (!blocked && !stopped) ? DRIVING : IDLE;
 
     if (state == DRIVING && !crashed) {
-        if (movement == RIGHT)      x += speed;
-        else if (movement == LEFT)  x -= speed;
-        else if (movement == UP)    y += speed;
-        else if (movement == DOWN)  y -= speed;
+        if (movement == RIGHT)      offsetX += speed;
+        else if (movement == LEFT)  offsetX -= speed;
+        else if (movement == UP)    offsetY += speed;
+        else if (movement == DOWN)  offsetY -= speed;
     }
 }

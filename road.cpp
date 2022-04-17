@@ -1,5 +1,5 @@
 #include "road.h"
-
+#include <vector>
 Road::Road(QWidget* parent) : QOpenGLWidget(parent)
 {
     currentCar = 0;
@@ -55,6 +55,22 @@ void Road::paintGL() {
     }
 
 }
+//Road::Road(GLfloat scale, GLfloat offsetX, GLfloat offsetY)
+//{
+//  this->scale = scale;
+//  this->offsetX = offsetX;
+//  this->offsetY = offsetY;
+//};
+
+//vector<Vertex> Road::getVertices()
+//{
+//  return this->vertices;
+//};
+
+//Vertex Actor::getVertex(GLint i)
+//{
+//  return (this->vertices)[i];
+//};
 
 void Road::halt() {
     for (Car* car : cars) {
@@ -63,13 +79,20 @@ void Road::halt() {
 }
 
 void Road::drawCar(Car* car) {
-//    glClear(GL_DEPTH_BUFFER_BIT);
-    glBegin(GL_QUADS);
-        glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
-        glVertex2f(car->getX(), 1.0);
-        glVertex2f(car->getX(), 1.0-Car::w);
-        glVertex2f(car->getX() + Car::l, 1.0-Car::w);
-        glVertex2f(car->getX()+Car::l, 1.0);
+    glClear(GL_DEPTH_BUFFER_BIT);
+//    glBegin(GL_QUADS);
+//        glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
+//        glVertex2f(car->getX(), 1.0);
+//        glVertex2f(car->getX(), 1.0-Car::w);
+//        glVertex2f(car->getX() + Car::l, 1.0-Car::w);
+//        glVertex2f(car->getX()+Car::l, 1.0);
+//    glEnd();
+    glBegin(GL_POLYGON);
+    glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
+    for (std::vector<Vertex>::iterator vertex = car->vertices.begin(); vertex != car->vertices.end(); ++vertex)
+      {
+        glVertex2f((vertex->x) + car->offsetX, (vertex->y) + car->offsetY);
+      }
     glEnd();
 }
 
@@ -103,8 +126,10 @@ void Road::updateCars() {
     // if the road isn't empty
     if (cars.size() > 0) {
         // if the newest car on the road is past a hard-coded position
+//        qDebug() << cars[0]->getX();
         if (cars[0]->getX() > (-1 + m_gaps[currentCar]))
         {
+//            qDebug() << "adding car";
             // we're good to add the next car to the road
             cars.insert(cars.begin(), createCar());
             currentCar++;

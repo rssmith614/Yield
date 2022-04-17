@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QTimer>
+#include "vertex.h"
+#include <vector>
 #include <QRect>
 #include <QColor>
 #include <QRandomGenerator>
@@ -27,6 +29,9 @@ public:
     Car(qreal speed, MovementType movement);
 
     QColor* getColor();
+
+    qreal offsetX, offsetY;
+
     qreal getX();
     qreal getY();
 
@@ -51,6 +56,11 @@ public:
     static qreal l;
     static qreal w;
 
+    std::vector<Vertex> vertices;
+signals:
+    // this is just an idea I had
+//    bool blocked();
+
 protected slots:
     // intended to be connected to QTimer timeout() signal (each frame)
     // define how the car moves on each frame
@@ -63,7 +73,6 @@ private:
     QColor* color;
     qreal x;
     qreal y;
-
     MovementType movement;
     State state;
     Location location;
