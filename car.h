@@ -30,9 +30,6 @@ public:
     qreal getX();
     qreal getY();
 
-    qreal getLength();
-    qreal getWidth();
-
     MovementType getMovement();
 
     // block = something in front of it
@@ -41,10 +38,13 @@ public:
     // stop = stop sign in front of it
     void setStopped(bool stopped);
 
+    // stop and turn red
     void notifyCollision();
 
+    // update relative location - before/after intersection, off screen
     void setLoc(Location loc);
 
+    // get relative location - before/after intersection, off screen
     Location getRelativeLoc();
 
     // for now every car has the same length and width

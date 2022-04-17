@@ -67,7 +67,6 @@ void Car::setLoc(Location loc) {
 
 void Car::setBlocked(bool blocked) {
     this->blocked = blocked;
-//    state = (blocked) ? STOPPED : DRIVING;
 }
 
 void Car::setStopped(bool stopped) {
@@ -85,7 +84,6 @@ Car::Location Car::getRelativeLoc() {
 }
 
 void Car::animate() {
-//    qDebug() << "animating car" << this;
     state = (!blocked && !stopped) ? DRIVING : IDLE;
 
     if (state == DRIVING && !crashed) {

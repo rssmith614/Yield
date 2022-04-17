@@ -14,9 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, SIGNAL(timeout()), this, SLOT(checkCollisions()));
 
     // define which preset each road made in the ui should have
-    ui->RoadA->setPreset(Road::DISABLED, Road::RIGHT);
-    ui->RoadB->setPreset(Road::H_A, Road::RIGHT);
-    ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
+    ui->RoadA->setPreset(Road::H_A, Road::LEFT);
+    ui->RoadB->setPreset(Road::H_B, Road::RIGHT);
+    ui->Road1->setPreset(Road::V_B, Road::DOWN);
     ui->Road2->setPreset(Road::V_A, Road::UP);
 
     ui->backgroundWidget->init(ui->RoadA->geometry().y(), ui->RoadA->geometry().height());
@@ -37,6 +37,8 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 
 void MainWindow::checkCollisions()
 {
+    ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars));
+
     // for every car on road 1
     for (Car* car_1 : ui->Road1->cars)
     {

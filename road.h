@@ -27,8 +27,6 @@ public:
     RoadPreset getPreset() const;
     void setPreset(const RoadPreset, const Direction);
 
-    virtual void halt();
-
     // used like a queue to keep track of cars that are on the road
     std::vector<Car*> cars;
 
@@ -44,6 +42,9 @@ protected:
 
     // helper function to construct new cars with random parameters
     virtual Car* createCar();
+
+    // construct a car and add it to the queue
+    virtual void spawnCar();
 
     RoadPreset m_preset;
     Direction m_direction;
@@ -63,6 +64,15 @@ public slots:
 private:
 
     QOpenGLFunctions *openGLFunctions;
+
+    // before/after intersection and off-screen depend on the car's direction
+    void updateRelativeLoc(Car* car);
+
+    // distance between two cars depends on movement direction
+    bool carsTooClose(Car* behind, Car* front);
+
+    // decide whether car has passed spatial gap to allow next car to spawn
+    bool readyToSpawn();
 
 };
 
