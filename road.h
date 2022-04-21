@@ -16,8 +16,9 @@ class Road : public QOpenGLWidget
 public:
     Road(QWidget* parent = nullptr);
 
+    // declare any new horizontal preset as an even number
     enum RoadPreset {
-        H_A, H_B, V_A, V_B, DISABLED
+        DISABLED = 0, V_A = 1, H_A = 2, V_B = 3, H_B = 4
     };
 
     enum Direction {
@@ -26,6 +27,8 @@ public:
 
     RoadPreset getPreset() const;
     void setPreset(const RoadPreset, const Direction);
+
+    void setPaused(bool paused);
 
     // used like a queue to keep track of cars that are on the road
     std::vector<Car*> cars;
@@ -46,17 +49,16 @@ protected:
     // construct a car and add it to the queue
     virtual void spawnCar();
 
-    RoadPreset m_preset;
-    Direction m_direction;
+    RoadPreset preset;
+    Direction direction;
 
     // hard-code the spatial gaps between cars
     // will loop over
-    std::vector<qreal> m_gaps;
+    std::vector<qreal> gaps;
 
     int currentCar;
 
-signals:
-
+    bool paused;
 
 public slots:
     virtual void updateCars();
@@ -73,6 +75,9 @@ private:
 
     // decide whether car has passed spatial gap to allow next car to spawn
     bool readyToSpawn();
+
+    // decide whether the preset corresponds to the road direction
+    bool validPreset();
 
 };
 

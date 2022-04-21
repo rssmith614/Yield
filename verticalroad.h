@@ -13,6 +13,8 @@ public:
 
     void toggleStop();
 
+    void setPaused(bool paused);
+
     qreal intersectionLoc;
 
     static int clearedCars;

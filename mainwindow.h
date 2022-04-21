@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QKeyEvent>
 #include <QPushButton>
+#include <QTime>
 #include "road.h"
 
 QT_BEGIN_NAMESPACE
@@ -15,6 +16,10 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    enum State {
+        PAUSED, RUN, GAMEOVER
+    };
+
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
@@ -22,10 +27,18 @@ public:
 
 public slots:
     void checkCollisions();
+    void updateGameState();
+    void updateCountdown();
+    void updateUI();
 
 private:
     Ui::MainWindow *ui;
 
-    QTimer* timer;
+    QTimer* gameTimer;
+    QTimer* countdownTimer;
+
+    QTime remainingTime;
+
+    State state;
 };
 #endif // MAINWINDOW_H

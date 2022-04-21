@@ -11,7 +11,7 @@ Car::Car(QObject *parent)
 qreal Car::l = 0.2;
 qreal Car::w = 2;
 
-Car::Car(qreal speed, MovementType movement) : speed(speed), movement(movement) {
+Car::Car(MovementType movement, qreal speed) : speed(speed), movement(movement) {
     switch(movement) {
     case RIGHT:
         x = -1 - Car::l - 0.1;

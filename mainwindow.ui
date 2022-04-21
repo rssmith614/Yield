@@ -92,12 +92,43 @@
      <string>TextLabel</string>
     </property>
    </widget>
+   <widget class="QLabel" name="timerLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>58</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>60</y>
+      <width>118</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>10</number>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+   </widget>
    <zorder>backgroundWidget</zorder>
    <zorder>RoadA</zorder>
    <zorder>Road1</zorder>
    <zorder>RoadB</zorder>
    <zorder>Road2</zorder>
    <zorder>scoreLabel</zorder>
+   <zorder>timerLabel</zorder>
+   <zorder>progressBar</zorder>
   </widget>
  </widget>
  <customwidgets>
