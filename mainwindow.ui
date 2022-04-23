@@ -108,8 +108,8 @@
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>60</y>
+      <x>470</x>
+      <y>40</y>
       <width>118</width>
       <height>23</height>
      </rect>
@@ -121,14 +121,14 @@
      <number>0</number>
     </property>
    </widget>
-   <zorder>backgroundWidget</zorder>
    <zorder>RoadA</zorder>
    <zorder>Road1</zorder>
    <zorder>RoadB</zorder>
    <zorder>Road2</zorder>
    <zorder>scoreLabel</zorder>
-   <zorder>timerLabel</zorder>
    <zorder>progressBar</zorder>
+   <zorder>timerLabel</zorder>
+   <zorder>backgroundWidget</zorder>
   </widget>
  </widget>
  <customwidgets>

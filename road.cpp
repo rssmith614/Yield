@@ -9,6 +9,11 @@ Road::Road(QWidget* parent) : QOpenGLWidget(parent)
     timer->start(33);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     connect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
+
+    spawnTimer = new QTimer(this);
+    spawnTimer->start(gaps.size() != 0 ? gaps[0] : 0);
+
+    connect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
 }
 
 Road::RoadPreset Road::getPreset() const {
@@ -18,20 +23,12 @@ Road::RoadPreset Road::getPreset() const {
 void Road::setPreset(Road::RoadPreset preset, Road::Direction direction) {
 
     // hard-coded traffic flow
-    // H_ prefix - horizontal traffic, spatial gaps
-    // V_ prefix - vertical traffic, temporal gaps (in milliseconds)
     this->preset = preset;
     switch(preset) {
-    case H_A:
-        gaps = {0.5,1};
-        break;
-    case H_B:
-        gaps = {0.05, 1.0};
-        break;
-    case V_A:
+    case A:
         gaps = {2000, 5000};
         break;
-    case V_B:
+    case B:
         gaps = {1000, 4000};
         break;
     case DISABLED:
@@ -39,9 +36,6 @@ void Road::setPreset(Road::RoadPreset preset, Road::Direction direction) {
     }
 
     this->direction = direction;
-
-    if (!validPreset())
-        throw std::logic_error("preset must correspond to road direction");
 }
 
 void Road::setPaused(bool paused) {
@@ -51,11 +45,13 @@ void Road::setPaused(bool paused) {
             car->setBlocked(true);
         }
         disconnect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
+        disconnect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
     } else {
         for (Car* car : cars) {
             car->setBlocked(false);
         }
         connect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
+        connect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
     }
 }
 
@@ -93,39 +89,6 @@ Car* Road::createCar() {
     return car;
 }
 
-bool Road::readyToSpawn() {
-    if (cars.size() == 0)
-        return true;
-
-    // distance from edge depends on which direction the car is driving
-    if (direction == RIGHT) {
-        if (cars[0]->getX() > (-1 + gaps[currentCar]))
-            return true;
-    } else {
-        if (cars[0]->getX() < (1 - gaps[currentCar]))
-            return true;
-    }
-
-    return false;
-}
-
-bool Road::validPreset() {
-    if (preset == DISABLED) return true;
-
-    // horizontal preset enums should be even
-    if (preset % 2 == 0) {
-        if (direction == LEFT || direction == RIGHT)
-            return true;
-        else
-            return false;
-    } else {
-        if (direction == UP || direction == DOWN)
-            return true;
-        else
-            return false;
-    }
-}
-
 void Road::spawnCar() {
     // this is what actually disables a road
     if (preset == DISABLED) return;
@@ -134,6 +97,8 @@ void Road::spawnCar() {
     currentCar++;
     // loop through gaps
     if (currentCar == (int) gaps.size()) currentCar = 0;
+    // update next spawn time
+    spawnTimer->setInterval(gaps[currentCar]);
 }
 
 void Road::updateCars() {
@@ -159,9 +124,9 @@ void Road::updateCars() {
         }
     }
 
-    // for spatial gaps we have to check positions
-    if (readyToSpawn())
-        spawnCar();
+//    // for spatial gaps we have to check positions
+//    if (readyToSpawn())
+//        spawnCar();
 }
 
 void Road::updateRelativeLoc(Car* car) {

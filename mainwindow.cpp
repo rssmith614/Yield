@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    setWindowTitle("Yield");
+
     gameTimer = new QTimer();
     gameTimer->start(33);
 
@@ -17,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     remainingTime.setHMS(0,1,0);    // 1:00
     ui->progressBar->setMaximum(10);
+//    ui->progressBar->setAttribute(Qt::WA_AlwaysStackOnTop);
 
     countdownTimer = new QTimer();
     countdownTimer->start(1000);
@@ -24,10 +27,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(countdownTimer, SIGNAL(timeout()), this, SLOT(updateCountdown()));
 
     // define which preset each road made in the ui should have
-    ui->RoadA->setPreset(Road::DISABLED, Road::LEFT);
-    ui->RoadB->setPreset(Road::H_B, Road::RIGHT);
-    ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
-    ui->Road2->setPreset(Road::V_B, Road::UP);
+    ui->RoadA->setPreset(Road::B, Road::LEFT);
+    ui->RoadB->setPreset(Road::A, Road::RIGHT);
+    ui->Road1->setPreset(Road::A, Road::DOWN);
+    ui->Road2->setPreset(Road::B, Road::UP);
 
     ui->backgroundWidget->init(ui->RoadA->geometry().y(), ui->RoadA->geometry().height());
 
@@ -46,7 +49,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
         ui->Road2->toggleStop();
     }
 
-    if (event->key() == Qt::Key_Escape) {
+    if (event->key() == Qt::Key_Escape && state != GAMEOVER) {
         if (state == RUN) {
             state = PAUSED;
         } else {

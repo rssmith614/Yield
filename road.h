@@ -18,7 +18,7 @@ public:
 
     // declare any new horizontal preset as an even number
     enum RoadPreset {
-        DISABLED = 0, V_A = 1, H_A = 2, V_B = 3, H_B = 4
+        DISABLED = 0, A = 1, B = 2
     };
 
     enum Direction {
@@ -37,6 +37,9 @@ protected:
 
     QTimer* timer;
 
+    // for temporal spawn gaps
+    QTimer* spawnTimer;
+
     void paintGL();
     void initializeGL();
 
@@ -45,9 +48,6 @@ protected:
 
     // helper function to construct new cars with random parameters
     virtual Car* createCar();
-
-    // construct a car and add it to the queue
-    virtual void spawnCar();
 
     RoadPreset preset;
     Direction direction;
@@ -60,8 +60,10 @@ protected:
 
     bool paused;
 
-public slots:
+protected slots:
     virtual void updateCars();
+    // construct a car and add it to the queue
+    virtual void spawnCar();
 
 private:
 

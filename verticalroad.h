@@ -13,15 +13,12 @@ public:
 
     void toggleStop();
 
-    void setPaused(bool paused);
-
     qreal intersectionLoc;
 
     static int clearedCars;
 
-public slots:
+protected slots:
     void updateCars();
-    void spawnCar();
 
 protected:
     virtual void drawCar(Car* car);
@@ -30,8 +27,6 @@ protected:
     virtual void initializeGL();
 
 private:
-    // for temporal spawn gaps
-    QTimer* spawnTimer;
 
     QOpenGLFunctions* openGLFunctions;
 

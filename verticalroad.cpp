@@ -8,29 +8,6 @@ VerticalRoad::VerticalRoad(QWidget* parent) : Road(parent)
 
     // I don't like that this is hard-coded
     intersectionLoc = -0.18;
-
-    spawnTimer = new QTimer(this);
-    spawnTimer->start(gaps.size() != 0 ? gaps[0] : 0);
-
-    // spawn eligibility is based on time, not position so we define it here
-    connect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
-}
-
-void VerticalRoad::setPaused(bool paused) {
-    this->paused = paused;
-    if (paused) {
-        for (Car* car : cars) {
-            car->setBlocked(true);
-        }
-        disconnect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
-        disconnect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
-    } else {
-        for (Car* car : cars) {
-            car->setBlocked(false);
-        }
-        connect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
-        connect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
-    }
 }
 
 void VerticalRoad::initializeGL() {
@@ -64,17 +41,6 @@ Car* VerticalRoad::createCar() {
     Car* car = new Car(direction == UP ? Car::UP : Car::DOWN);
 
     return car;
-}
-
-void VerticalRoad::spawnCar() {
-    if (preset == DISABLED) return;
-
-    cars.insert(cars.begin(), createCar());
-    currentCar++;
-    // loop through gaps
-    if (currentCar == (int) gaps.size()) currentCar = 0;
-    // update next spawn time
-    spawnTimer->setInterval(gaps[currentCar]);
 }
 
 void VerticalRoad::toggleStop() {
