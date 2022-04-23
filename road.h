@@ -45,6 +45,8 @@ protected:
     // helper function to construct new cars with random parameters
     virtual Car* createCar();
 
+    virtual void spawnCar();
+
     RoadPreset m_preset;
     Direction m_direction;
 
@@ -63,6 +65,14 @@ public slots:
 private:
 
     QOpenGLFunctions *openGLFunctions;
+
+    void updateRelativeLoc(Car* car);
+
+       // distance between two cars depends on movement direction
+       bool carsTooClose(Car* behind, Car* front);
+
+       // decide whether car has passed spatial gap to allow next car to spawn
+       bool readyToSpawn();
 
 };
 

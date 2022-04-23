@@ -55,22 +55,6 @@ void Road::paintGL() {
     }
 
 }
-//Road::Road(GLfloat scale, GLfloat offsetX, GLfloat offsetY)
-//{
-//  this->scale = scale;
-//  this->offsetX = offsetX;
-//  this->offsetY = offsetY;
-//};
-
-//vector<Vertex> Road::getVertices()
-//{
-//  return this->vertices;
-//};
-
-//Vertex Actor::getVertex(GLint i)
-//{
-//  return (this->vertices)[i];
-//};
 
 void Road::halt() {
     for (Car* car : cars) {
@@ -89,33 +73,64 @@ void Road::drawCar(Car* car) {
 //    glEnd();
     glBegin(GL_POLYGON);
     glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
+//    qDebug() << "drawing" << car->vertices.size() << "vertices" << (car->getX());
     for (std::vector<Vertex>::iterator vertex = car->vertices.begin(); vertex != car->vertices.end(); ++vertex)
       {
         glVertex2f((vertex->x) + car->offsetX, (vertex->y) + car->offsetY);
       }
     glEnd();
+//    qDebug() << (Car::MovementType) car->getMovement();
 }
 
 Car* Road::createCar() {
     // construct new car
-    Car* car = new Car(0.01f, Car::RIGHT);
+    Car* car = new Car(0.01f, (m_direction == RIGHT) ? Car::RIGHT : Car::LEFT);
 
     return car;
+}
+
+void Road::spawnCar() {
+    // this is what actually disables a road
+    if (m_preset == DISABLED) return;
+
+    cars.insert(cars.begin(), createCar());
+    currentCar++;
+    // loop through gaps
+    if (currentCar == (int) m_gaps.size()) currentCar = 0;
+}
+
+bool Road::readyToSpawn() {
+    if (cars.size() == 0)
+        return true;
+
+    // distance from edge depends on which direction the car is driving
+    if (m_direction == RIGHT) {
+        if (cars[0]->getX() > (-1 + m_gaps[currentCar]))
+            return true;
+    } else {
+        if (cars[0]->getX() < (1 - m_gaps[currentCar]))
+            return true;
+    }
+
+    return false;
 }
 
 void Road::updateCars() {
     // for every car currently on the road...
     for (size_t i=0; i < cars.size(); i++)  {
 
+        // tell the car where it is
+        updateRelativeLoc(cars[i]);
+
         // if it's off-screen, free the pointer and pop it from the queue
-        if (cars[i]->getX() > 1) {
+        if (cars[i]->getRelativeLoc() == Car::OFF_SCREEN) {
             delete cars[i];
             cars.pop_back();
         }
 
         // if the car is too close to the car in front of it (only happens in the event of a collision)
         if (cars.size() > 1 && i<cars.size()-1) {
-            if(cars[i]->getX() > cars[i+1]->getX() - Car::l - 0.05) {
+            if(carsTooClose(cars[i], cars[i+1])) {
                 cars[i]->setBlocked(true);
             } else {
                 cars[i]->setBlocked(false);
@@ -123,22 +138,34 @@ void Road::updateCars() {
         }
     }
 
-    // if the road isn't empty
-    if (cars.size() > 0) {
-        // if the newest car on the road is past a hard-coded position
-//        qDebug() << cars[0]->getX();
-        if (cars[0]->getX() > (-1 + m_gaps[currentCar]))
-        {
-//            qDebug() << "adding car";
-            // we're good to add the next car to the road
-            cars.insert(cars.begin(), createCar());
-            currentCar++;
-        }
-        // restart the hard-coded traffic pattern
-        if (currentCar == (int) m_gaps.size()) currentCar = 0;
-    } else if (m_preset != DISABLED) {
-        // add a car if the road is empty
-        cars.insert(cars.begin(), createCar());
-        currentCar++;
+    // for spatial gaps we have to check positions
+    if (readyToSpawn())
+        spawnCar();
+}
+
+void Road::updateRelativeLoc(Car* car) {
+    // car's relative location is dependent on its movement direction
+    // -1 is where a right-moving car spawns, but -1 is off-screen for left-moving car
+    if (car->getMovement() == Car::RIGHT) {
+        if (car->getX() - Car::l > 1)
+            car->setLoc(Car::OFF_SCREEN);
+    } else {
+        if (car->getX() + Car::l < -1)
+            car->setLoc(Car::OFF_SCREEN);
+    }
+}
+
+bool Road::carsTooClose(Car* behind, Car* front) {
+    if (behind->getMovement() == Car::RIGHT) {
+        // x is left side of car
+        if (behind->getX() > front->getX() - Car::l - 0.05)
+            return true;
+        else
+            return false;
+    } else {
+        if (behind->getX() < front->getX() + Car::l + 0.05)
+            return true;
+        else
+            return false;
     }
 }

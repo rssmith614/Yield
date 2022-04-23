@@ -11,13 +11,13 @@ MainWindow::MainWindow(QWidget *parent)
     timer = new QTimer();
     timer->start(33);
 
-    connect(timer, SIGNAL(timeout()), this, SLOT(checkCollisions()));
+//    connect(timer, SIGNAL(timeout()), this, SLOT(checkCollisions()));
 
     // define which preset each road made in the ui should have
     ui->RoadA->setPreset(Road::DISABLED, Road::RIGHT);
-    ui->RoadB->setPreset(Road::H_A, Road::RIGHT);
-    ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
-    ui->Road2->setPreset(Road::V_A, Road::UP);
+    ui->RoadB->setPreset(Road::DISABLED, Road::LEFT);
+    ui->Road1->setPreset(Road::V_A, Road::DOWN);
+    ui->Road2->setPreset(Road::V_B, Road::UP);
 
     ui->backgroundWidget->init(ui->RoadA->geometry().y(), ui->RoadA->geometry().height());
 }
