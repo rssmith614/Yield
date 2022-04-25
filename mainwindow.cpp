@@ -18,16 +18,21 @@ MainWindow::MainWindow(QWidget *parent)
     remainingTime.setHMS(0,1,0);    // 1:00
     ui->progressBar->setMaximum(10);
 
+    ui->levelOne->setAttribute(Qt:: WA_AlwaysStackOnTop);
+    ui->levelOne->setParent(ui->mainMenu);
     countdownTimer = new QTimer();
     countdownTimer->start(1000);
 
     connect(countdownTimer, SIGNAL(timeout()), this, SLOT(updateCountdown()));
 
     // define which preset each road made in the ui should have
-    ui->RoadA->setPreset(Road::DISABLED, Road::LEFT);
+    ui->RoadA->setPreset(Road::H_A, Road::LEFT);
     ui->RoadB->setPreset(Road::H_B, Road::RIGHT);
-    ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
+    ui->Road1->setPreset(Road::V_A, Road::DOWN);
     ui->Road2->setPreset(Road::V_B, Road::UP);
+//    ui->pushButton->setAttribute(Qt:: WA_AlwaysStackOnTop);
+//    ui->pushButton_2->setAttribute(Qt:: WA_AlwaysStackOnTop);
+//    ui->pushButton_3->setAttribute(Qt:: WA_AlwaysStackOnTop);
 
     ui->backgroundWidget->init(ui->RoadA->geometry().y(), ui->RoadA->geometry().height());
 

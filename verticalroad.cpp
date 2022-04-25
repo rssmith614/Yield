@@ -14,6 +14,8 @@ VerticalRoad::VerticalRoad(QWidget* parent) : Road(parent)
 
     // spawn eligibility is based on time, not position so we define it here
     connect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
+    setAttribute(Qt::WA_TranslucentBackground, true);
+
 }
 
 void VerticalRoad::setPaused(bool paused) {
@@ -35,10 +37,11 @@ void VerticalRoad::setPaused(bool paused) {
 
 void VerticalRoad::initializeGL() {
     openGLFunctions = QOpenGLContext::currentContext()->functions();
+    glClearColor(0,0,0.5,0.5);
 }
 
 void VerticalRoad::paintGL() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
     setAttribute(Qt::WA_AlwaysStackOnTop);
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glLoadIdentity();
@@ -50,8 +53,9 @@ void VerticalRoad::paintGL() {
 }
 
 void VerticalRoad::drawCar(Car* car) {
+    glClear(GL_DEPTH_BUFFER_BIT);
     glBegin(GL_QUADS);
-        glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
+        glColor4f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF(),0.5);
         glVertex2f(1.0, car->getY());
         glVertex2f(1.0, car->getY()-Car::l);
         glVertex2f(1.0 - Car::w, car->getY() - Car::l);

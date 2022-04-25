@@ -9,6 +9,8 @@ Road::Road(QWidget* parent) : QOpenGLWidget(parent)
     timer->start(33);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     connect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
+
+    setAttribute(Qt::WA_TranslucentBackground, true);
 }
 
 Road::RoadPreset Road::getPreset() const {
@@ -61,6 +63,7 @@ void Road::setPaused(bool paused) {
 
 void Road::initializeGL() {
     openGLFunctions = QOpenGLContext::currentContext()->functions();
+    glClearColor(0,0,0,0);
 }
 
 void Road::paintGL() {
@@ -76,7 +79,7 @@ void Road::paintGL() {
 }
 
 void Road::drawCar(Car* car) {
-//    glClear(GL_DEPTH_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
     glBegin(GL_QUADS);
         glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
         glVertex2f(car->getX(), 1.0);
