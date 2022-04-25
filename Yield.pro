@@ -15,6 +15,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     road.cpp \
+    stopsign.cpp \
     verticalroad.cpp
 
 HEADERS += \
@@ -22,6 +23,7 @@ HEADERS += \
     car.h \
     mainwindow.h \
     road.h \
+    stopsign.h \
     tools.h \
     verticalroad.h
 

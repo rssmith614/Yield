@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "tools.h"
 
+#include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -225,6 +227,8 @@ void MainWindow::updateGameState() {
 }
 
 void MainWindow::updateUI() {
+    ui->Road1->toggleStop(ui->Stop_Sign->isClicked());
+  
     ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars));
     ui->timerLabel->setText(remainingTime.toString("m:ss"));
     ui->progressBar->setValue(VerticalRoad::clearedCars);

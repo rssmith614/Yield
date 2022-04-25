@@ -4,7 +4,7 @@ int VerticalRoad::clearedCars = 0;
 
 VerticalRoad::VerticalRoad(QWidget* parent) : Road(parent)
 {
-    stopped = false;
+    stopped = true;
 
     // I don't like that this is hard-coded
     intersectionLoc = -0.18;
@@ -45,8 +45,9 @@ Car* VerticalRoad::createCar() {
     return car;
 }
 
-void VerticalRoad::toggleStop() {
-    stopped = !stopped;
+
+void VerticalRoad::toggleStop(bool stop) {
+    stopped=stop;
 }
 
 void VerticalRoad::updateCars() {

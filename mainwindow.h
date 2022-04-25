@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPainter>
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QTime>
@@ -27,7 +28,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void keyPressEvent(QKeyEvent* event);
+
+public slots:
+    void updateUI();
+
 
 public slots:
     void checkCollisions();

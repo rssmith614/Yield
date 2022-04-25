@@ -11,7 +11,7 @@ class VerticalRoad : public Road
 public:
     VerticalRoad(QWidget* parent = nullptr);
 
-    void toggleStop();
+    void toggleStop(bool stop);
 
     qreal intersectionLoc;
 
