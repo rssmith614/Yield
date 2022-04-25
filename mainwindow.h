@@ -17,7 +17,11 @@ class MainWindow : public QMainWindow
 
 public:
     enum State {
-        PAUSED, RUN, GAMEOVER
+        PAUSED, RUN, GAMEOVER, WIN
+    };
+
+    enum Level {
+        ONE=1, TWO=2, THREE=3
     };
 
     MainWindow(QWidget *parent = nullptr);
@@ -40,5 +44,10 @@ private:
     QTime remainingTime;
 
     State state;
+    Level level;
+
+    int targetScore;
+
+    void init();
 };
 #endif // MAINWINDOW_H

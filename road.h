@@ -6,7 +6,6 @@
 #include <QOpenGLFunctions>
 #include <QTimer>
 #include <vector>
-#include <array>
 #include "car.h"
 
 class Road : public QOpenGLWidget
@@ -32,6 +31,8 @@ public:
 
     // used like a queue to keep track of cars that are on the road
     std::vector<Car*> cars;
+
+    void clear();
 
 protected:
 

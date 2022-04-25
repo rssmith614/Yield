@@ -11,9 +11,13 @@ Road::Road(QWidget* parent) : QOpenGLWidget(parent)
     connect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
 
     spawnTimer = new QTimer(this);
-    spawnTimer->start(gaps.size() != 0 ? gaps[0] : 0);
+    spawnTimer->start(0);
 
     connect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
+}
+
+void Road::clear() {
+    cars.clear();
 }
 
 Road::RoadPreset Road::getPreset() const {
@@ -21,12 +25,16 @@ Road::RoadPreset Road::getPreset() const {
 }
 
 void Road::setPreset(Road::RoadPreset preset, Road::Direction direction) {
+    std::normal_distribution<> dist(5000,2000);
 
     // hard-coded traffic flow
     this->preset = preset;
     switch(preset) {
     case A:
-        gaps = {2000, 5000};
+        for (int i=0; i < 100; i++) {
+            gaps.push_back(abs(dist(*QRandomGenerator::global())));
+        }
+//        qDebug() << gaps;
         break;
     case B:
         gaps = {1000, 4000};
@@ -57,12 +65,14 @@ void Road::setPaused(bool paused) {
 
 void Road::initializeGL() {
     openGLFunctions = QOpenGLContext::currentContext()->functions();
+//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//    glEnable( GL_BLEND );
+    glClearColor(0.0,0.0,0.0,0.0);
 }
 
 void Road::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     setAttribute(Qt::WA_AlwaysStackOnTop);
-    glClearColor(0.0,0.0,0.0,0.0);
     glLoadIdentity();
 
     for (Car* car : cars) {
@@ -72,7 +82,7 @@ void Road::paintGL() {
 }
 
 void Road::drawCar(Car* car) {
-//    glClear(GL_DEPTH_BUFFER_BIT);
+//    glClear(GL_COLOR_BUFFER_BIT);
     glBegin(GL_QUADS);
         glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
         glVertex2f(car->getX(), 1.0);
