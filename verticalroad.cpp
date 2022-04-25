@@ -2,7 +2,7 @@
 
 VerticalRoad::VerticalRoad(QWidget* parent) : Road(parent)
 {
-    stopped = false;
+    stopped = true;
 
     intersectionLoc = -0.2;
 }
@@ -42,15 +42,8 @@ Car* VerticalRoad::createCar() {
     return car;
 }
 
-void VerticalRoad::toggleStop() {
-    if (stopped) {
-        stopped = false;
-        qDebug() << "unstop";
-    }
-    else {
-        stopped = true;
-        qDebug() << "stop";
-    }
+void VerticalRoad::toggleStop(bool stop) {
+    stopped=stop;
 }
 
 void VerticalRoad::updateCars() {

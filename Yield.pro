@@ -14,12 +14,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     road.cpp \
+    stopsign.cpp \
     verticalroad.cpp
 
 HEADERS += \
     car.h \
     mainwindow.h \
     road.h \
+    stopsign.h \
     verticalroad.h
 
 FORMS += \

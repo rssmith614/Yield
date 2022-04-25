@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,6 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
 //    ui->RoadB->setPreset(Road::B);
     ui->Road1->setPreset(Road::C);
 //    ui->Road2->setPreset(Road::A);
+
+    timer = new QTimer(this);
+    timer->start(33);
+
+    connect(timer,SIGNAL(timeout()), this, SLOT(updateUI()));
+
 }
 
 MainWindow::~MainWindow()
@@ -19,9 +26,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::keyPressEvent(QKeyEvent* event) {
-    if (event->key() == Qt::Key_Space) {
-        ui->Road1->toggleStop();
-    }
+void MainWindow::updateUI() {
+    ui->Road1->toggleStop(ui->Stop_Sign->isClicked());
 }
+
+
+
 

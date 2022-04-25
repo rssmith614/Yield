@@ -40,6 +40,16 @@
      </rect>
     </property>
    </widget>
+   <widget class="StopSign" name="Stop_Sign">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>330</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
@@ -52,6 +62,11 @@
    <class>VerticalRoad</class>
    <extends>QOpenGLWidget</extends>
    <header>verticalroad.h</header>
+  </customwidget>
+  <customwidget>
+   <class>StopSign</class>
+   <extends>QOpenGLWidget</extends>
+   <header>stopsign.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
