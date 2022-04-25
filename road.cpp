@@ -65,9 +65,7 @@ void Road::setPaused(bool paused) {
 
 void Road::initializeGL() {
     openGLFunctions = QOpenGLContext::currentContext()->functions();
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//    glEnable( GL_BLEND );
-    glClearColor(0.0,0.0,0.0,0.0);
+    glClearColor(0,0,0,0);
 }
 
 void Road::paintGL() {

@@ -14,6 +14,7 @@ SOURCES += \
     car.cpp \
     main.cpp \
     mainwindow.cpp \
+    menu.cpp \
     road.cpp \
     verticalroad.cpp
 
@@ -21,6 +22,7 @@ HEADERS += \
     background.h \
     car.h \
     mainwindow.h \
+    menu.h \
     road.h \
     tools.h \
     verticalroad.h

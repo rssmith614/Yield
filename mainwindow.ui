@@ -39,6 +39,9 @@
       <height>600</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+    </property>
    </widget>
    <widget class="Road" name="RoadB">
     <property name="geometry">
@@ -121,17 +124,27 @@
      <number>0</number>
     </property>
    </widget>
-   <widget class="QLabel" name="levelLabel">
+   <widget class="Menu" name="mainMenu">
     <property name="geometry">
      <rect>
-      <x>500</x>
-      <y>70</y>
-      <width>58</width>
-      <height>16</height>
+      <x>0</x>
+      <y>-1</y>
+      <width>601</width>
+      <height>601</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="levelOne">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>120</y>
+      <width>111</width>
+      <height>121</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>LEVEL UN</string>
     </property>
    </widget>
    <zorder>backgroundWidget</zorder>
@@ -143,6 +156,9 @@
    <zorder>scoreLabel</zorder>
    <zorder>timerLabel</zorder>
    <zorder>levelLabel</zorder>
+   <zorder>progressBar</zorder>
+   <zorder>mainMenu</zorder>
+   <zorder>levelOne</zorder>
   </widget>
  </widget>
  <customwidgets>
@@ -160,6 +176,11 @@
    <class>Background</class>
    <extends>QOpenGLWidget</extends>
    <header>background.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Menu</class>
+   <extends>QOpenGLWidget</extends>
+   <header>menu.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
