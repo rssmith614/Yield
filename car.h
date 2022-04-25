@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QRect>
+#include <QColor>
+#include <QRandomGenerator>
 
 class Car : public QObject
 {
@@ -17,18 +20,17 @@ public:
     };
 
     enum Location {
-        BEFORE_INTERSECTION, AFTER_INTERSECTION
+        BEFORE_INTERSECTION, AFTER_INTERSECTION, OFF_SCREEN
     };
 
     explicit Car(QObject *parent = nullptr);
-    Car(qreal speed, QColor* color, MovementType movement);
+    Car(MovementType movement, qreal speed = 0.01);
 
     QColor* getColor();
     qreal getX();
     qreal getY();
 
-    qreal getLength();
-    qreal getWidth();
+    MovementType getMovement();
 
     // block = something in front of it
     void setBlocked(bool blocked);
@@ -36,17 +38,18 @@ public:
     // stop = stop sign in front of it
     void setStopped(bool stopped);
 
+    // stop and turn red
+    void notifyCollision();
+
+    // update relative location - before/after intersection, off screen
     void setLoc(Location loc);
 
-    bool isBeforeIntersection();
+    // get relative location - before/after intersection, off screen
+    Location getRelativeLoc();
 
     // for now every car has the same length and width
     static qreal l;
     static qreal w;
-
-signals:
-    // this is just an idea I had
-//    bool blocked();
 
 protected slots:
     // intended to be connected to QTimer timeout() signal (each frame)
@@ -67,6 +70,8 @@ private:
 
     bool stopped;
     bool blocked;
+
+    bool crashed;
 
 };
 

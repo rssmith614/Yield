@@ -1,35 +1,41 @@
 #include "car.h"
 
+#include <QDebug>
+
 Car::Car(QObject *parent)
     : QObject{parent}
 {
 
 }
 
-qreal Car::l = 0.25;
+qreal Car::l = 0.2;
 qreal Car::w = 2;
 
-Car::Car(qreal speed, QColor* color, MovementType movement) : speed(speed), color(color), movement(movement) {
+Car::Car(MovementType movement, qreal speed) : speed(speed), movement(movement) {
     switch(movement) {
     case RIGHT:
         x = -1 - Car::l - 0.1;
         y = 0.0;
         break;
     case LEFT:
-        x = 1 + Car::l + 0.1;
+        x = 1 + 0.1;
         y = 0.0;
         break;
     case UP:
         x = 0.0;
-        y = -1 - Car::l - 0.1;
+        y = -1 - 0.1;
         break;
     case DOWN:
         x = 0.0;
         y = 1 + Car::l + 0.1;
     }
 
+    color = new QColor(QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256));
+
     stopped = false;
     blocked = false;
+
+    crashed = false;
 
     state = DRIVING;
     location = BEFORE_INTERSECTION;
@@ -51,27 +57,36 @@ qreal Car::getY() {
     return y;
 }
 
+Car::MovementType Car::getMovement() {
+    return movement;
+}
+
 void Car::setLoc(Location loc) {
     location = loc;
 }
 
 void Car::setBlocked(bool blocked) {
     this->blocked = blocked;
-//    state = (blocked) ? STOPPED : DRIVING;
 }
 
 void Car::setStopped(bool stopped) {
     this->stopped = stopped;
 }
 
-bool Car::isBeforeIntersection() {
-    return location == BEFORE_INTERSECTION;
+void Car::notifyCollision() {
+    crashed = true;
+    QColor* red = new QColor(255,0,0);
+    color = red;
+}
+
+Car::Location Car::getRelativeLoc() {
+    return location;
 }
 
 void Car::animate() {
     state = (!blocked && !stopped) ? DRIVING : IDLE;
 
-    if (state == DRIVING) {
+    if (state == DRIVING && !crashed) {
         if (movement == RIGHT)      x += speed;
         else if (movement == LEFT)  x -= speed;
         else if (movement == UP)    y += speed;

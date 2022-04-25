@@ -11,12 +11,13 @@ class VerticalRoad : public Road
 public:
     VerticalRoad(QWidget* parent = nullptr);
 
-//    bool stopped();
     void toggleStop(bool stop);
 
     qreal intersectionLoc;
 
-public slots:
+    static int clearedCars;
+
+protected slots:
     void updateCars();
 
 protected:
@@ -26,7 +27,17 @@ protected:
     virtual void initializeGL();
 
 private:
+
     QOpenGLFunctions* openGLFunctions;
+
+    // before/after intersection and off-screen depend on the car's direction
+    void updateRelativeLoc(Car* car);
+
+    // distance between two cars depends on movement direction
+    bool carsTooClose(Car* behind, Car* front);
+
+    // relative distance to intersection depends on the car's direction
+    qreal distanceToIntersection(Car* car);
 
     bool stopped;
 };

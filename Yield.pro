@@ -10,6 +10,7 @@ CONFIG += c++17
 DEFINES += GL_SILENCE_DEPRECATION
 
 SOURCES += \
+    background.cpp \
     car.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -18,10 +19,12 @@ SOURCES += \
     verticalroad.cpp
 
 HEADERS += \
+    background.h \
     car.h \
     mainwindow.h \
     road.h \
     stopsign.h \
+    tools.h \
     verticalroad.h
 
 FORMS += \
