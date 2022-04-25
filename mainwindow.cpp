@@ -205,7 +205,7 @@ void MainWindow::updateGameState() {
         ui->RoadB->setPaused(true);
         ui->Road1->setPaused(true);
         ui->Road2->setPaused(true);
-        qDebug() << "game pause";
+//        qDebug() << "game pause";
         break;
     case GAMEOVER:
         disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(updateUI()));

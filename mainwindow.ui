@@ -147,18 +147,30 @@
      <string>LEVEL UN</string>
     </property>
    </widget>
+   <widget class="QLabel" name="levelLabel">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>10</y>
+      <width>37</width>
+      <height>12</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Level: </string>
+    </property>
+   </widget>
    <zorder>backgroundWidget</zorder>
    <zorder>RoadA</zorder>
    <zorder>Road1</zorder>
    <zorder>RoadB</zorder>
    <zorder>Road2</zorder>
-   <zorder>progressBar</zorder>
    <zorder>scoreLabel</zorder>
    <zorder>timerLabel</zorder>
-   <zorder>levelLabel</zorder>
    <zorder>progressBar</zorder>
    <zorder>mainMenu</zorder>
    <zorder>levelOne</zorder>
+   <zorder>levelLabel</zorder>
   </widget>
  </widget>
  <customwidgets>
