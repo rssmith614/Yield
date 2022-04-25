@@ -80,10 +80,10 @@ void MainWindow::init() {
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-    if (event->key() == Qt::Key_Space) {
-        ui->Road1->toggleStop();
-        ui->Road2->toggleStop();
-    }
+//    if (event->key() == Qt::Key_Space) {
+//        ui->Road1->toggleStop();
+//        ui->Road2->toggleStop();
+//    }
 
     if (event->key() == Qt::Key_Escape) {
         if (state == RUN) {
@@ -227,7 +227,7 @@ void MainWindow::updateGameState() {
 }
 
 void MainWindow::updateUI() {
-    ui->Road1->toggleStop(ui->Stop_Sign->isClicked());
+    ui->Road2->toggleStop(ui->Stop_Sign->isClicked());
   
     ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars));
     ui->timerLabel->setText(remainingTime.toString("m:ss"));
