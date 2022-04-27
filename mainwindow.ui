@@ -137,20 +137,23 @@
    <widget class="QPushButton" name="levelOne">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>120</y>
-      <width>111</width>
-      <height>121</height>
+      <x>150</x>
+      <y>125</y>
+      <width>300</width>
+      <height>100</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(83, 71, 255);</string>
+    </property>
     <property name="text">
-     <string>LEVEL UN</string>
+     <string>Level 1</string>
     </property>
    </widget>
    <widget class="QLabel" name="levelLabel">
     <property name="geometry">
      <rect>
-      <x>540</x>
+      <x>380</x>
       <y>10</y>
       <width>37</width>
       <height>12</height>
@@ -158,6 +161,54 @@
     </property>
     <property name="text">
      <string>Level: </string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="levelTwo">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>250</y>
+      <width>300</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(83, 71, 255);</string>
+    </property>
+    <property name="text">
+     <string>Level 2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="levelThree">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>375</y>
+      <width>300</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(83, 71, 255);</string>
+    </property>
+    <property name="text">
+     <string>Level 3</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="quit">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>500</y>
+      <width>300</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(83, 71, 255);</string>
+    </property>
+    <property name="text">
+     <string>Quit</string>
     </property>
    </widget>
    <zorder>backgroundWidget</zorder>
@@ -171,6 +222,9 @@
    <zorder>mainMenu</zorder>
    <zorder>levelOne</zorder>
    <zorder>levelLabel</zorder>
+   <zorder>levelTwo</zorder>
+   <zorder>levelThree</zorder>
+   <zorder>quit</zorder>
   </widget>
  </widget>
  <customwidgets>

@@ -28,7 +28,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->backgroundWidget->init(ui->RoadA->geometry().y(), ui->RoadA->geometry().height());
 
-    state = RUN;
+    // set state to menu screen and update state
+    state = MENU;
+    updateGameState();
+
+    connect(ui->levelOne, SIGNAL(pressed()), this, SLOT(startLevelOne()));
+    connect(ui->levelTwo, SIGNAL(pressed()), this, SLOT(startLevelTwo()));
+    connect(ui->levelThree, SIGNAL(pressed()), this, SLOT(startLevelThree()));
+    connect(ui->quit, SIGNAL(pressed()), this, SLOT(quit()));
 }
 
 MainWindow::~MainWindow()
@@ -39,6 +46,13 @@ MainWindow::~MainWindow()
 void MainWindow::init() {
     ui->levelLabel->setText("Level " + QString::number(level));
     VerticalRoad::clearedCars = 0;
+
+    // clears roads
+    ui->Road1->clear();
+    ui->Road2->clear();
+    ui->RoadA->clear();
+    ui->RoadB->clear();
+
     switch(level) {
     case ONE:
         // define which preset each road made in the ui should have
@@ -195,7 +209,14 @@ void MainWindow::updateGameState() {
         ui->RoadB->setPaused(false);
         ui->Road1->setPaused(false);
         ui->Road2->setPaused(false);
-        qDebug() << "game run";
+
+        //hide menu buttons
+        ui->levelOne->hide();
+        ui->levelTwo->hide();
+        ui->levelThree->hide();
+        ui->quit->hide();
+
+//        qDebug() << "game run";
         break;
     case PAUSED:
         disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(checkCollisions()));
@@ -210,7 +231,7 @@ void MainWindow::updateGameState() {
     case GAMEOVER:
         disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(updateUI()));
         disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(checkCollisions()));
-        qDebug() << "game over";
+//        qDebug() << "game over";
         break;
     case WIN:
         ui->RoadA->setPreset(Road::DISABLED, Road::LEFT);
@@ -219,7 +240,15 @@ void MainWindow::updateGameState() {
         ui->Road2->setPreset(Road::DISABLED, Road::UP);
         disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(updateUI()));
         disconnect(countdownTimer, SIGNAL(timeout()), this, SLOT(updateCountdown()));
-        qDebug() << "game win";
+//        qDebug() << "game win";
+        break;
+    case MENU:
+        ui->RoadA->setPreset(Road::DISABLED, Road::LEFT);
+        ui->RoadB->setPreset(Road::DISABLED, Road::RIGHT);
+        ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
+        ui->Road2->setPreset(Road::DISABLED, Road::UP);
+        disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(updateUI()));
+        disconnect(countdownTimer, SIGNAL(timeout()), this, SLOT(updateCountdown()));
         break;
     }
 }
@@ -236,4 +265,33 @@ void MainWindow::updateUI() {
 
 void MainWindow::updateCountdown() {
     remainingTime = remainingTime.addSecs(-1);
+}
+
+void MainWindow::startLevelOne()
+{
+    level = ONE;
+    init();
+    state = RUN;
+    updateGameState();
+}
+
+void MainWindow::startLevelTwo()
+{
+    level = TWO;
+    init();
+    state = RUN;
+    updateGameState();
+}
+
+void MainWindow::startLevelThree()
+{
+    level = THREE;
+    init();
+    state = RUN;
+    updateGameState();
+}
+
+void MainWindow::quit()
+{
+    QCoreApplication::quit();
 }

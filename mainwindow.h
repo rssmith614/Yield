@@ -17,7 +17,7 @@ class MainWindow : public QMainWindow
 
 public:
     enum State {
-        PAUSED, RUN, GAMEOVER, WIN
+        PAUSED, RUN, GAMEOVER, WIN, MENU
     };
 
     enum Level {
@@ -34,6 +34,10 @@ public slots:
     void updateGameState();
     void updateCountdown();
     void updateUI();
+    void startLevelOne();
+    void startLevelTwo();
+    void startLevelThree();
+    void quit();
 
 private:
     Ui::MainWindow *ui;
