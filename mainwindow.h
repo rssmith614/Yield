@@ -32,9 +32,10 @@ public:
 
 public slots:
     void checkCollisions();
-    void updateGameState();
     void updateCountdown();
     void updateUI();
+    void incLevel();
+    void restart();
 
 private:
     Ui::MainWindow *ui;
@@ -50,5 +51,6 @@ private:
     int targetScore;
 
     void init();
+    void updateGameState();
 };
 #endif // MAINWINDOW_H

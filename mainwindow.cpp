@@ -13,24 +13,23 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("Yield");
     setFixedSize(600,600);
 
-    level = ONE;
-
-    init();
-
     gameTimer = new QTimer();
     gameTimer->start(33);
-
-    connect(gameTimer, SIGNAL(timeout()), this, SLOT(checkCollisions()));
-    connect(gameTimer, SIGNAL(timeout()), this, SLOT(updateUI()));
 
     countdownTimer = new QTimer();
     countdownTimer->start(1000);
 
-    connect(countdownTimer, SIGNAL(timeout()), this, SLOT(updateCountdown()));
-
     ui->backgroundWidget->init(ui->RoadA->geometry().y(), ui->RoadA->geometry().height());
 
+    connect(ui->nextButton, SIGNAL (pressed()), this, SLOT(incLevel()));
+    connect(ui->restartButton, SIGNAL(pressed()), this, SLOT(restart()));
+
+    // these come in pairs
+    level = ONE;
+    init();
+    // this too
     state = RUN;
+    updateGameState();
 }
 
 MainWindow::~MainWindow()
@@ -38,11 +37,36 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::incLevel() {
+    if (level == THREE) return;
+    level = (Level) ((int) level + 1);
+    init();
+    state = RUN;
+    updateGameState();
+}
+
+void MainWindow::restart() {
+    init();
+    state = RUN;
+    updateGameState();
+}
+
 void MainWindow::init() {
     ui->levelLabel->setText("Level " + QString::number(level));
     VerticalRoad::clearedCars = 0;
+
+    ui->Road1->clear();
+    ui->Road2->clear();
+    ui->RoadA->clear();
+    ui->RoadB->clear();
+
+    ui->stopSign1->set(true);
+    ui->stopSign2->set(true);
+
     switch(level) {
     case ONE:
+        ui->stopSign1->hide();
+        ui->stopSign2->show();
         // define which preset each road made in the ui should have
         ui->RoadA->setPreset(Road::DISABLED, Road::LEFT);
         ui->RoadB->setPreset(Road::A, Road::RIGHT);
@@ -54,6 +78,8 @@ void MainWindow::init() {
         ui->progressBar->setMaximum(targetScore);
         break;
     case TWO:
+        ui->stopSign1->hide();
+        ui->stopSign2->show();
         // define which preset each road made in the ui should have
         ui->RoadA->setPreset(Road::A, Road::LEFT);
         ui->RoadB->setPreset(Road::A, Road::RIGHT);
@@ -65,6 +91,8 @@ void MainWindow::init() {
         ui->progressBar->setMaximum(targetScore);
         break;
     case THREE:
+        ui->stopSign1->show();
+        ui->stopSign2->show();
         // define which preset each road made in the ui should have
         ui->RoadA->setPreset(Road::A, Road::LEFT);
         ui->RoadB->setPreset(Road::A, Road::RIGHT);
@@ -80,32 +108,21 @@ void MainWindow::init() {
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-//    if (event->key() == Qt::Key_Space) {
-//        ui->Road1->toggleStop();
-//        ui->Road2->toggleStop();
+//    if (event->key() == Qt::Key_Escape) {
+//        if (state == RUN) {
+//            state = PAUSED;
+//        } else if (state == PAUSED){
+//            state = RUN;
+//        } else if (state == GAMEOVER) {
+//            restart();
+//        } else if (state == WIN) {
+//            incLevel();
+//        }
+//        updateGameState();
 //    }
 
-    if (event->key() == Qt::Key_Escape) {
-        if (state == RUN) {
-            state = PAUSED;
-        } else if (state == PAUSED){
-            state = RUN;
-        } else if (state == GAMEOVER) {
-            init();
-            ui->Road1->clear();
-            ui->Road2->clear();
-            ui->RoadA->clear();
-            ui->RoadB->clear();
-            state = RUN;
-        } else if (state == WIN) {
-            level = (Level) ((int) level + 1);
-            init();
-            ui->Road1->clear();
-            ui->Road2->clear();
-            ui->RoadA->clear();
-            ui->RoadB->clear();
-            state = RUN;
-        }
+    if (event->key() == Qt::Key_D) {
+        state = WIN;
         updateGameState();
     }
 }
@@ -125,7 +142,7 @@ void MainWindow::checkCollisions()
             QRect car_a_bb = Tools::getBoundingBox(car_a, ui->RoadA);
 
             // check intersection between every car on road 1 and road a
-            if (car_1_bb.intersects(car_a_bb)) {
+            if (car_1_bb.intersects(car_a_bb) && !(car_1->isCrashed() && car_a->isCrashed())) {
                 car_1->notifyCollision();
                 car_a->notifyCollision();
                 state = GAMEOVER;
@@ -140,7 +157,7 @@ void MainWindow::checkCollisions()
             QRect car_b_bb = Tools::getBoundingBox(car_b, ui->RoadB);
 
             // check intersection between every car on road 1 and road b
-            if (car_1_bb.intersects(car_b_bb)) {
+            if (car_1_bb.intersects(car_b_bb) && !(car_1->isCrashed() && car_b->isCrashed())) {
                 car_1->notifyCollision();
                 car_b->notifyCollision();
                 state = GAMEOVER;
@@ -162,7 +179,7 @@ void MainWindow::checkCollisions()
             QRect car_a_bb = Tools::getBoundingBox(car_a, ui->RoadA);
 
             // check intersection between every car on road 2 and road a
-            if (car_2_bb.intersects(car_a_bb)) {
+            if (car_2_bb.intersects(car_a_bb) && !(car_2->isCrashed() && car_a->isCrashed())) {
                 car_2->notifyCollision();
                 car_a->notifyCollision();
                 state = GAMEOVER;
@@ -177,7 +194,7 @@ void MainWindow::checkCollisions()
             QRect car_b_bb = Tools::getBoundingBox(car_b, ui->RoadB);
 
             // check intersection between every car on road 2 and road b
-            if (car_2_bb.intersects(car_b_bb)) {
+            if (car_2_bb.intersects(car_b_bb) && !(car_2->isCrashed() && car_b->isCrashed())) {
                 car_2->notifyCollision();
                 car_b->notifyCollision();
                 state = GAMEOVER;
@@ -193,43 +210,57 @@ void MainWindow::updateGameState() {
         connect(gameTimer, SIGNAL(timeout()), this, SLOT(checkCollisions()));
         connect(gameTimer, SIGNAL(timeout()), this, SLOT(updateUI()));
         connect(countdownTimer, SIGNAL(timeout()), this, SLOT(updateCountdown()));
+
         ui->RoadA->setPaused(false);
         ui->RoadB->setPaused(false);
         ui->Road1->setPaused(false);
         ui->Road2->setPaused(false);
-        qDebug() << "game run";
+
+        ui->exitButton->hide();
+        ui->nextButton->hide();
+        ui->restartButton->hide();
         break;
     case PAUSED:
-        disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(checkCollisions()));
         disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(updateUI()));
         disconnect(countdownTimer, SIGNAL(timeout()), this, SLOT(updateCountdown()));
+
         ui->RoadA->setPaused(true);
         ui->RoadB->setPaused(true);
         ui->Road1->setPaused(true);
         ui->Road2->setPaused(true);
-        qDebug() << "game pause";
+
+        ui->timerLabel->setText("Paused");
+
+        ui->exitButton->show();
+        ui->restartButton->show();
         break;
     case GAMEOVER:
         disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(updateUI()));
-        disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(checkCollisions()));
-        qDebug() << "game over";
+        disconnect(countdownTimer, SIGNAL(timeout()), this, SLOT(updateCountdown()));
+
+        ui->exitButton->show();
+        ui->restartButton->show();
         break;
     case WIN:
         ui->RoadA->setPreset(Road::DISABLED, Road::LEFT);
         ui->RoadB->setPreset(Road::DISABLED, Road::RIGHT);
         ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
         ui->Road2->setPreset(Road::DISABLED, Road::UP);
+
         disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(updateUI()));
         disconnect(countdownTimer, SIGNAL(timeout()), this, SLOT(updateCountdown()));
-        qDebug() << "game win";
+
+        ui->exitButton->show();
+        if (level != THREE) ui->nextButton->show();
         break;
     }
 }
 
 void MainWindow::updateUI() {
-    ui->Road2->toggleStop(ui->Stop_Sign->isClicked());
+    ui->Road1->toggleStop(ui->stopSign1->isClicked());
+    ui->Road2->toggleStop(ui->stopSign2->isClicked());
   
-    ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars));
+    ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars) + " / " + QString::number(targetScore));
     ui->timerLabel->setText(remainingTime.toString("m:ss"));
     ui->progressBar->setValue(VerticalRoad::clearedCars);
     if (VerticalRoad::clearedCars >= targetScore) {
@@ -239,5 +270,9 @@ void MainWindow::updateUI() {
 }
 
 void MainWindow::updateCountdown() {
+    if (remainingTime == QTime(0,0,0)) {
+        state = GAMEOVER;
+        updateGameState();
+    }
     remainingTime = remainingTime.addSecs(-1);
 }

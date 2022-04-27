@@ -47,6 +47,8 @@ public:
     // get relative location - before/after intersection, off screen
     Location getRelativeLoc();
 
+    bool isCrashed();
+
     // for now every car has the same length and width
     static qreal l;
     static qreal w;

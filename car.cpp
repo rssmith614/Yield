@@ -83,6 +83,10 @@ Car::Location Car::getRelativeLoc() {
     return location;
 }
 
+bool Car::isCrashed() {
+    return crashed;
+}
+
 void Car::animate() {
     state = (!blocked && !stopped) ? DRIVING : IDLE;
 

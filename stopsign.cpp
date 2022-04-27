@@ -23,7 +23,7 @@ void StopSign::paintGL()
 
 
     glBegin(GL_POLYGON);
-        glColor3f(change,0,0);
+        glColor4f(1,0,0,change);
         glVertex2f(-1,0.5);
         glVertex2f(-0.5,1);
         glVertex2f(0.5,1);
@@ -49,4 +49,14 @@ void StopSign::mousePressEvent(QMouseEvent *parent)
 
 bool StopSign::isClicked() {
     return stopped;
+}
+
+void StopSign::set(bool active) {
+    stopped = active;
+    if(stopped) {
+        change = 1;
+    } else {
+        change = 0.7;
+    }
+    update();
 }

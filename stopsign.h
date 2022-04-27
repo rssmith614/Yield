@@ -13,6 +13,7 @@ public:
     void mousePressEvent(QMouseEvent* parent=nullptr);
     bool isClicked();
 
+    void set(bool active);
 
 protected:
     void paintGL();
