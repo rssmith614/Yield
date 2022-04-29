@@ -45,7 +45,7 @@ void Road::initializeGL() {
 }
 
 void Road::paintGL() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     setAttribute(Qt::WA_AlwaysStackOnTop);
     glClearColor(0.0,0.0,0.0,0.0);
     glLoadIdentity();
@@ -63,7 +63,7 @@ void Road::halt() {
 }
 
 void Road::drawCar(Car* car) {
-    glClear(GL_DEPTH_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
 //    glBegin(GL_QUADS);
 //        glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
 //        glVertex2f(car->getX(), 1.0);

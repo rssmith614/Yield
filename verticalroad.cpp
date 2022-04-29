@@ -17,7 +17,7 @@ void VerticalRoad::initializeGL() {
 }
 
 void VerticalRoad::paintGL() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     setAttribute(Qt::WA_AlwaysStackOnTop);
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glLoadIdentity();
@@ -29,9 +29,10 @@ void VerticalRoad::paintGL() {
 }
 
 void VerticalRoad::drawCar(Car* car) {
-    glClear(GL_DEPTH_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
     glBegin(GL_POLYGON);
     glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
+        qDebug() << "drawing" << car->vertices.size() << "vertices" << (car->getY());
     for (std::vector<Vertex>::iterator vertex = car->vertices.begin(); vertex != car->vertices.end(); ++vertex)
       {
         glVertex2f((vertex->x) + car->offsetX, (vertex->y) + car->offsetY);

@@ -40,7 +40,7 @@ protected:
     void initializeGL();
 
     // right now just draws a rectangle by grabbing length and width of cars
-    virtual void drawCar(Car* car);
+    void drawCar(Car* car);
 
     // helper function to construct new cars with random parameters
     virtual Car* createCar();

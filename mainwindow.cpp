@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
 //    connect(timer, SIGNAL(timeout()), this, SLOT(checkCollisions()));
 
     // define which preset each road made in the ui should have
-    ui->RoadA->setPreset(Road::DISABLED, Road::RIGHT);
-    ui->RoadB->setPreset(Road::DISABLED, Road::LEFT);
+    ui->RoadA->setPreset(Road::H_A, Road::RIGHT);
+    ui->RoadB->setPreset(Road::H_B, Road::LEFT);
     ui->Road1->setPreset(Road::V_A, Road::DOWN);
     ui->Road2->setPreset(Road::V_B, Road::UP);
 

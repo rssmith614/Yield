@@ -20,7 +20,7 @@ public slots:
     void spawnCar();
 
 protected:
-    virtual void drawCar(Car* car);
+    void drawCar(Car* car);
     virtual Car* createCar();
     virtual void paintGL();
     virtual void initializeGL();
