@@ -17,6 +17,8 @@ public:
     // change state without mouse event
     void set(bool active);
 
+    void toggle();
+
 protected:
     void paintGL();
     void initializeGL();

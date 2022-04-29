@@ -41,7 +41,7 @@ void VerticalRoad::drawCar(Car* car)
 Car* VerticalRoad::createCar()
 {
     // construct new car based on the road's direction
-    Car* car = new Car(direction == UP ? Car::UP : Car::DOWN);
+    Car* car = new Car(direction == UP ? Car::UP : Car::DOWN, 0.015);
 
     return car;
 }

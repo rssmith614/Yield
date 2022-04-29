@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    QWidget::grabKeyboard();
+
     // set up window
     setWindowTitle("Yield");
     setFixedSize(600,600);
@@ -62,6 +64,24 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
         state = WIN;
         updateGameState();
     }
+
+    // left and right arrow keys control stop signs
+    if (state == RUN) {
+        if (event->key() == Qt::Key_Right) {
+            ui->stopSign2->toggle();
+        } else if (event->key() == Qt::Key_Left) {
+            ui->stopSign1->toggle();
+        }
+    }
+
+    // space to restart/advance
+    if (event->key() == Qt::Key_Space) {
+        if (state == GAMEOVER)
+            restart();
+        else if (state == WIN)
+            incLevel();
+    }
+
 }
 
 void MainWindow::checkCollisions()
@@ -162,7 +182,7 @@ void MainWindow::init()
     case ONE:
 
         // define win conditions
-        targetScore = 2;
+        targetScore = 10;
         remainingTime.setHMS(0,1,0);    // 1:00
 
         // only road 2 is active, so hide the other stop sign
@@ -170,9 +190,9 @@ void MainWindow::init()
         ui->stopSign2->show();
         // define which preset each road made in the ui should have
         ui->RoadA->setPreset(Road::DISABLED, Road::LEFT);
-        ui->RoadB->setPreset(Road::A, Road::RIGHT);
+        ui->RoadB->setPreset(Road::RAND_B, Road::RIGHT);
         ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
-        ui->Road2->setPreset(Road::B, Road::UP);
+        ui->Road2->setPreset(Road::FIXED, Road::UP);
 
         ui->progressBar->setMaximum(targetScore);
 
@@ -180,17 +200,17 @@ void MainWindow::init()
     case TWO:
 
         // define win conditions
-        targetScore = 2;
+        targetScore = 10;
         remainingTime.setHMS(0,1,0);    // 1:00
 
         ui->stopSign1->hide();
         ui->stopSign2->show();
 
         // define which preset each road made in the ui should have
-        ui->RoadA->setPreset(Road::A, Road::LEFT);
-        ui->RoadB->setPreset(Road::A, Road::RIGHT);
+        ui->RoadA->setPreset(Road::RAND_A, Road::LEFT);
+        ui->RoadB->setPreset(Road::RAND_C, Road::RIGHT);
         ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
-        ui->Road2->setPreset(Road::B, Road::UP);
+        ui->Road2->setPreset(Road::FIXED, Road::UP);
 
         ui->progressBar->setMaximum(targetScore);
 
@@ -198,17 +218,17 @@ void MainWindow::init()
     case THREE:
 
         // define win conditions
-        targetScore = 2;
+        targetScore = 20;
         remainingTime.setHMS(0,1,0);    // 1:00
 
         ui->stopSign1->show();
         ui->stopSign2->show();
 
         // define which preset each road made in the ui should have
-        ui->RoadA->setPreset(Road::A, Road::LEFT);
-        ui->RoadB->setPreset(Road::A, Road::RIGHT);
-        ui->Road1->setPreset(Road::B, Road::DOWN);
-        ui->Road2->setPreset(Road::B, Road::UP);
+        ui->RoadA->setPreset(Road::RAND_C, Road::LEFT);
+        ui->RoadB->setPreset(Road::RAND_C, Road::RIGHT);
+        ui->Road1->setPreset(Road::FIXED, Road::DOWN);
+        ui->Road2->setPreset(Road::FIXED, Road::UP);
 
         ui->progressBar->setMaximum(targetScore);
 
@@ -292,6 +312,7 @@ void MainWindow::updateGameState()
         // stop the countdown timer
         disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(updateUI()));
         disconnect(countdownTimer, SIGNAL(timeout()), this, SLOT(updateCountdown()));
+        disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(checkCollisions()));
 
         // show menu elements
         ui->exitButton->show();

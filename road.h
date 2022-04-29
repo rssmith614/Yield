@@ -17,7 +17,7 @@ public:
 
     // declare any new horizontal preset as an even number
     enum RoadPreset {
-        DISABLED = 0, A = 1, B = 2
+        DISABLED = 0, RAND_A, RAND_B, RAND_C, FIXED
     };
 
     enum Direction {

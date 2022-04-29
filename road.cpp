@@ -30,18 +30,29 @@ Road::RoadPreset Road::getPreset() const
 
 void Road::setPreset(Road::RoadPreset preset, Road::Direction direction)
 {
-    std::normal_distribution<> dist(4000,1500);
+    std::normal_distribution<> dist_a(4000,1500);
+    std::normal_distribution<> dist_b(3000,500);
+    std::normal_distribution<> dist_c(6000,2000);
 
     // hard-coded traffic flow
     this->preset = preset;
     switch(preset) {
-    case A:
-        for (int i=0; i < 100; i++) {
-            gaps.push_back(abs(dist(*QRandomGenerator::global())));
+    case RAND_A:
+        for (int i=0; i < 50; i++) {
+            gaps.push_back(abs(dist_a(*QRandomGenerator::global())));
         }
-//        qDebug() << gaps;
         break;
-    case B:
+    case RAND_B:
+        for (int i=0; i < 50; i++) {
+            gaps.push_back(abs(dist_b(*QRandomGenerator::global())));
+        }
+        break;
+    case RAND_C:
+        for (int i=0; i < 50; i++) {
+            gaps.push_back(abs(dist_c(*QRandomGenerator::global())));
+        }
+        break;
+    case FIXED:
         gaps = {1000, 4000};
         break;
     case DISABLED:
@@ -102,7 +113,7 @@ void Road::drawCar(Car* car)
 Car* Road::createCar()
 {
     // construct new car
-    Car* car = new Car(direction == RIGHT ? Car::RIGHT : Car::LEFT);
+    Car* car = new Car(direction == RIGHT ? Car::RIGHT : Car::LEFT, 0.015);
 
     return car;
 }

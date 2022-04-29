@@ -39,13 +39,7 @@ void StopSign::mousePressEvent(QMouseEvent *parent)
 {
     Q_UNUSED(parent);
 
-    stopped = !stopped;
-    if(stopped) {
-        change = 1;
-    } else {
-        change = 0.7;
-    }
-    update();
+    toggle();
 }
 
 bool StopSign::isClicked()
@@ -56,6 +50,17 @@ bool StopSign::isClicked()
 void StopSign::set(bool active)
 {
     stopped = active;
+    if(stopped) {
+        change = 1;
+    } else {
+        change = 0.7;
+    }
+    update();
+}
+
+void StopSign::toggle()
+{
+    stopped = !stopped;
     if(stopped) {
         change = 1;
     } else {
