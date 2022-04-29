@@ -25,11 +25,11 @@ Car::Car(qreal speed, MovementType movement) : speed(speed), movement(movement) 
     case LEFT:
 //        x = 1 + 0.1;
 //        y = 0.0;
-        this->vertices = { Vertex(1+ (1./3.)*Car::l + 0.1, 1), Vertex(1 + (1./10.)*Car::l + 0.1, 1-(1./20.)*Car::w),Vertex(1+0.1, 1-(1./3.)*Car::w),
-                           Vertex(1+0.1, -1+(1./3.)*Car::w), Vertex(1 + (1./10.)*Car::l + 0.1, -1 + (1./20.)*Car::w),Vertex(1 + (1./3.)*Car::l + 0.1, -1),
-                           Vertex(1 + Car::l + 0.1, -1), Vertex(1 + Car::l + 0.11, -0.95), Vertex(1 + Car::l + 0.12, -0.90),
-                           Vertex(1 + Car::l + 0.12, 0.9), Vertex(1 + Car::l + 0.11, 0.95), Vertex(1 + Car::l + 0.1, 1),
-
+        this->vertices = { Vertex(1 + (1./10.)*Car::l + 0.1, 1-(1./20.)*Car::w), Vertex(1+0.1, 1-(1./3.)*Car::w),
+                           Vertex(1+0.1, -1+(1./3.)*Car::w), Vertex(1 + (1./10.)*Car::l + 0.1, -1 + (1./20.)*Car::w),
+                           Vertex(1 + (1./3.)*Car::l + 0.1, -1), Vertex(1 + Car::l + 0.1, -1),
+                           Vertex(1 + Car::l + 0.11, -0.95), Vertex(1 + Car::l + 0.12, -0.90), Vertex(1 + Car::l + 0.12, 0.9), Vertex(1 + Car::l + 0.11, 0.95),
+                           Vertex(1 + Car::l + 0.1, 1), Vertex(1+ (1./3.)*Car::l + 0.1, 1)
                          };
         break;
     case UP:

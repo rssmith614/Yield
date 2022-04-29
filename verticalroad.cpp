@@ -18,7 +18,7 @@ void VerticalRoad::initializeGL() {
 
 void VerticalRoad::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    setAttribute(Qt::WA_AlwaysStackOnTop);
+//    setAttribute(Qt::WA_AlwaysStackOnTop);
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glLoadIdentity();
 
