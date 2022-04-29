@@ -37,7 +37,7 @@ namespace Tools {
             // car is the width of the road
             car_w = road->geometry().width();
             // proportion of the road's length
-            car_h = (Car::l/2) * road->geometry().height();
+            car_h = (Car::l/2 - (Car::l/18)) * road->geometry().height();
             break;
         }
 

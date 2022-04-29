@@ -45,7 +45,6 @@ void Road::initializeGL() {
 }
 
 void Road::paintGL() {
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     setAttribute(Qt::WA_AlwaysStackOnTop);
     glClearColor(0.0,0.0,0.0,0.0);
     glLoadIdentity();
@@ -63,23 +62,13 @@ void Road::halt() {
 }
 
 void Road::drawCar(Car* car) {
-//    glClear(GL_DEPTH_BUFFER_BIT);
-//    glBegin(GL_QUADS);
-//        glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
-//        glVertex2f(car->getX(), 1.0);
-//        glVertex2f(car->getX(), 1.0-Car::w);
-//        glVertex2f(car->getX() + Car::l, 1.0-Car::w);
-//        glVertex2f(car->getX()+Car::l, 1.0);
-//    glEnd();
     glBegin(GL_POLYGON);
     glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
-//    qDebug() << "drawing" << car->vertices.size() << "vertices" << (car->getX());
     for (std::vector<Vertex>::iterator vertex = car->vertices.begin(); vertex != car->vertices.end(); ++vertex)
-      {
+    {
         glVertex2f((vertex->x) + car->offsetX, (vertex->y) + car->offsetY);
-      }
+    }
     glEnd();
-//    qDebug() << (Car::MovementType) car->getMovement();
 }
 
 Car* Road::createCar() {

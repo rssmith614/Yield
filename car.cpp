@@ -14,8 +14,6 @@ qreal Car::w = 2;
 Car::Car(qreal speed, MovementType movement) : speed(speed), movement(movement) {
     switch(movement) {
     case RIGHT:
-//        x = -1 - Car::l - 0.1;
-//        y = 0.0;
         this->vertices = { Vertex(-1 - Car::l - 0.1, 1), Vertex(-1 - Car::l - 0.11, 0.95), Vertex(-1 - Car::l - 0.12, 0.90), // back right 123
                            Vertex(-1 - Car::l - 0.12, -0.9), Vertex(-1 - Car::l - 0.11, -0.95), Vertex(-1 - Car::l - 0.1, -1), // back left 123
                            Vertex(-1 -(1./3.) * Car::l - 0.1, -1), Vertex(-1 - (1./10.)*Car::l - 0.1, -1 + (1./20.)*Car::w), Vertex(-1-0.1, -1 + (1./3.)*Car::w), // front left 123
@@ -23,12 +21,10 @@ Car::Car(qreal speed, MovementType movement) : speed(speed), movement(movement) 
 
         break;
     case LEFT:
-//        x = 1 + 0.1;
-//        y = 0.0;              out of screen, a lit
-        this->vertices = { Vertex(1+ (1./3.)*Car::l + 0.1, 1), Vertex(1 + (1./10.)*Car::l + 0.1, 1-(1./20.)*Car::w),Vertex(1+0.1, 1-(1./3.)*Car::w),
+        this->vertices = { Vertex(1 + (1./10.)*Car::l + 0.1, 1-(1./20.)*Car::w),Vertex(1+0.1, 1-(1./3.)*Car::w),
                            Vertex(1+0.1, -1+(1./3.)*Car::w), Vertex(1 + (1./10.)*Car::l + 0.1, -1 + (1./20.)*Car::w),Vertex(1 + (1./3.)*Car::l + 0.1, -1),
                            Vertex(1 + Car::l + 0.1, -1), Vertex(1 + Car::l + 0.11, -0.95), Vertex(1 + Car::l + 0.12, -0.90),
-                           Vertex(1 + Car::l + 0.12, 0.9), Vertex(1 + Car::l + 0.11, 0.95), Vertex(1 + Car::l + 0.1, 1),
+                           Vertex(1 + Car::l + 0.12, 0.9), Vertex(1 + Car::l + 0.11, 0.95), Vertex(1 + Car::l + 0.1, 1), Vertex(1+ (1./3.)*Car::l + 0.1, 1),
 
                          };
         break;
@@ -36,16 +32,11 @@ Car::Car(qreal speed, MovementType movement) : speed(speed), movement(movement) 
 
         this->vertices = {
                             Vertex(-1 + (1./20.)*w, -1-0.1-(1./11.)*l), Vertex(-1, -1-0.1-(1./6.)*l),
-//                            Vertex(-1-.1*w , -1-0.1-(1./3.)*l),
                             Vertex(-1,-1-0.1-(8./9.)*l), Vertex(-0.85, -1-0.1-l),
                             Vertex(0.85, -1-0.1-l), Vertex(1,-1-0.1-(8./9.)*l),
-//                            Vertex(1+.1*w, -1-0.1-(1./3.)*l),
                             Vertex(1, -1-0.1-(1./6.)*l),  Vertex(1 - (1./20.)*w, -1-0.1-(1./11.)*l),
                             Vertex(1-(1./4.)*w, -1-0.1), Vertex(-1+(1./4.)*w, -1-0.1)
-//                            Vertex(-w/7., -1.5 + 0.1+l), Vertex(-w/4., -1.5 +l), Vertex(-w/2., -1 + l), Vertex(-w,-1.5), Vertex(-w+.1,-1.5+0.1),
-//                            Vertex(w+.1,-1.5+0.1), Vertex(w,-1.5), Vertex(w/7., -1.5 + .1+l), Vertex(w/4., -1.5 +l), Vertex(w/2., -1 + l)
                          };
-// Vertex(-w, -1.5 + 0.1),
         break;
     case DOWN:
 
@@ -55,9 +46,6 @@ Car::Car(qreal speed, MovementType movement) : speed(speed), movement(movement) 
                             Vertex(1-(1./4.)*w, 1+.1), Vertex(1-(1./20.)*w, 1+.1+(1./11.)*l),
                             Vertex(1, 1+.1+(1./6.)*l), Vertex(1, 1+.1+(8./9.)*l),
                             Vertex(0.85, 1+.1+l), Vertex(-0.85, 1+0.1+l)
-//                           Vertex(-w, 1 + .1+l), Vertex(-w/4., 1 + 0.1),
-//                           Vertex(w/4., 1 + 0.1), Vertex(w, 1 + .1+l)
-                            //Vertex(-w/3, 1 + (1./10.)*l )
                          };
     }
 

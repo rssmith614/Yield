@@ -49,13 +49,10 @@ void MainWindow::checkCollisions()
             // define its bounding box
             QRect car_a_bb = Tools::getBoundingBox(car_a, ui->RoadA);
 
-            ui->bb1->setGeometry(car_1_bb);
-            ui->bba->setGeometry(car_a_bb);
-
             // check intersection between every car on road 1 and road a
             if (car_1_bb.intersects(car_a_bb)) {
-//                car_1->notifyCollision();
-//                car_a->notifyCollision();
+                car_1->notifyCollision();
+                car_a->notifyCollision();
             }
         }
 
@@ -65,13 +62,10 @@ void MainWindow::checkCollisions()
             // define its bounding box
             QRect car_b_bb = Tools::getBoundingBox(car_b, ui->RoadB);
 
-            ui->bb1->setGeometry(car_1_bb);
-            ui->bbb->setGeometry(car_b_bb);
-
             // check intersection between every car on road 1 and road b
             if (car_1_bb.intersects(car_b_bb)) {
-//                car_1->notifyCollision();
-//                car_b->notifyCollision();
+                car_1->notifyCollision();
+                car_b->notifyCollision();
             }
         }
     }
@@ -88,13 +82,10 @@ void MainWindow::checkCollisions()
             // define its bounding box
             QRect car_a_bb = Tools::getBoundingBox(car_a, ui->RoadA);
 
-            ui->bb2->setGeometry(car_2_bb);
-            ui->bba->setGeometry(car_a_bb);
-
             // check intersection between every car on road 2 and road a
             if (car_2_bb.intersects(car_a_bb)) {
-//                car_2->notifyCollision();
-//                car_a->notifyCollision();
+                car_2->notifyCollision();
+                car_a->notifyCollision();
             }
         }
 
@@ -104,13 +95,10 @@ void MainWindow::checkCollisions()
             // define its bounding box
             QRect car_b_bb = Tools::getBoundingBox(car_b, ui->RoadB);
 
-            ui->bb2->setGeometry(car_2_bb);
-            ui->bbb->setGeometry(car_b_bb);
-
             // check intersection between every car on road 2 and road b
             if (car_2_bb.intersects(car_b_bb)) {
-//                car_2->notifyCollision();
-//                car_b->notifyCollision();
+                car_2->notifyCollision();
+                car_b->notifyCollision();
             }
         }
     }
