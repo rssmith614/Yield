@@ -1,5 +1,4 @@
-QT       += core gui opengl
-LIBS    +=  -lopengl32 -lglu32
+QT       += core gui openglwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,16 +14,16 @@ SOURCES += \
     car.cpp \
     main.cpp \
     mainwindow.cpp \
-    menu.cpp \
     road.cpp \
+    stopsign.cpp \
     verticalroad.cpp
 
 HEADERS += \
     background.h \
     car.h \
     mainwindow.h \
-    menu.h \
     road.h \
+    stopsign.h \
     tools.h \
     verticalroad.h
 

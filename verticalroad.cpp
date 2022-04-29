@@ -4,7 +4,7 @@ int VerticalRoad::clearedCars = 0;
 
 VerticalRoad::VerticalRoad(QWidget* parent) : Road(parent)
 {
-    stopped = false;
+    stopped = true;
 
     // I don't like that this is hard-coded
     intersectionLoc = -0.18;
@@ -16,7 +16,7 @@ void VerticalRoad::initializeGL() {
 }
 
 void VerticalRoad::paintGL() {
-    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_COLOR_BUFFER_BIT);
     setAttribute(Qt::WA_AlwaysStackOnTop);
     glLoadIdentity();
 
@@ -27,9 +27,9 @@ void VerticalRoad::paintGL() {
 }
 
 void VerticalRoad::drawCar(Car* car) {
-    glClear(GL_DEPTH_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
     glBegin(GL_QUADS);
-        glColor4f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF(),0.5);
+        glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
         glVertex2f(1.0, car->getY());
         glVertex2f(1.0, car->getY()-Car::l);
         glVertex2f(1.0 - Car::w, car->getY() - Car::l);
@@ -44,8 +44,9 @@ Car* VerticalRoad::createCar() {
     return car;
 }
 
-void VerticalRoad::toggleStop() {
-    stopped = !stopped;
+
+void VerticalRoad::toggleStop(bool stop) {
+    stopped=stop;
 }
 
 void VerticalRoad::updateCars() {

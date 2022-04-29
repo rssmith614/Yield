@@ -13,6 +13,8 @@ Road::Road(QWidget* parent) : QOpenGLWidget(parent)
     spawnTimer = new QTimer(this);
     spawnTimer->start(0);
 
+    paused = false;
+
     connect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
 }
 
@@ -25,7 +27,7 @@ Road::RoadPreset Road::getPreset() const {
 }
 
 void Road::setPreset(Road::RoadPreset preset, Road::Direction direction) {
-    std::normal_distribution<> dist(5000,2000);
+    std::normal_distribution<> dist(4000,1500);
 
     // hard-coded traffic flow
     this->preset = preset;
@@ -47,20 +49,22 @@ void Road::setPreset(Road::RoadPreset preset, Road::Direction direction) {
 }
 
 void Road::setPaused(bool paused) {
-    this->paused = paused;
-    if (paused) {
+    // only do this if it wasn't already paused
+    if (paused && !this->paused) {
         for (Car* car : cars) {
             car->setBlocked(true);
         }
         disconnect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
         disconnect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
-    } else {
+    } else if (!paused && this->paused) {
         for (Car* car : cars) {
             car->setBlocked(false);
         }
         connect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
         connect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
     }
+
+    this->paused = paused;
 }
 
 void Road::initializeGL() {
@@ -69,7 +73,7 @@ void Road::initializeGL() {
 }
 
 void Road::paintGL() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     setAttribute(Qt::WA_AlwaysStackOnTop);
     glLoadIdentity();
 

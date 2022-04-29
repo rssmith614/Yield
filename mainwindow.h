@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPainter>
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QTime>
@@ -31,13 +32,15 @@ public:
 
 public slots:
     void checkCollisions();
-    void updateGameState();
     void updateCountdown();
     void updateUI();
     void startLevelOne();
     void startLevelTwo();
     void startLevelThree();
     void quit();
+    void incLevel();
+    void restart();
+    void menu();
 
 private:
     Ui::MainWindow *ui;
@@ -53,5 +56,6 @@ private:
     int targetScore;
 
     void init();
+    void updateGameState();
 };
 #endif // MAINWINDOW_H
