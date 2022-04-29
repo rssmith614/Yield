@@ -108,18 +108,14 @@ void MainWindow::init() {
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-//    if (event->key() == Qt::Key_Escape) {
-//        if (state == RUN) {
-//            state = PAUSED;
-//        } else if (state == PAUSED){
-//            state = RUN;
-//        } else if (state == GAMEOVER) {
-//            restart();
-//        } else if (state == WIN) {
-//            incLevel();
-//        }
-//        updateGameState();
-//    }
+    if (event->key() == Qt::Key_Escape) {
+        if (state == RUN) {
+            state = PAUSED;
+        } else if (state == PAUSED){
+            state = RUN;
+        }
+        updateGameState();
+    }
 
     if (event->key() == Qt::Key_D) {
         state = WIN;
