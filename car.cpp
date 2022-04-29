@@ -11,7 +11,8 @@ Car::Car(QObject *parent)
 qreal Car::l = 0.2;
 qreal Car::w = 2;
 
-Car::Car(MovementType movement, qreal speed) : speed(speed), movement(movement) {
+Car::Car(MovementType movement, qreal speed) : speed(speed), movement(movement)
+{
     switch(movement) {
     case RIGHT:
         x = -1 - Car::l - 0.1;
@@ -73,12 +74,6 @@ void Car::setStopped(bool stopped) {
     this->stopped = stopped;
 }
 
-void Car::notifyCollision() {
-    crashed = true;
-    QColor* red = new QColor(255,0,0);
-    color = red;
-}
-
 Car::Location Car::getRelativeLoc() {
     return location;
 }
@@ -87,7 +82,15 @@ bool Car::isCrashed() {
     return crashed;
 }
 
-void Car::animate() {
+void Car::notifyCollision()
+{
+    crashed = true;
+    QColor* red = new QColor(255,0,0);
+    color = red;
+}
+
+void Car::animate()
+{
     state = (!blocked && !stopped) ? DRIVING : IDLE;
 
     if (state == DRIVING && !crashed) {
