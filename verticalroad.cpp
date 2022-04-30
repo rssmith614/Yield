@@ -29,12 +29,12 @@ void VerticalRoad::paintGL()
 
 void VerticalRoad::drawCar(Car* car)
 {
-    glBegin(GL_QUADS);
-        glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
-        glVertex2f(1.0, car->getY());
-        glVertex2f(1.0, car->getY()-Car::l);
-        glVertex2f(1.0 - Car::w, car->getY() - Car::l);
-        glVertex2f(1.0 - Car::w, car->getY());
+    glBegin(GL_POLYGON);
+    glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
+    for (std::vector<Vertex>::iterator vertex = car->vertices.begin(); vertex != car->vertices.end(); ++vertex)
+    {
+        glVertex2f((vertex->x) + car->offsetX, (vertex->y) + car->offsetY);
+    }
     glEnd();
 }
 
@@ -143,7 +143,7 @@ qreal VerticalRoad::distanceToIntersection(Car *car)
     if (car->getMovement() == Car::UP) {
         return abs(car->getY() - intersectionLoc);
     } else {
-        return abs(car->getY() - Car::l + intersectionLoc);
+        return abs(car->getY() - Car::l + 0.04 + intersectionLoc);
     }
 }
 

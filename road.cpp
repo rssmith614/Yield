@@ -1,5 +1,5 @@
 #include "road.h"
-
+#include <vector>
 Road::Road(QWidget* parent) : QOpenGLWidget(parent)
 {
     currentCar = 0;
@@ -101,12 +101,12 @@ void Road::paintGL()
 
 void Road::drawCar(Car* car)
 {
-    glBegin(GL_QUADS);
-        glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
-        glVertex2f(car->getX(), 1.0);
-        glVertex2f(car->getX(), 1.0-Car::w);
-        glVertex2f(car->getX() + Car::l, 1.0-Car::w);
-        glVertex2f(car->getX()+Car::l, 1.0);
+    glBegin(GL_POLYGON);
+    glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
+    for (std::vector<Vertex>::iterator vertex = car->vertices.begin(); vertex != car->vertices.end(); ++vertex)
+    {
+        glVertex2f((vertex->x) + car->offsetX, (vertex->y) + car->offsetY);
+    }
     glEnd();
 }
 

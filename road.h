@@ -45,13 +45,15 @@ protected:
     void initializeGL();
 
     // right now just draws a rectangle by grabbing length and width of cars
-    virtual void drawCar(Car* car);
+    void drawCar(Car* car);
 
     // helper function to construct new cars with random parameters
     virtual Car* createCar();
 
-    RoadPreset preset;
-    Direction direction;
+    virtual void spawnCar();
+
+    RoadPreset m_preset;
+    Direction m_direction;
 
     // hard-code the spatial gaps between cars
     // will loop over

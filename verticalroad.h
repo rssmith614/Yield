@@ -21,7 +21,7 @@ protected slots:
     void updateCars();
 
 protected:
-    virtual void drawCar(Car* car);
+    void drawCar(Car* car);
     virtual Car* createCar();
     virtual void paintGL();
     virtual void initializeGL();

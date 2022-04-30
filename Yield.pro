@@ -15,6 +15,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     road.cpp \
+    vertex.cpp \
     stopsign.cpp \
     verticalroad.cpp
 
@@ -23,6 +24,7 @@ HEADERS += \
     car.h \
     mainwindow.h \
     road.h \
+    vertex.h \
     stopsign.h \
     tools.h \
     verticalroad.h
@@ -34,3 +36,5 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=

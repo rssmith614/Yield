@@ -22,7 +22,7 @@ namespace Tools {
             car_y = road->geometry().top();
             // Car::l is a proportion of road size with scale -1 to 1, so we need to make it a proportion of
             // the length of the whole road, then multiply by the length of the road
-            car_w = (Car::l/2) * road->geometry().width();
+            car_w = (Car::l/2 - (Car::l/20)) * road->geometry().width();
             // since car is the width of the road, this works
             car_h = road->geometry().height();
             break;
@@ -37,7 +37,7 @@ namespace Tools {
             // car is the width of the road
             car_w = road->geometry().width();
             // proportion of the road's length
-            car_h = (Car::l/2) * road->geometry().height();
+            car_h = (Car::l/2 - (Car::l/18)) * road->geometry().height();
             break;
         }
 
