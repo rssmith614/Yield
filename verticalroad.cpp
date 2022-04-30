@@ -1,24 +1,24 @@
 #include "verticalroad.h"
 
+int VerticalRoad::clearedCars = 0;
+
 VerticalRoad::VerticalRoad(QWidget* parent) : Road(parent)
 {
-    stopped = false;
+    stopped = true;
 
+    // I don't like that this is hard-coded
     intersectionLoc = -0.18;
-
-    spawnTimer = new QTimer(this);
-    spawnTimer->start(m_gaps.size() != 0 ? m_gaps[0] : 0);
-
-    connect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
 }
 
-void VerticalRoad::initializeGL() {
+void VerticalRoad::initializeGL()
+{
     openGLFunctions = QOpenGLContext::currentContext()->functions();
+    glClearColor(0,0,0.0,0.0);
 }
 
-void VerticalRoad::paintGL() {
+void VerticalRoad::paintGL()
+{
     setAttribute(Qt::WA_AlwaysStackOnTop);
-    glClearColor(0.0, 0.0, 0.0, 0.0);
     glLoadIdentity();
 
     for (Car* car : cars) {
@@ -27,7 +27,8 @@ void VerticalRoad::paintGL() {
 
 }
 
-void VerticalRoad::drawCar(Car* car) {
+void VerticalRoad::drawCar(Car* car)
+{
     glBegin(GL_POLYGON);
     glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
     for (std::vector<Vertex>::iterator vertex = car->vertices.begin(); vertex != car->vertices.end(); ++vertex)
@@ -37,38 +38,27 @@ void VerticalRoad::drawCar(Car* car) {
     glEnd();
 }
 
-Car* VerticalRoad::createCar() {
-    // construct new car
-    Car* car;
-    if (m_direction == UP)
-        car = new Car(0.01f, Car::UP);
-    else
-        car = new Car(0.01f, Car::DOWN);
+Car* VerticalRoad::createCar()
+{
+    // construct new car based on the road's direction
+    Car* car = new Car(direction == UP ? Car::UP : Car::DOWN, 0.015);
 
     return car;
 }
 
-void VerticalRoad::spawnCar() {
-    if (m_preset == DISABLED) return;
 
-    cars.insert(cars.begin(), createCar());
-    currentCar++;
-    if (currentCar == (int) m_gaps.size()) currentCar = 0;
-    spawnTimer->setInterval(m_gaps[currentCar]);
+void VerticalRoad::toggleStop(bool stop)
+{
+    stopped=stop;
 }
 
-void VerticalRoad::toggleStop() {
-    if (stopped) {
-        stopped = false;
-    }
-    else {
-        stopped = true;
-    }
-}
-
-void VerticalRoad::updateCars() {
+void VerticalRoad::updateCars()
+{
     // for every car currently on the road...
     for (size_t i=0; i < cars.size(); i++)  {
+
+        // tell the car where it is
+        updateRelativeLoc(cars[i]);
 
         // if the stop sign is active
         if (this->stopped) {
@@ -98,36 +88,15 @@ void VerticalRoad::updateCars() {
             }
         }
 
-        // tell the car where it is
-        updateRelativeLoc(cars[i]);
-
         // if it's off-screen, free the pointer and pop it from the queue
         if (cars[i]->getRelativeLoc() == Car::OFF_SCREEN) {
-            // score += 1 (maybe using emit?)
+            clearedCars++;
             delete cars[i];
             cars.pop_back();
         }
     }
 
-//    qDebug() << spawnTimer->interval() << spawnTimer->remainingTime();
-
-    // if the road isn't empty
-//    spawnTimer->setInterval(m_gaps[currentCar]);
-//    if (cars.size() > 0) {
-//        // if the newest car on the road is past a hard-coded position
-//        if (cars[0]->getY() > (-1 + m_gaps[currentCar]))
-//        {
-//           // we're good to add the next car to the road
-//            cars.insert(cars.begin(), createCar());
-//            currentCar++;
-//        }
-//        // restart the hard-coded traffic pattern
-//        if (currentCar == (int) m_gaps.size()) currentCar = 0;
-//    } else if (m_preset != DISABLED) {
-//        // add a car if the road is empty
-//        cars.insert(cars.begin(), createCar());
-//        currentCar++;
-//    }
+    // new cars are added with spawnTimer connection
 }
 
 void VerticalRoad::updateRelativeLoc(Car *car)
@@ -170,6 +139,7 @@ bool VerticalRoad::carsTooClose(Car *behind, Car *front)
 
 qreal VerticalRoad::distanceToIntersection(Car *car)
 {
+    // getY is top of car, so downward moving car needs to subtract length of car
     if (car->getMovement() == Car::UP) {
         return abs(car->getY() - intersectionLoc);
     } else {

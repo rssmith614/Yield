@@ -9,44 +9,88 @@ Road::Road(QWidget* parent) : QOpenGLWidget(parent)
     timer->start(33);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     connect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
+
+    spawnTimer = new QTimer(this);
+    spawnTimer->start(0);
+
+    paused = false;
+
+    connect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
 }
 
-Road::RoadPreset Road::getPreset() const {
-    return m_preset;
+void Road::clear()
+{
+    cars.clear();
 }
 
-void Road::setPreset(Road::RoadPreset preset, Road::Direction direction) {
+Road::RoadPreset Road::getPreset() const
+{
+    return preset;
+}
+
+void Road::setPreset(Road::RoadPreset preset, Road::Direction direction)
+{
+    std::normal_distribution<> dist_a(4000,1500);
+    std::normal_distribution<> dist_b(3000,500);
+    std::normal_distribution<> dist_c(6000,2000);
+
     // hard-coded traffic flow
-    // H_ prefix - horizontal traffic, spatial gaps
-    // V_ prefix - vertical traffic, temporal gaps
-    m_preset = preset;
-    switch(m_preset) {
-    case H_A:
-        m_gaps = {0.5,1};
+    this->preset = preset;
+    switch(preset) {
+    case RAND_A:
+        for (int i=0; i < 50; i++) {
+            gaps.push_back(abs(dist_a(*QRandomGenerator::global())));
+        }
         break;
-    case H_B:
-        m_gaps = {0.05, 1.0};
+    case RAND_B:
+        for (int i=0; i < 50; i++) {
+            gaps.push_back(abs(dist_b(*QRandomGenerator::global())));
+        }
         break;
-    case V_A:
-        m_gaps = {2000, 5000};
+    case RAND_C:
+        for (int i=0; i < 50; i++) {
+            gaps.push_back(abs(dist_c(*QRandomGenerator::global())));
+        }
         break;
-    case V_B:
-        m_gaps = {1000, 4000};
+    case FIXED:
+        gaps = {1000, 4000};
         break;
     case DISABLED:
-        m_gaps = {};
+        gaps = {};
     }
 
-    m_direction = direction;
+    this->direction = direction;
 }
 
-void Road::initializeGL() {
+void Road::setPaused(bool paused)
+{
+    // only do this if it wasn't already paused
+    if (paused && !this->paused) {
+        for (Car* car : cars) {
+            car->setBlocked(true);
+        }
+        disconnect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
+        disconnect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
+    } else if (!paused && this->paused) {
+        for (Car* car : cars) {
+            car->setBlocked(false);
+        }
+        connect(timer, SIGNAL(timeout()), this, SLOT(updateCars()));
+        connect(spawnTimer, SIGNAL (timeout()), this, SLOT (spawnCar()));
+    }
+
+    this->paused = paused;
+}
+
+void Road::initializeGL()
+{
     openGLFunctions = QOpenGLContext::currentContext()->functions();
+    glClearColor(0,0,0,0);
 }
 
-void Road::paintGL() {
+void Road::paintGL()
+{
     setAttribute(Qt::WA_AlwaysStackOnTop);
-    glClearColor(0.0,0.0,0.0,0.0);
     glLoadIdentity();
 
     for (Car* car : cars) {
@@ -55,13 +99,8 @@ void Road::paintGL() {
 
 }
 
-void Road::halt() {
-    for (Car* car : cars) {
-        car->notifyCollision();
-    }
-}
-
-void Road::drawCar(Car* car) {
+void Road::drawCar(Car* car)
+{
     glBegin(GL_POLYGON);
     glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
     for (std::vector<Vertex>::iterator vertex = car->vertices.begin(); vertex != car->vertices.end(); ++vertex)
@@ -71,40 +110,29 @@ void Road::drawCar(Car* car) {
     glEnd();
 }
 
-Car* Road::createCar() {
+Car* Road::createCar()
+{
     // construct new car
-    Car* car = new Car(0.01f, (m_direction == RIGHT) ? Car::RIGHT : Car::LEFT);
+    Car* car = new Car(direction == RIGHT ? Car::RIGHT : Car::LEFT, 0.015);
 
     return car;
 }
 
-void Road::spawnCar() {
+void Road::spawnCar()
+{
     // this is what actually disables a road
-    if (m_preset == DISABLED) return;
+    if (preset == DISABLED) return;
 
     cars.insert(cars.begin(), createCar());
     currentCar++;
     // loop through gaps
-    if (currentCar == (int) m_gaps.size()) currentCar = 0;
+    if (currentCar == (int) gaps.size()) currentCar = 0;
+    // update next spawn time
+    spawnTimer->setInterval(gaps[currentCar]);
 }
 
-bool Road::readyToSpawn() {
-    if (cars.size() == 0)
-        return true;
-
-    // distance from edge depends on which direction the car is driving
-    if (m_direction == RIGHT) {
-        if (cars[0]->getX() > (-1 + m_gaps[currentCar]))
-            return true;
-    } else {
-        if (cars[0]->getX() < (1 - m_gaps[currentCar]))
-            return true;
-    }
-
-    return false;
-}
-
-void Road::updateCars() {
+void Road::updateCars()
+{
     // for every car currently on the road...
     for (size_t i=0; i < cars.size(); i++)  {
 
@@ -126,13 +154,10 @@ void Road::updateCars() {
             }
         }
     }
-
-    // for spatial gaps we have to check positions
-    if (readyToSpawn())
-        spawnCar();
 }
 
-void Road::updateRelativeLoc(Car* car) {
+void Road::updateRelativeLoc(Car* car)
+{
     // car's relative location is dependent on its movement direction
     // -1 is where a right-moving car spawns, but -1 is off-screen for left-moving car
     if (car->getMovement() == Car::RIGHT) {
@@ -144,7 +169,8 @@ void Road::updateRelativeLoc(Car* car) {
     }
 }
 
-bool Road::carsTooClose(Car* behind, Car* front) {
+bool Road::carsTooClose(Car* behind, Car* front)
+{
     if (behind->getMovement() == Car::RIGHT) {
         // x is left side of car
         if (behind->getX() > front->getX() - Car::l - 0.05)

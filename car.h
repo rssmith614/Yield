@@ -26,7 +26,7 @@ public:
     };
 
     explicit Car(QObject *parent = nullptr);
-    Car(qreal speed, MovementType movement);
+    Car(MovementType movement, qreal speed = 0.01);
 
     QColor* getColor();
 
@@ -34,9 +34,6 @@ public:
 
     qreal getX();
     qreal getY();
-
-    qreal getLength();
-    qreal getWidth();
 
     MovementType getMovement();
 
@@ -46,11 +43,16 @@ public:
     // stop = stop sign in front of it
     void setStopped(bool stopped);
 
+    // stop and turn red
     void notifyCollision();
 
+    // update relative location - before/after intersection, off screen
     void setLoc(Location loc);
 
+    // get relative location - before/after intersection, off screen
     Location getRelativeLoc();
+
+    bool isCrashed();
 
     // for now every car has the same length and width
     static qreal l;

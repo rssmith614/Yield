@@ -11,7 +11,8 @@ Car::Car(QObject *parent)
 qreal Car::l = 0.2;
 qreal Car::w = 2;
 
-Car::Car(qreal speed, MovementType movement) : speed(speed), movement(movement) {
+Car::Car(MovementType movement, qreal speed) : speed(speed), movement(movement)
+{
     switch(movement) {
     case RIGHT:
         this->vertices = { Vertex(-1 - Car::l - 0.1, 1), Vertex(-1 - Car::l - 0.11, 0.95), Vertex(-1 - Car::l - 0.12, 0.90), // back right 123
@@ -88,14 +89,22 @@ void Car::setLoc(Location loc) {
 
 void Car::setBlocked(bool blocked) {
     this->blocked = blocked;
-//    state = (blocked) ? STOPPED : DRIVING;
 }
 
 void Car::setStopped(bool stopped) {
     this->stopped = stopped;
 }
 
-void Car::notifyCollision() {
+Car::Location Car::getRelativeLoc() {
+    return location;
+}
+
+bool Car::isCrashed() {
+    return crashed;
+}
+
+void Car::notifyCollision()
+{
     crashed = true;
     QColor* red = new QColor(255,0,0);
     color = red;
@@ -105,8 +114,8 @@ Car::Location Car::getRelativeLoc() {
     return location;
 }
 
-void Car::animate() {
-//    qDebug() << "animating car" << this << state << crashed << movement;
+void Car::animate()
+{
     state = (!blocked && !stopped) ? DRIVING : IDLE;
 
     if (state == DRIVING && !crashed) {

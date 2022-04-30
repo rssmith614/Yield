@@ -39,6 +39,9 @@
       <height>600</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+    </property>
    </widget>
    <widget class="Road" name="RoadB">
     <property name="geometry">
@@ -79,11 +82,283 @@
      <string notr="true">background-color: rgb(0, 249, 0);</string>
     </property>
    </widget>
+   <widget class="QLabel" name="scoreLabel">
+    <property name="geometry">
+     <rect>
+      <x>467</x>
+      <y>20</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timerLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>40</y>
+      <width>118</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>10</number>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="levelOne">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>125</y>
+      <width>300</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>36</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(83, 71, 255,128);</string>
+    </property>
+    <property name="text">
+     <string>Level 1</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="levelLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>58</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Level: </string>
+    </property>
+   </widget>
+   <widget class="StopSign" name="stopSign2">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>365</x>
+      <y>365</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="StopSign" name="stopSign1">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>195</x>
+      <y>195</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="exitButton">
+    <property name="geometry">
+     <rect>
+      <x>64</x>
+      <y>408</y>
+      <width>128</width>
+      <height>128</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>24</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(83, 71, 255,128);</string>
+    </property>
+    <property name="text">
+     <string>Menu</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="nextButton">
+    <property name="geometry">
+     <rect>
+      <x>408</x>
+      <y>408</y>
+      <width>128</width>
+      <height>128</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>24</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(83, 71, 255,128);</string>
+    </property>
+    <property name="text">
+     <string>Next Level</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="restartButton">
+    <property name="geometry">
+     <rect>
+      <x>408</x>
+      <y>408</y>
+      <width>128</width>
+      <height>128</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>24</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(83, 71, 255,128);</string>
+    </property>
+    <property name="text">
+     <string>Restart</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="levelTwo">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>250</y>
+      <width>300</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>36</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(83, 71, 255,128);</string>
+    </property>
+    <property name="text">
+     <string>Level 2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="levelThree">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>375</y>
+      <width>300</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>36</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(83, 71, 255,128);</string>
+    </property>
+    <property name="text">
+     <string>Level 3</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="quit">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>500</y>
+      <width>300</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>36</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(83, 71, 255,128);</string>
+    </property>
+    <property name="text">
+     <string>Quit</string>
+    </property>
+   </widget>
    <zorder>backgroundWidget</zorder>
    <zorder>RoadA</zorder>
    <zorder>Road1</zorder>
    <zorder>RoadB</zorder>
    <zorder>Road2</zorder>
+   <zorder>scoreLabel</zorder>
+   <zorder>timerLabel</zorder>
+   <zorder>progressBar</zorder>
+   <zorder>levelLabel</zorder>
+   <zorder>stopSign2</zorder>
+   <zorder>stopSign1</zorder>
+   <zorder>exitButton</zorder>
+   <zorder>nextButton</zorder>
+   <zorder>restartButton</zorder>
+   <zorder>levelTwo</zorder>
+   <zorder>levelThree</zorder>
+   <zorder>quit</zorder>
+   <zorder>levelOne</zorder>
   </widget>
  </widget>
  <customwidgets>
@@ -101,6 +376,11 @@
    <class>Background</class>
    <extends>QOpenGLWidget</extends>
    <header>background.h</header>
+  </customwidget>
+  <customwidget>
+   <class>StopSign</class>
+   <extends>QOpenGLWidget</extends>
+   <header>stopsign.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
