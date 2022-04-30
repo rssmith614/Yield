@@ -110,10 +110,6 @@ void Car::notifyCollision()
     color = red;
 }
 
-Car::Location Car::getRelativeLoc() {
-    return location;
-}
-
 void Car::animate()
 {
     state = (!blocked && !stopped) ? DRIVING : IDLE;

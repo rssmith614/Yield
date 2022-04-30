@@ -50,10 +50,8 @@ protected:
     // helper function to construct new cars with random parameters
     virtual Car* createCar();
 
-    virtual void spawnCar();
-
-    RoadPreset m_preset;
-    Direction m_direction;
+    RoadPreset preset;
+    Direction direction;
 
     // hard-code the spatial gaps between cars
     // will loop over
