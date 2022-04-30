@@ -15,7 +15,6 @@ void StopSign::initializeGL()
 
 void StopSign::paintGL()
 {
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     setAttribute(Qt::WA_AlwaysStackOnTop);
     glClearColor(0.0,0.0,0.0,0.0);
@@ -23,7 +22,7 @@ void StopSign::paintGL()
 
 
     glBegin(GL_POLYGON);
-        glColor3f(change,0,0);
+        glColor4f(1,0,0,change);
         glVertex2f(-1,0.5);
         glVertex2f(-0.5,1);
         glVertex2f(0.5,1);
@@ -38,7 +37,19 @@ void StopSign::paintGL()
 
 void StopSign::mousePressEvent(QMouseEvent *parent)
 {
-    stopped = !stopped;
+    Q_UNUSED(parent);
+
+    toggle();
+}
+
+bool StopSign::isClicked()
+{
+    return stopped;
+}
+
+void StopSign::set(bool active)
+{
+    stopped = active;
     if(stopped) {
         change = 1;
     } else {
@@ -47,6 +58,13 @@ void StopSign::mousePressEvent(QMouseEvent *parent)
     update();
 }
 
-bool StopSign::isClicked() {
-    return stopped;
+void StopSign::toggle()
+{
+    stopped = !stopped;
+    if(stopped) {
+        change = 1;
+    } else {
+        change = 0.7;
+    }
+    update();
 }

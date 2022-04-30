@@ -10,9 +10,14 @@ class StopSign : public QOpenGLWidget
 
 public:
     StopSign(QWidget* parent=nullptr);
+
     void mousePressEvent(QMouseEvent* parent=nullptr);
     bool isClicked();
 
+    // change state without mouse event
+    void set(bool active);
+
+    void toggle();
 
 protected:
     void paintGL();
@@ -21,6 +26,7 @@ protected:
 private:
     QOpenGLFunctions *openGLFunctions;
     bool stopped;
+    // for color
     float change;
 };
 

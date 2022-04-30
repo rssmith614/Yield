@@ -10,15 +10,14 @@ VerticalRoad::VerticalRoad(QWidget* parent) : Road(parent)
     intersectionLoc = -0.18;
 }
 
-void VerticalRoad::initializeGL() {
+void VerticalRoad::initializeGL()
+{
     openGLFunctions = QOpenGLContext::currentContext()->functions();
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//    glEnable( GL_BLEND );
-    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClearColor(0,0,0.0,0.0);
 }
 
-void VerticalRoad::paintGL() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+void VerticalRoad::paintGL()
+{
     setAttribute(Qt::WA_AlwaysStackOnTop);
     glLoadIdentity();
 
@@ -28,7 +27,8 @@ void VerticalRoad::paintGL() {
 
 }
 
-void VerticalRoad::drawCar(Car* car) {
+void VerticalRoad::drawCar(Car* car)
+{
     glBegin(GL_QUADS);
         glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
         glVertex2f(1.0, car->getY());
@@ -38,19 +38,22 @@ void VerticalRoad::drawCar(Car* car) {
     glEnd();
 }
 
-Car* VerticalRoad::createCar() {
+Car* VerticalRoad::createCar()
+{
     // construct new car based on the road's direction
-    Car* car = new Car(direction == UP ? Car::UP : Car::DOWN);
+    Car* car = new Car(direction == UP ? Car::UP : Car::DOWN, 0.015);
 
     return car;
 }
 
 
-void VerticalRoad::toggleStop(bool stop) {
+void VerticalRoad::toggleStop(bool stop)
+{
     stopped=stop;
 }
 
-void VerticalRoad::updateCars() {
+void VerticalRoad::updateCars()
+{
     // for every car currently on the road...
     for (size_t i=0; i < cars.size(); i++)  {
 

@@ -17,8 +17,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    enum State {
-        PAUSED, RUN, GAMEOVER, WIN
+    enum GameState {
+        PAUSED, RUN, GAMEOVER, WIN, MENU
     };
 
     enum Level {
@@ -31,10 +31,21 @@ public:
     void keyPressEvent(QKeyEvent* event);
 
 public slots:
+    // check every intersection of every road for overlapping cars, and update the game accordingly
     void checkCollisions();
-    void updateGameState();
+    // remove one second from the countdown timer
     void updateCountdown();
+    // update score, countdown
     void updateUI();
+
+    // menu button slots
+    void startLevelOne();
+    void startLevelTwo();
+    void startLevelThree();
+    void quit();
+    void incLevel();
+    void restart();
+    void menu();
 
 private:
     Ui::MainWindow *ui;
@@ -44,11 +55,14 @@ private:
 
     QTime remainingTime;
 
-    State state;
+    GameState state;
     Level level;
 
     int targetScore;
 
+    // prepare the roads for a new level
     void init();
+    // update all game parameters
+    void updateGameState();
 };
 #endif // MAINWINDOW_H
