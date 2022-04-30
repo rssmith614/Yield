@@ -174,10 +174,6 @@ void MainWindow::init()
     ui->RoadA->clear();
     ui->RoadB->clear();
 
-    // turn on the stop signs (traffic stops by default)
-    ui->stopSign1->set(true);
-    ui->stopSign2->set(true);
-
     switch(level) {
     case ONE:
 
@@ -188,6 +184,8 @@ void MainWindow::init()
         // only road 2 is active, so hide the other stop sign
         ui->stopSign1->hide();
         ui->stopSign2->show();
+        ui->stopSign1->set(true);
+        ui->stopSign2->set(true);
         // define which preset each road made in the ui should have
         ui->RoadA->setPreset(Road::DISABLED, Road::LEFT);
         ui->RoadB->setPreset(Road::RAND_B, Road::RIGHT);
@@ -205,6 +203,8 @@ void MainWindow::init()
 
         ui->stopSign1->hide();
         ui->stopSign2->show();
+        ui->stopSign1->set(true);
+        ui->stopSign2->set(true);
 
         // define which preset each road made in the ui should have
         ui->RoadA->setPreset(Road::RAND_A, Road::LEFT);
@@ -223,6 +223,8 @@ void MainWindow::init()
 
         ui->stopSign1->show();
         ui->stopSign2->show();
+        ui->stopSign1->set(true);
+        ui->stopSign2->set(true);
 
         // define which preset each road made in the ui should have
         ui->RoadA->setPreset(Road::RAND_C, Road::LEFT);
