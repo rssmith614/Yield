@@ -18,10 +18,11 @@ void Background::init(qreal roadStart, qreal roadWidth) {
 
 void Background::initializeGL() {
     openGLFunctions = QOpenGLContext::currentContext()->functions();
-    glClearColor(0.13,0.55,0.13,1);
+    glClearColor(0.13,0.55,0.13,1); // green
 }
 
 void Background::paintGL() {
+    // draw roads black
     glBegin(GL_QUADS);
         glColor3f(0,0,0);
         glVertex2f(-1,roadY-pad);
@@ -38,6 +39,7 @@ void Background::paintGL() {
         glVertex2f(roadX+(roadWidth+pad)*2,1);
     glEnd();
 
+    // draw road lines
     glLineWidth(2);
     for (int i=0; (-1+lineGap) + ((lineGap+lineLength)*i) < 1; i++) {
         glBegin(GL_LINES);
@@ -57,6 +59,7 @@ void Background::paintGL() {
         glEnd();
     }
 
+    // draw limit lines
     glBegin(GL_LINES);
         glColor3f(1,1,1);
         glVertex2f(0, -(roadY+(roadWidth+pad)*2) - 0.005);

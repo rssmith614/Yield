@@ -28,14 +28,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->backgroundWidget->init(ui->RoadA->geometry().y(), ui->RoadA->geometry().height());
 
     // connect menu buttons to their slots
-    connect(ui->nextButton, SIGNAL (pressed()), this, SLOT(incLevel()));
-    connect(ui->restartButton, SIGNAL(pressed()), this, SLOT(restart()));
-    connect(ui->exitButton, SIGNAL(pressed()), this, SLOT(menu()));
+    connect(ui->nextButton, SIGNAL (released()), this, SLOT(incLevel()));
+    connect(ui->restartButton, SIGNAL(released()), this, SLOT(restart()));
+    connect(ui->exitButton, SIGNAL(released()), this, SLOT(menu()));
 
-    connect(ui->levelOne, SIGNAL(pressed()), this, SLOT(startLevelOne()));
-    connect(ui->levelTwo, SIGNAL(pressed()), this, SLOT(startLevelTwo()));
-    connect(ui->levelThree, SIGNAL(pressed()), this, SLOT(startLevelThree()));
-    connect(ui->quit, SIGNAL(pressed()), this, SLOT(quit()));
+    connect(ui->levelOne, SIGNAL(released()), this, SLOT(startLevelOne()));
+    connect(ui->levelTwo, SIGNAL(released()), this, SLOT(startLevelTwo()));
+    connect(ui->levelThree, SIGNAL(released()), this, SLOT(startLevelThree()));
+    connect(ui->quit, SIGNAL(released()), this, SLOT(quit()));
 
     // these come in pairs
     state = MENU;
@@ -262,6 +262,7 @@ void MainWindow::updateGameState()
         ui->progressBar->show();
 
         // hide main menu elements
+        ui->title->hide();
         ui->levelOne->hide();
         ui->levelTwo->hide();
         ui->levelThree->hide();
@@ -287,6 +288,7 @@ void MainWindow::updateGameState()
         ui->Road2->setPaused(true);
 
         // show pause menu elements
+        ui->title->show();
         ui->exitButton->show();
         ui->restartButton->show();
 
@@ -331,6 +333,7 @@ void MainWindow::updateGameState()
         ui->progressBar->hide();
 
         // show main menu elements
+        ui->title->show();
         ui->levelOne->show();
         ui->levelTwo->show();
         ui->levelThree->show();

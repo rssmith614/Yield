@@ -123,13 +123,13 @@ void VerticalRoad::updateRelativeLoc(Car *car)
 bool VerticalRoad::carsTooClose(Car *behind, Car *front)
 {
     if (behind->getMovement() == Car::UP) {
-        if(behind->getY() > front->getY() - Car::l - 0.05) {
+        if(behind->getY() > front->getY() - Car::l - 0.08) {
             return true;
         } else {
             return false;
         }
     } else {
-        if(behind->getY() < front->getY() + Car::l + 0.05) {
+        if(behind->getY() < front->getY() + Car::l + 0.08) {
             return true;
         } else {
             return false;
@@ -141,9 +141,9 @@ qreal VerticalRoad::distanceToIntersection(Car *car)
 {
     // getY is top of car, so downward moving car needs to subtract length of car
     if (car->getMovement() == Car::UP) {
-        return abs(car->getY() - intersectionLoc);
+        return abs(car->getY() + 0.04 - intersectionLoc);
     } else {
-        return abs(car->getY() - Car::l + 0.04 + intersectionLoc);
+        return abs(car->getY() - Car::l + 0.02 + intersectionLoc);
     }
 }
 

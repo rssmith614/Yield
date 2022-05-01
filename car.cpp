@@ -50,7 +50,7 @@ Car::Car(MovementType movement, qreal speed) : speed(speed), movement(movement)
                          };
     }
 
-    color = new QColor(QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256),QRandomGenerator::global()->bounded(256));
+    color = new QColor(QRandomGenerator::global()->bounded(64,256),QRandomGenerator::global()->bounded(64,256),QRandomGenerator::global()->bounded(64,256));
 
     offsetX = 0;
     offsetY = 0;

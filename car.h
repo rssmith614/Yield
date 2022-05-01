@@ -59,9 +59,6 @@ public:
     static qreal w;
 
     std::vector<Vertex> vertices;
-signals:
-    // this is just an idea I had
-//    bool blocked();
 
 protected slots:
     // intended to be connected to QTimer timeout() signal (each frame)

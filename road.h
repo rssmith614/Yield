@@ -15,7 +15,6 @@ class Road : public QOpenGLWidget
 public:
     Road(QWidget* parent = nullptr);
 
-    // declare any new horizontal preset as an even number
     enum RoadPreset {
         DISABLED = 0, RAND_A, RAND_B, RAND_C, FIXED
     };
