@@ -282,7 +282,7 @@ void MainWindow::updateGameState()
         ui->nextButton->hide();
         ui->restartButton->hide();
 
-        ui->pause_button->setIcon(QIcon("/Users/misa/Desktop/Pause-Button-Transparent.png"));
+        ui->pause_button->setIcon(QIcon("/Users/misa/Desktop/pause-icon-18-ffffff-512.png"));
 
         break;
     case PAUSED:
