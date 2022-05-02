@@ -3,6 +3,7 @@
 #include "tools.h"
 
 #include <QDebug>
+#include <QStyle>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,6 +14,11 @@ MainWindow::MainWindow(QWidget *parent)
     // set up window
     setWindowTitle("Yield");
     setFixedSize(600,600);
+
+    ui->pause_button->setFlat(true);
+    ui->pause_button->setIconSize(QSize(40,40));
+
+
 
     // game timer - framerate 30fps
     gameTimer = new QTimer();
@@ -29,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->nextButton, SIGNAL (pressed()), this, SLOT(incLevel()));
     connect(ui->restartButton, SIGNAL(pressed()), this, SLOT(restart()));
     connect(ui->exitButton, SIGNAL(pressed()), this, SLOT(menu()));
+    connect(ui->pause_button, SIGNAL(pressed()), this, SLOT(pause()));
 
     connect(ui->levelOne, SIGNAL(pressed()), this, SLOT(startLevelOne()));
     connect(ui->levelTwo, SIGNAL(pressed()), this, SLOT(startLevelTwo()));
@@ -159,6 +166,24 @@ void MainWindow::init()
     ui->stopSign2->set(true);
 
     switch(level) {
+    case ZEN:
+        // define win conditions
+        targetScore = 2;
+        remainingTime.setHMS(0,1,0);    // 1:00
+
+        ui->stopSign1->show();
+        ui->stopSign2->show();
+
+        // define which preset each road made in the ui should have
+        ui->RoadA->setPreset(Road::A, Road::LEFT);
+        ui->RoadB->setPreset(Road::A, Road::RIGHT);
+        ui->Road1->setPreset(Road::B, Road::DOWN);
+        ui->Road2->setPreset(Road::B, Road::UP);
+
+        ui->progressBar->setMaximum(targetScore);
+        ui->pause_button->setIcon(QIcon("/Users/misa/Desktop/play-512.png"));
+        ui->pause_button->setIconSize(QSize(30,30));
+
     case ONE:
 
         // define win conditions
@@ -175,6 +200,8 @@ void MainWindow::init()
         ui->Road2->setPreset(Road::B, Road::UP);
 
         ui->progressBar->setMaximum(targetScore);
+        ui->pause_button->setIcon(QIcon("/Users/misa/Desktop/play-512.png"));
+        ui->pause_button->setIconSize(QSize(30,30));
 
         break;
     case TWO:
@@ -193,6 +220,8 @@ void MainWindow::init()
         ui->Road2->setPreset(Road::B, Road::UP);
 
         ui->progressBar->setMaximum(targetScore);
+        ui->pause_button->setIcon(QIcon("/Users/misa/Desktop/play-512.png"));
+        ui->pause_button->setIconSize(QSize(30,30));
 
         break;
     case THREE:
@@ -211,6 +240,8 @@ void MainWindow::init()
         ui->Road2->setPreset(Road::B, Road::UP);
 
         ui->progressBar->setMaximum(targetScore);
+        ui->pause_button->setIcon(QIcon("/Users/misa/Desktop/play-512.png"));
+        ui->pause_button->setIconSize(QSize(30,30));
 
         break;
     }
@@ -238,6 +269,7 @@ void MainWindow::updateGameState()
         ui->timerLabel->show();
         ui->scoreLabel->show();
         ui->progressBar->show();
+        ui->pause_button->show();
 
         // hide main menu elements
         ui->levelOne->hide();
@@ -250,11 +282,17 @@ void MainWindow::updateGameState()
         ui->nextButton->hide();
         ui->restartButton->hide();
 
+        ui->pause_button->setIcon(QIcon("/Users/misa/Desktop/Pause-Button-Transparent.png"));
+
         break;
     case PAUSED:
 
         // stop the countdown timer, make it say "paused" instead of time remaining
         ui->timerLabel->setText("Paused");
+        ui->pause_button->setIcon(QIcon("/Users/misa/Desktop/play-512.png"));
+        ui->pause_button->setIconSize(QSize(30,30));
+//        ui->timerLabel->hide();
+
         disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(updateUI()));
         disconnect(countdownTimer, SIGNAL(timeout()), this, SLOT(updateCountdown()));
 
@@ -267,6 +305,7 @@ void MainWindow::updateGameState()
         // show pause menu elements
         ui->exitButton->show();
         ui->restartButton->show();
+
 
         break;
     case GAMEOVER:
@@ -317,6 +356,7 @@ void MainWindow::updateGameState()
         ui->exitButton->hide();
         ui->nextButton->hide();
         ui->restartButton->hide();
+        ui->pause_button->hide();
 
         // hide stop signs
         ui->stopSign1->hide();
@@ -406,6 +446,17 @@ void MainWindow::menu()
 {
     init();
     state = MENU;
+    updateGameState();
+}
+
+void MainWindow::pause()
+{
+    if (state == RUN) {
+        state = PAUSED;
+    } else if (state == PAUSED){
+        state = RUN;
+    }
+
     updateGameState();
 }
 
