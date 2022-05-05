@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // game timer - framerate 30fps
     gameTimer = new QTimer();
-    gameTimer->start(33);
+    gameTimer->start(60);
 
     // countdown timer - 1s
     countdownTimer = new QTimer();
@@ -89,6 +89,7 @@ void MainWindow::checkCollisions()
     // for every car on road 1
     for (Car* car_1 : ui->Road1->cars)
     {
+        if (car_1->getRelativeLoc() == Car::BEFORE_INTERSECTION) continue;
         // define its bounding box
         QRect car_1_bb = Tools::getBoundingBox(car_1, ui->Road1);
 
@@ -126,6 +127,7 @@ void MainWindow::checkCollisions()
     // for every car on road 2
     for (Car* car_2 : ui->Road2->cars)
     {
+        if (car_2->getRelativeLoc() == Car::BEFORE_INTERSECTION) continue;
         // define its bounding box
         QRect car_2_bb = Tools::getBoundingBox(car_2, ui->Road2);
 
@@ -228,7 +230,7 @@ void MainWindow::init()
 
         // define which preset each road made in the ui should have
         ui->RoadA->setPreset(Road::RAND_C, Road::LEFT);
-        ui->RoadB->setPreset(Road::RAND_C, Road::RIGHT);
+        ui->RoadB->setPreset(Road::RAND_A, Road::RIGHT);
         ui->Road1->setPreset(Road::FIXED, Road::DOWN);
         ui->Road2->setPreset(Road::FIXED, Road::UP);
 

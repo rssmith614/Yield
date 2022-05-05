@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="Road" name="RoadA">
+   <widget class="HorizontalRoad" name="RoadA">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -43,7 +43,7 @@
      <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
     </property>
    </widget>
-   <widget class="Road" name="RoadB">
+   <widget class="HorizontalRoad" name="RoadB">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -398,11 +398,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Road</class>
-   <extends>QOpenGLWidget</extends>
-   <header>road.h</header>
-  </customwidget>
-  <customwidget>
    <class>VerticalRoad</class>
    <extends>QOpenGLWidget</extends>
    <header>verticalroad.h</header>
@@ -416,6 +411,11 @@
    <class>StopSign</class>
    <extends>QOpenGLWidget</extends>
    <header>stopsign.h</header>
+  </customwidget>
+  <customwidget>
+   <class>HorizontalRoad</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">horizontalroad.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -53,7 +53,7 @@ void StopSign::set(bool active)
     if(stopped) {
         change = 1;
     } else {
-        change = 0.7;
+        change = 0.5;
     }
     update();
 }
@@ -64,7 +64,7 @@ void StopSign::toggle()
     if(stopped) {
         change = 1;
     } else {
-        change = 0.7;
+        change = 0.5;
     }
     update();
 }

@@ -12,6 +12,7 @@ DEFINES += GL_SILENCE_DEPRECATION
 SOURCES += \
     background.cpp \
     car.cpp \
+    horizontalroad.cpp \
     main.cpp \
     mainwindow.cpp \
     road.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 HEADERS += \
     background.h \
     car.h \
+    horizontalroad.h \
     mainwindow.h \
     road.h \
     vertex.h \
