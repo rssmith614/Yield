@@ -1,5 +1,5 @@
 #include "road.h"
-#include <vector>
+
 Road::Road(QWidget* parent) : QOpenGLWidget(parent)
 {
     currentCar = 0;
@@ -25,12 +25,14 @@ void Road::clear()
 
 void Road::setPreset(Road::RoadPreset preset, Road::Direction direction)
 {
-    std::normal_distribution<> dist_a(4000,1500);
+    std::normal_distribution<> dist_a(4000,1500);   // normal distribution with mean 4s and standard deviation 1.5s
     std::normal_distribution<> dist_b(3000,500);
     std::normal_distribution<> dist_c(6000,2000);
 
-    // hard-coded traffic flow
     this->preset = preset;
+    this->direction = direction;
+
+    // hard-coded traffic flow
     switch(preset) {
     case RAND_A:
         for (int i=0; i < 50; i++) {
@@ -47,14 +49,16 @@ void Road::setPreset(Road::RoadPreset preset, Road::Direction direction)
             gaps.push_back(abs(dist_c(*QRandomGenerator::global())));
         }
         break;
-    case FIXED:
-        gaps = {1000, 4000};
+    case RAND_U:
+        for (int i=0; i < 50; i++) {
+            gaps.push_back(QRandomGenerator::global()->bounded(500,4000));  // uniform distribution 0.5s to 4s
+        }
         break;
     case DISABLED:
         gaps = {};
     }
 
-    this->direction = direction;
+    if (preset != DISABLED) spawnTimer->start(gaps[0]);
 }
 
 void Road::setPaused(bool paused)
@@ -81,12 +85,15 @@ void Road::initializeGL()
 {
     openGLFunctions = QOpenGLContext::currentContext()->functions();
 
+    // glClearColor doesnt have active alpha channel by default, this allows roads to
+    // be transparent at the cost of always drawing the cars on top of everything
     setAttribute(Qt::WA_AlwaysStackOnTop);
     glClearColor(0,0,0,0);
 }
 
 void Road::paintGL()
 {
+    // paint every car
     for (Car* car : cars) {
         drawCar(car);
     }
@@ -95,8 +102,8 @@ void Road::paintGL()
 void Road::drawCar(Car* car)
 {
     glBegin(GL_POLYGON);
-    glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
-    for (std::vector<Vertex>::iterator vertex = car->vertices.begin(); vertex != car->vertices.end(); ++vertex)
+    glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());    // grab the car's color
+    for (std::vector<Vertex>::iterator vertex = car->vertices.begin(); vertex != car->vertices.end(); ++vertex) // draw every vertex beloning to the car as a polygon
     {
         glVertex2f((vertex->x) + car->offsetX, (vertex->y) + car->offsetY);
     }
@@ -105,7 +112,6 @@ void Road::drawCar(Car* car)
 
 void Road::spawnCar()
 {
-    // this is what actually disables a road
     if (preset == DISABLED) return;
 
     cars.insert(cars.begin(), createCar());

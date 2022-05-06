@@ -8,7 +8,7 @@ HorizontalRoad::HorizontalRoad(QWidget* parent) : Road(parent)
 Car* HorizontalRoad::createCar()
 {
     // construct new car
-    Car* car = new Car(direction == RIGHT ? Car::RIGHT : Car::LEFT, 0.015);
+    Car* car = new Car(direction == RIGHT ? Car::RIGHT : Car::LEFT);
 
     return car;
 }

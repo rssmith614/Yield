@@ -26,7 +26,7 @@ public:
     };
 
     explicit Car(QObject *parent = nullptr);
-    Car(MovementType movement, qreal speed = 0.01);
+    Car(MovementType movement, qreal speed = 0.015);
 
     QColor* getColor();
 

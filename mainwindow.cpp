@@ -2,8 +2,6 @@
 #include "ui_mainwindow.h"
 #include "tools.h"
 
-#include <QDebug>
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -18,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // game timer - framerate 30fps
     gameTimer = new QTimer();
-    gameTimer->start(60);
+    gameTimer->start(33);
 
     // countdown timer - 1s
     countdownTimer = new QTimer();
@@ -192,7 +190,7 @@ void MainWindow::init()
         ui->RoadA->setPreset(Road::DISABLED, Road::LEFT);
         ui->RoadB->setPreset(Road::RAND_B, Road::RIGHT);
         ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
-        ui->Road2->setPreset(Road::FIXED, Road::UP);
+        ui->Road2->setPreset(Road::RAND_U, Road::UP);
 
         ui->progressBar->setMaximum(targetScore);
 
@@ -212,7 +210,7 @@ void MainWindow::init()
         ui->RoadA->setPreset(Road::RAND_A, Road::LEFT);
         ui->RoadB->setPreset(Road::RAND_C, Road::RIGHT);
         ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
-        ui->Road2->setPreset(Road::FIXED, Road::UP);
+        ui->Road2->setPreset(Road::RAND_U, Road::UP);
 
         ui->progressBar->setMaximum(targetScore);
 
@@ -231,8 +229,8 @@ void MainWindow::init()
         // define which preset each road made in the ui should have
         ui->RoadA->setPreset(Road::RAND_C, Road::LEFT);
         ui->RoadB->setPreset(Road::RAND_A, Road::RIGHT);
-        ui->Road1->setPreset(Road::FIXED, Road::DOWN);
-        ui->Road2->setPreset(Road::FIXED, Road::UP);
+        ui->Road1->setPreset(Road::RAND_U, Road::DOWN);
+        ui->Road2->setPreset(Road::RAND_U, Road::UP);
 
         ui->progressBar->setMaximum(targetScore);
 

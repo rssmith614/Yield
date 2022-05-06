@@ -16,7 +16,7 @@ public:
     Road(QWidget* parent = nullptr);
 
     enum RoadPreset {
-        DISABLED = 0, RAND_A, RAND_B, RAND_C, FIXED
+        DISABLED = 0, RAND_A, RAND_B, RAND_C, RAND_U
     };
 
     enum Direction {
