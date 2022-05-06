@@ -88,12 +88,13 @@ void VerticalRoad::updateCars()
             }
         }
 
+        cars[cars.size()-1]->setBlocked(false);
+
         // if it's off-screen, free the pointer and pop it from the queue
         if (cars[i]->getRelativeLoc() == Car::OFF_SCREEN) {
             clearedCars++;
             delete cars[i];
             cars.pop_back();
-            qDebug() << cars.size();
         }
     }
 

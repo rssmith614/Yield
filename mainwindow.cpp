@@ -90,6 +90,7 @@ void MainWindow::checkCollisions()
     // for every car on road 1
     for (Car* car_1 : ui->Road1->cars)
     {
+        if (car_1->getRelativeLoc() == Car::BEFORE_INTERSECTION) continue;
         // define its bounding box
         QRect car_1_bb = Tools::getBoundingBox(car_1, ui->Road1);
 
@@ -127,6 +128,7 @@ void MainWindow::checkCollisions()
     // for every car on road 2
     for (Car* car_2 : ui->Road2->cars)
     {
+        if (car_2->getRelativeLoc() == Car::BEFORE_INTERSECTION) continue;
         // define its bounding box
         QRect car_2_bb = Tools::getBoundingBox(car_2, ui->Road2);
 
@@ -405,7 +407,7 @@ void MainWindow::updateUI()
     if(level == ZEN)
     {
         ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars));
-        Road::speed = 0.015 + qSqrt(VerticalRoad::clearedCars)*0.001;
+        Road::speed = 0.015 + qLn(VerticalRoad::clearedCars+1)*0.001;
     } else
     {
         ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars) + " / " + QString::number(targetScore));
