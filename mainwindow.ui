@@ -362,7 +362,7 @@
         <string notr="true">background-color: rgba(83, 71, 255,128);</string>
        </property>
        <property name="text">
-        <string>FREE PLAY</string>
+        <string>Free Play</string>
        </property>
       </widget>
      </item>

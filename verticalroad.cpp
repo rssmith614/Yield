@@ -41,7 +41,7 @@ void VerticalRoad::drawCar(Car* car)
 Car* VerticalRoad::createCar()
 {
     // construct new car based on the road's direction
-    Car* car = new Car(direction == UP ? Car::UP : Car::DOWN, 0.015);
+    Car* car = new Car(direction == UP ? Car::UP : Car::DOWN, speed);
 
     return car;
 }
@@ -93,6 +93,7 @@ void VerticalRoad::updateCars()
             clearedCars++;
             delete cars[i];
             cars.pop_back();
+            qDebug() << cars.size();
         }
     }
 
