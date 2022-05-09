@@ -20,7 +20,7 @@ void StopSign::paintGL()
 
     // define vertices of an octagon
     glBegin(GL_POLYGON);
-        glColor4f(1,0,0,change);
+        glColor4f(0.8,0,0,change);
         glVertex2f(-1,0.5);
         glVertex2f(-0.5,1);
         glVertex2f(0.5,1);

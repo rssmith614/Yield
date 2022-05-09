@@ -45,8 +45,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-    // esc key pause button
-    if (event->key() == Qt::Key_Escape) {
+    // space pause button
+    if (event->key() == Qt::Key_Space) {
         if (state == RUN) {
             updateGameState(PAUSED);
         } else if (state == PAUSED){
@@ -68,13 +68,11 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
         }
     }
 
-    // space to restart/advance
-    if (event->key() == Qt::Key_Space) {
-        if (state == GAMEOVER)
-            restart();
-        else if (state == WIN)
-            incLevel();
-    }
+    // any key to restart/advance
+    if (state == GAMEOVER)
+        restart();
+    else if (state == WIN)
+        incLevel();
 
 }
 
@@ -421,13 +419,13 @@ void MainWindow::incLevel()
 
 void MainWindow::restart()
 {
-    init(ONE);
+    init(level);
     updateGameState(RUN);
 }
 
 void MainWindow::menu()
 {
-    init(ONE);
+    init(level);
     updateGameState(MENU);
 }
 
