@@ -1,5 +1,8 @@
 #include "road.h"
 #include <vector>
+
+float Road::speed = 0.015;
+
 Road::Road(QWidget* parent) : QOpenGLWidget(parent)
 {
     currentCar = 0;
@@ -113,7 +116,7 @@ void Road::drawCar(Car* car)
 Car* Road::createCar()
 {
     // construct new car
-    Car* car = new Car(direction == RIGHT ? Car::RIGHT : Car::LEFT, 0.015);
+    Car* car = new Car(direction == RIGHT ? Car::RIGHT : Car::LEFT, speed);
 
     return car;
 }

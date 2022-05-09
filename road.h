@@ -32,6 +32,7 @@ public:
     std::vector<Car*> cars;
 
     void clear();
+    static float speed;
 
 protected:
 
