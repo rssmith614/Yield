@@ -1,7 +1,5 @@
 #include "car.h"
 
-#include <QDebug>
-
 Car::Car(QObject *parent)
     : QObject{parent}
 {
@@ -13,6 +11,8 @@ qreal Car::w = 2;
 
 Car::Car(MovementType movement, qreal speed) : speed(speed), movement(movement)
 {
+    // define all vertices for each car depening on its movement direction
+    // these are all basically hard-coded
     switch(movement) {
     case RIGHT:
         this->vertices = { Vertex(-1 - Car::l - 0.1, 1), Vertex(-1 - Car::l - 0.11, 0.95), Vertex(-1 - Car::l - 0.12, 0.90), // back right 123
@@ -61,6 +61,7 @@ Car::Car(MovementType movement, qreal speed) : speed(speed), movement(movement)
                          };
     }
 
+    // randomly generate a color, but don't make it too dark (min RGB of 64)
     color = new QColor(QRandomGenerator::global()->bounded(64,256),QRandomGenerator::global()->bounded(64,256),QRandomGenerator::global()->bounded(64,256));
 
     offsetX = 0;
@@ -123,6 +124,7 @@ void Car::notifyCollision()
 
 void Car::animate()
 {
+    // if the car is either blocked or stopped, change its state to idling
     state = (!blocked && !stopped) ? DRIVING : IDLE;
 
     if (state == DRIVING && !crashed) {

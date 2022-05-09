@@ -2,8 +2,6 @@
 #include "ui_mainwindow.h"
 #include "tools.h"
 
-#include <QDebug>
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -35,12 +33,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->levelOne, SIGNAL(released()), this, SLOT(startLevelOne()));
     connect(ui->levelTwo, SIGNAL(released()), this, SLOT(startLevelTwo()));
     connect(ui->levelThree, SIGNAL(released()), this, SLOT(startLevelThree()));
+    connect(ui->levelZen, SIGNAL(released()), this, SLOT(startLevelZen()));
     connect(ui->quit, SIGNAL(released()), this, SLOT(quit()));
     connect(ui->howTo, SIGNAL(released()), this, SLOT(openHowTo()));
 
-    // these come in pairs
-    state = MENU;
-    updateGameState();
+    updateGameState(MENU);
 }
 
 MainWindow::~MainWindow()
@@ -50,20 +47,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-    // esc key pause button
-    if (event->key() == Qt::Key_Escape) {
+    // space pause button
+    if (event->key() == Qt::Key_Space) {
         if (state == RUN) {
-            state = PAUSED;
+            updateGameState(PAUSED);
         } else if (state == PAUSED){
-            state = RUN;
+            updateGameState(RUN);
         }
-        updateGameState();
     }
 
     // 'win' button for testing/demo
     if (event->key() == Qt::Key_D) {
-        state = WIN;
-        updateGameState();
+        updateGameState(WIN);
     }
 
     // left and right arrow keys control stop signs
@@ -75,13 +70,11 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
         }
     }
 
-    // space to restart/advance
-    if (event->key() == Qt::Key_Space) {
-        if (state == GAMEOVER)
-            restart();
-        else if (state == WIN)
-            incLevel();
-    }
+    // any key to restart/advance
+    if (state == GAMEOVER)
+        restart();
+    else if (state == WIN)
+        incLevel();
 
 }
 
@@ -90,6 +83,7 @@ void MainWindow::checkCollisions()
     // for every car on road 1
     for (Car* car_1 : ui->Road1->cars)
     {
+        if (car_1->getRelativeLoc() == Car::BEFORE_INTERSECTION) continue;
         // define its bounding box
         QRect car_1_bb = Tools::getBoundingBox(car_1, ui->Road1);
 
@@ -103,8 +97,7 @@ void MainWindow::checkCollisions()
             if (car_1_bb.intersects(car_a_bb) && !(car_1->isCrashed() && car_a->isCrashed())) {
                 car_1->notifyCollision();
                 car_a->notifyCollision();
-                state = GAMEOVER;
-                updateGameState();
+                updateGameState(GAMEOVER);
             }
         }
 
@@ -118,8 +111,7 @@ void MainWindow::checkCollisions()
             if (car_1_bb.intersects(car_b_bb) && !(car_1->isCrashed() && car_b->isCrashed())) {
                 car_1->notifyCollision();
                 car_b->notifyCollision();
-                state = GAMEOVER;
-                updateGameState();
+                updateGameState(GAMEOVER);
             }
         }
     }
@@ -127,6 +119,7 @@ void MainWindow::checkCollisions()
     // for every car on road 2
     for (Car* car_2 : ui->Road2->cars)
     {
+        if (car_2->getRelativeLoc() == Car::BEFORE_INTERSECTION) continue;
         // define its bounding box
         QRect car_2_bb = Tools::getBoundingBox(car_2, ui->Road2);
 
@@ -140,8 +133,7 @@ void MainWindow::checkCollisions()
             if (car_2_bb.intersects(car_a_bb) && !(car_2->isCrashed() && car_a->isCrashed())) {
                 car_2->notifyCollision();
                 car_a->notifyCollision();
-                state = GAMEOVER;
-                updateGameState();
+                updateGameState(GAMEOVER);
             }
         }
 
@@ -155,17 +147,24 @@ void MainWindow::checkCollisions()
             if (car_2_bb.intersects(car_b_bb) && !(car_2->isCrashed() && car_b->isCrashed())) {
                 car_2->notifyCollision();
                 car_b->notifyCollision();
-                state = GAMEOVER;
-                updateGameState();
+                updateGameState(GAMEOVER);
             }
         }
     }
 }
 
-void MainWindow::init()
+void MainWindow::init(Level level)
 {
+    this->level = level;
     // update on-screen level indicator
-    ui->levelLabel->setText("Level " + QString::number(level));
+    if(level == ZEN)
+    {
+        ui->levelLabel->setText("Free Play");
+    } else
+    {
+        ui->levelLabel->setText("Level " + QString::number(level));
+    }
+
     // reset score
     VerticalRoad::clearedCars = 0;
 
@@ -176,6 +175,28 @@ void MainWindow::init()
     ui->RoadB->clear();
 
     switch(level) {
+    case ZEN:
+        targetScore = INT_MAX;
+        remainingTime.setHMS(1,0,0);    // 1:00
+
+        ui->stopSign1->show();
+        ui->stopSign2->show();
+        ui->stopSign1->set(true);
+        ui->stopSign2->set(true);
+
+        ui->progressBar->hide();
+
+        // define which preset each road made in the ui should have
+        ui->RoadA->setPreset(Road::RAND_C, Road::LEFT);
+        ui->RoadB->setPreset(Road::RAND_C, Road::RIGHT);
+        ui->Road1->setPreset(Road::RAND_U, Road::DOWN);
+        ui->Road2->setPreset(Road::RAND_U, Road::UP);
+
+        ui->progressBar->setMaximum(targetScore);
+
+        break;
+
+
     case ONE:
 
         // define win conditions
@@ -191,7 +212,7 @@ void MainWindow::init()
         ui->RoadA->setPreset(Road::DISABLED, Road::LEFT);
         ui->RoadB->setPreset(Road::RAND_B, Road::RIGHT);
         ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
-        ui->Road2->setPreset(Road::FIXED, Road::UP);
+        ui->Road2->setPreset(Road::RAND_U, Road::UP);
 
         ui->progressBar->setMaximum(targetScore);
 
@@ -199,7 +220,7 @@ void MainWindow::init()
     case TWO:
 
         // define win conditions
-        targetScore = 10;
+        targetScore = 15;
         remainingTime.setHMS(0,1,0);    // 1:00
 
         ui->stopSign1->hide();
@@ -211,7 +232,7 @@ void MainWindow::init()
         ui->RoadA->setPreset(Road::RAND_A, Road::LEFT);
         ui->RoadB->setPreset(Road::RAND_C, Road::RIGHT);
         ui->Road1->setPreset(Road::DISABLED, Road::DOWN);
-        ui->Road2->setPreset(Road::FIXED, Road::UP);
+        ui->Road2->setPreset(Road::RAND_U, Road::UP);
 
         ui->progressBar->setMaximum(targetScore);
 
@@ -229,9 +250,9 @@ void MainWindow::init()
 
         // define which preset each road made in the ui should have
         ui->RoadA->setPreset(Road::RAND_C, Road::LEFT);
-        ui->RoadB->setPreset(Road::RAND_C, Road::RIGHT);
-        ui->Road1->setPreset(Road::FIXED, Road::DOWN);
-        ui->Road2->setPreset(Road::FIXED, Road::UP);
+        ui->RoadB->setPreset(Road::RAND_A, Road::RIGHT);
+        ui->Road1->setPreset(Road::RAND_U, Road::DOWN);
+        ui->Road2->setPreset(Road::RAND_U, Road::UP);
 
         ui->progressBar->setMaximum(targetScore);
 
@@ -239,8 +260,9 @@ void MainWindow::init()
     }
 }
 
-void MainWindow::updateGameState()
+void MainWindow::updateGameState(GameState state)
 {
+    this->state = state;
     switch(state) {
     case RUN:
 
@@ -256,17 +278,26 @@ void MainWindow::updateGameState()
         ui->Road1->setPaused(false);
         ui->Road2->setPaused(false);
 
+        ui->stopSign1->setEnabled(true);
+        ui->stopSign2->setEnabled(true);
+
         // show ui elements
         ui->levelLabel->show();
         ui->timerLabel->show();
         ui->scoreLabel->show();
-        ui->progressBar->show();
+
+        if(level != ZEN)
+        {
+            ui->progressBar->show();
+        }
+
 
         // hide main menu elements
         ui->title->hide();
         ui->levelOne->hide();
         ui->levelTwo->hide();
         ui->levelThree->hide();
+        ui->levelZen->hide();
         ui->quit->hide();
         ui->howTo->hide();
 
@@ -289,6 +320,9 @@ void MainWindow::updateGameState()
         ui->Road1->setPaused(true);
         ui->Road2->setPaused(true);
 
+        ui->stopSign1->setEnabled(false);
+        ui->stopSign2->setEnabled(false);
+
         // show pause menu elements
         ui->title->show();
         ui->exitButton->show();
@@ -305,6 +339,9 @@ void MainWindow::updateGameState()
         // show game over menu elements
         ui->exitButton->show();
         ui->restartButton->show();
+
+        ui->stopSign1->setEnabled(false);
+        ui->stopSign2->setEnabled(false);
 
         break;
     case WIN:
@@ -325,6 +362,9 @@ void MainWindow::updateGameState()
         // unless level 3 was just beaten
         if (level != THREE) ui->nextButton->show();
 
+        ui->stopSign1->setEnabled(false);
+        ui->stopSign2->setEnabled(false);
+
         break;
     case MENU:
 
@@ -339,6 +379,7 @@ void MainWindow::updateGameState()
         ui->levelOne->show();
         ui->levelTwo->show();
         ui->levelThree->show();
+        ui->levelZen->show();
         ui->quit->show();
         ui->howTo->show();
         // hide pause menu elements
@@ -349,6 +390,8 @@ void MainWindow::updateGameState()
         // hide stop signs
         ui->stopSign1->hide();
         ui->stopSign2->hide();
+        ui->stopSign1->setEnabled(false);
+        ui->stopSign2->setEnabled(false);
 
         // stop spawning cars
         ui->RoadA->setPreset(Road::DISABLED, Road::LEFT);
@@ -367,11 +410,18 @@ void MainWindow::updateUI()
     ui->Road2->toggleStop(ui->stopSign2->isClicked());
   
     // update the score and time remaining
-    ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars) + " / " + QString::number(targetScore));
+    if(level == ZEN)
+    {
+        ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars));
+        Road::speed = 0.015 + qLn(VerticalRoad::clearedCars+1)*0.001;
+    } else
+    {
+        ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars) + " / " + QString::number(targetScore));
+    }
+
     ui->progressBar->setValue(VerticalRoad::clearedCars);
     if (VerticalRoad::clearedCars >= targetScore) {
-        state = WIN;
-        updateGameState();
+        updateGameState(WIN);
     }
     ui->timerLabel->setText(remainingTime.toString("m:ss"));
 }
@@ -380,61 +430,62 @@ void MainWindow::updateCountdown()
 {
     // trigger game over if out of time
     if (remainingTime == QTime(0,0,0)) {
-        state = GAMEOVER;
-        updateGameState();
+        updateGameState(GAMEOVER);
     }
     // remove one second from remaining time
-    remainingTime = remainingTime.addSecs(-1);
+    if(level == ZEN)
+    {
+        remainingTime = remainingTime.addSecs(1);
+    } else
+    {
+        remainingTime = remainingTime.addSecs(-1);
+    }
 }
 
 void MainWindow::startLevelOne()
 {
     // change level and update
-    level = ONE;
-    init();
-    // change game state and update
-    state = RUN;
-    updateGameState();
+    init(ONE);
+    // change game state
+    updateGameState(RUN);
 }
 
 void MainWindow::startLevelTwo()
 {
-    level = TWO;
-    init();
-    state = RUN;
-    updateGameState();
+    init(TWO);
+    updateGameState(RUN);
 }
 
 void MainWindow::startLevelThree()
 {
-    level = THREE;
-    init();
-    state = RUN;
-    updateGameState();
+    init(THREE);
+    updateGameState(RUN);
+}
+
+void MainWindow::startLevelZen()
+{
+    init(ZEN);
+    updateGameState(RUN);
 }
 
 void MainWindow::incLevel()
 {
     // don't increase past level 3
     if (level == THREE) return;
-    level = (Level) ((int) level + 1);
-    init();
-    state = RUN;
-    updateGameState();
+    init((Level) ((int) level + 1));
+    updateGameState(RUN);
 }
 
 void MainWindow::restart()
 {
-    init();
-    state = RUN;
-    updateGameState();
+    init(level);
+    updateGameState(RUN);
 }
 
 void MainWindow::menu()
 {
-    init();
-    state = MENU;
-    updateGameState();
+    init(level);
+    updateGameState(MENU);
 }
 
 void MainWindow::quit()

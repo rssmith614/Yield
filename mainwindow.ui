@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="Road" name="RoadA">
+   <widget class="HorizontalRoad" name="RoadA">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -22,6 +22,11 @@
       <width>600</width>
       <height>40</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
     </property>
     <property name="mouseTracking">
      <bool>false</bool>
@@ -39,11 +44,16 @@
       <height>600</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
     </property>
    </widget>
-   <widget class="Road" name="RoadB">
+   <widget class="HorizontalRoad" name="RoadB">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -51,6 +61,11 @@
       <width>600</width>
       <height>40</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
     </property>
     <property name="mouseTracking">
      <bool>false</bool>
@@ -68,6 +83,11 @@
       <height>600</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
+    </property>
    </widget>
    <widget class="Background" name="backgroundWidget">
     <property name="geometry">
@@ -77,6 +97,11 @@
       <width>601</width>
       <height>601</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(0, 249, 0);</string>
@@ -133,6 +158,11 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
+    </property>
     <property name="maximum">
      <number>10</number>
     </property>
@@ -145,7 +175,7 @@
      <rect>
       <x>20</x>
       <y>20</y>
-      <width>58</width>
+      <width>91</width>
       <height>16</height>
      </rect>
     </property>
@@ -170,6 +200,11 @@
       <height>40</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
+    </property>
    </widget>
    <widget class="StopSign" name="stopSign1">
     <property name="enabled">
@@ -182,6 +217,11 @@
       <width>40</width>
       <height>40</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
     </property>
    </widget>
    <widget class="QPushButton" name="exitButton">
@@ -256,7 +296,12 @@
       <height>441</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0">
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0">
      <property name="spacing">
       <number>0</number>
      </property>
@@ -346,6 +391,28 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="levelZen">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>36</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(83, 71, 255,128);</string>
+       </property>
+       <property name="text">
+        <string>Free Play</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="quit">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -406,11 +473,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Road</class>
-   <extends>QOpenGLWidget</extends>
-   <header>road.h</header>
-  </customwidget>
-  <customwidget>
    <class>VerticalRoad</class>
    <extends>QOpenGLWidget</extends>
    <header>verticalroad.h</header>
@@ -424,6 +486,11 @@
    <class>StopSign</class>
    <extends>QOpenGLWidget</extends>
    <header>stopsign.h</header>
+  </customwidget>
+  <customwidget>
+   <class>HorizontalRoad</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">horizontalroad.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

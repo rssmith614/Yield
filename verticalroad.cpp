@@ -10,38 +10,10 @@ VerticalRoad::VerticalRoad(QWidget* parent) : Road(parent)
     intersectionLoc = -0.18;
 }
 
-void VerticalRoad::initializeGL()
-{
-    openGLFunctions = QOpenGLContext::currentContext()->functions();
-    glClearColor(0,0,0.0,0.0);
-}
-
-void VerticalRoad::paintGL()
-{
-    setAttribute(Qt::WA_AlwaysStackOnTop);
-    glLoadIdentity();
-
-    for (Car* car : cars) {
-        drawCar(car);
-    }
-
-}
-
-void VerticalRoad::drawCar(Car* car)
-{
-    glBegin(GL_POLYGON);
-    glColor3f(car->getColor()->redF(), car->getColor()->greenF(), car->getColor()->blueF());
-    for (std::vector<Vertex>::iterator vertex = car->vertices.begin(); vertex != car->vertices.end(); ++vertex)
-    {
-        glVertex2f((vertex->x) + car->offsetX, (vertex->y) + car->offsetY);
-    }
-    glEnd();
-}
-
 Car* VerticalRoad::createCar()
 {
     // construct new car based on the road's direction
-    Car* car = new Car(direction == UP ? Car::UP : Car::DOWN, 0.015);
+    Car* car = new Car(direction == UP ? Car::UP : Car::DOWN, speed);
 
     return car;
 }
@@ -87,6 +59,8 @@ void VerticalRoad::updateCars()
                 cars[i]->setBlocked(false);
             }
         }
+
+        cars[cars.size()-1]->setBlocked(false);
 
         // if it's off-screen, free the pointer and pop it from the queue
         if (cars[i]->getRelativeLoc() == Car::OFF_SCREEN) {
