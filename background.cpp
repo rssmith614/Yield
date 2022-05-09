@@ -42,7 +42,7 @@ void Background::paintGL() {
 
     //sidewalks
     glBegin(GL_QUADS);
-        glColor3f(0.75, 0.75, 0.75);
+        glColor3f(0.65, 0.65, 0.65);
         glVertex2f(0.2,roadY-pad);
         glVertex2f(0.2,roadY+(roadWidth+pad)-.25);
         glVertex2f(1,roadY+(roadWidth+pad)-0.25);
@@ -51,7 +51,7 @@ void Background::paintGL() {
     glEnd();
 
     glBegin(GL_QUADS);
-        glColor3f(0.75, 0.75, 0.75);
+        glColor3f(0.65, 0.65, 0.65);
         glVertex2f(0.2,roadY-pad+0.367);
         glVertex2f(0.2,roadY+(roadWidth+pad)+.22);
         glVertex2f(1,roadY+(roadWidth+pad)+0.22);
@@ -60,7 +60,7 @@ void Background::paintGL() {
     glEnd();
 
     glBegin(GL_QUADS);
-        glColor3f(0.75, 0.75, 0.75);
+        glColor3f(0.65, 0.65, 0.65);
         glVertex2f(-0.2,roadY-pad);
         glVertex2f(-0.2,roadY+(roadWidth+pad)-.25);
         glVertex2f(-1,roadY+(roadWidth+pad)-0.25);
@@ -69,7 +69,7 @@ void Background::paintGL() {
     glEnd();
 
     glBegin(GL_QUADS);
-        glColor3f(0.75, 0.75, 0.75);
+        glColor3f(0.65, 0.65, 0.65);
         glVertex2f(-0.2,roadY-pad+0.367);
         glVertex2f(-0.2,roadY+(roadWidth+pad)+.22);
         glVertex2f(-1,roadY+(roadWidth+pad)+0.22);
@@ -78,7 +78,7 @@ void Background::paintGL() {
     glEnd();
 
     glBegin(GL_QUADS);
-        glColor3f(0.75,0.75,0.75);
+        glColor3f(0.65, 0.65, 0.65);
         glVertex2f(roadX-pad-0.06,1);
         glVertex2f(roadX-pad-0.06,0.183);
         glVertex2f(roadX+(roadWidth+pad)*2-0.367,0.183);
@@ -86,7 +86,7 @@ void Background::paintGL() {
     glEnd();
 
     glBegin(GL_QUADS);
-        glColor3f(0.75,0.75,0.75);
+        glColor3f(0.65, 0.65, 0.65);
         glVertex2f(-(roadX-pad-0.06),1);
         glVertex2f(-(roadX-pad-0.06),0.183);
         glVertex2f(-(roadX+(roadWidth+pad)*2-0.367),0.183);
@@ -94,7 +94,7 @@ void Background::paintGL() {
     glEnd();
 
     glBegin(GL_QUADS);
-        glColor3f(0.75,0.75,0.75);
+        glColor3f(0.65, 0.65, 0.65);
         glVertex2f(roadX-pad-0.06,-1);
         glVertex2f(roadX-pad-0.06,-0.183);
         glVertex2f(roadX+(roadWidth+pad)*2-0.367,-0.183);
@@ -102,7 +102,7 @@ void Background::paintGL() {
     glEnd();
 
     glBegin(GL_QUADS);
-        glColor3f(0.75,0.75,0.75);
+        glColor3f(0.65, 0.65, 0.65);
         glVertex2f(-(roadX-pad-0.06),-1);
         glVertex2f(-(roadX-pad-0.06),-0.183);
         glVertex2f(-(roadX+(roadWidth+pad)*2-0.367),-0.183);
