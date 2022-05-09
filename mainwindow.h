@@ -7,7 +7,7 @@
 #include <QPushButton>
 #include <QTime>
 #include "road.h"
-
+#include "howto.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -47,7 +47,7 @@ public slots:
     void incLevel();
     void restart();
     void menu();
-
+    void openHowTo();
 private:
     Ui::MainWindow *ui;
 
@@ -58,7 +58,7 @@ private:
 
     GameState state;
     Level level;
-
+    HowTo* howTo;
     int targetScore;
 
     // prepare the roads for a new level

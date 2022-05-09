@@ -12,6 +12,7 @@ DEFINES += GL_SILENCE_DEPRECATION
 SOURCES += \
     background.cpp \
     car.cpp \
+    howto.cpp \
     horizontalroad.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
 HEADERS += \
     background.h \
     car.h \
+    howto.h \
     horizontalroad.h \
     mainwindow.h \
     road.h \
@@ -32,6 +34,7 @@ HEADERS += \
     verticalroad.h
 
 FORMS += \
+    howto.ui \
     mainwindow.ui
 
 # Default rules for deployment.
