@@ -6,6 +6,12 @@
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QTime>
+#include <QSoundEffect>
+#include <QDir>
+#include <QDebug>
+#include <QSound>
+#include <QtMultimedia>
+#include <QMediaPlaylist>
 #include "road.h"
 
 QT_BEGIN_NAMESPACE
@@ -61,7 +67,14 @@ private:
 
     int targetScore;
 
-    // prepare the roads for a new level
+    QMediaPlayer *theme;
+    QMediaPlayer *player;
+    QMediaPlayer *startSound;
+    QMediaPlayer *crashSound001;
+    QMediaPlayer *deathSound001;
+
+    QMediaPlaylist *menuMusic;
+
     void init();
     // update all game parameters
     void updateGameState();

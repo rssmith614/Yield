@@ -41,6 +41,23 @@ MainWindow::MainWindow(QWidget *parent)
     // these come in pairs
     state = MENU;
     updateGameState();
+
+    theme = new QMediaPlayer;
+    theme->setMedia(QUrl::fromLocalFile("/Users/Kevin/Documents/School/UCM/2022 SS/CSE 165/Project/Yield/theme2.mp3"));
+    theme->setVolume(50);
+    theme->play();
+
+    crashSound001 = new QMediaPlayer;
+    crashSound001->setMedia(QUrl::fromLocalFile("/Users/Kevin/Documents/School/UCM/2022 SS/CSE 165/Project/Yield/crash-sound-001.mp3"));
+    crashSound001->setVolume(50);
+
+    startSound = new QMediaPlayer;
+    startSound->setMedia(QUrl::fromLocalFile("/Users/Kevin/Documents/School/UCM/2022 SS/CSE 165/Project/Yield/sound_clip.mp3"));
+    startSound->setVolume(50);
+
+    deathSound001 = new QMediaPlayer;
+    deathSound001->setMedia(QUrl::fromLocalFile("/Users/Kevin/Documents/School/UCM/2022 SS/CSE 165/Project/Yield/old-man-scream.mp3"));
+    deathSound001->setVolume(50);
 }
 
 MainWindow::~MainWindow()
@@ -155,10 +172,24 @@ void MainWindow::checkCollisions()
 
             // check intersection between every car on road 2 and road b
             if (car_2_bb.intersects(car_b_bb) && !(car_2->isCrashed() && car_b->isCrashed())) {
+
+
                 car_2->notifyCollision();
                 car_b->notifyCollision();
                 state = GAMEOVER;
+
                 updateGameState();
+
+
+                crashSound001->play();
+
+                QTimer *delay = new QTimer;
+                delay->setInterval(800);
+                delay->start();
+
+                while(delay->remainingTime()){ }
+
+                deathSound001->play();
             }
         }
     }
@@ -440,7 +471,14 @@ void MainWindow::updateCountdown()
 
 void MainWindow::startLevelOne()
 {
-    // change level and update
+    theme->stop();
+
+    startSound->play();
+
+    QTime dieTime= QTime::currentTime().addMSecs(1800);
+    while (QTime::currentTime() < dieTime)
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
     level = ONE;
     init();
     // change game state and update
@@ -450,6 +488,7 @@ void MainWindow::startLevelOne()
 
 void MainWindow::startLevelTwo()
 {
+    theme->stop();
     level = TWO;
     init();
     state = RUN;
@@ -458,6 +497,7 @@ void MainWindow::startLevelTwo()
 
 void MainWindow::startLevelThree()
 {
+    theme->stop();
     level = THREE;
     init();
     state = RUN;
