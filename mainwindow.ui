@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="Road" name="RoadA">
+   <widget class="HorizontalRoad" name="RoadA">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -22,6 +22,11 @@
       <width>600</width>
       <height>40</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
     </property>
     <property name="mouseTracking">
      <bool>false</bool>
@@ -39,11 +44,16 @@
       <height>600</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
     </property>
    </widget>
-   <widget class="Road" name="RoadB">
+   <widget class="HorizontalRoad" name="RoadB">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -51,6 +61,11 @@
       <width>600</width>
       <height>40</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
     </property>
     <property name="mouseTracking">
      <bool>false</bool>
@@ -68,6 +83,11 @@
       <height>600</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
+    </property>
    </widget>
    <widget class="Background" name="backgroundWidget">
     <property name="geometry">
@@ -77,6 +97,11 @@
       <width>601</width>
       <height>601</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(0, 249, 0);</string>
@@ -93,6 +118,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>16</pointsize>
      </font>
     </property>
@@ -117,6 +143,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>16</pointsize>
      </font>
     </property>
@@ -132,6 +159,11 @@
       <width>118</width>
       <height>23</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
     </property>
     <property name="maximum">
      <number>10</number>
@@ -151,6 +183,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>16</pointsize>
      </font>
     </property>
@@ -170,6 +203,11 @@
       <height>40</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
+    </property>
    </widget>
    <widget class="StopSign" name="stopSign1">
     <property name="enabled">
@@ -183,6 +221,11 @@
       <height>40</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
+    </property>
    </widget>
    <widget class="QPushButton" name="exitButton">
     <property name="geometry">
@@ -195,6 +238,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>24</pointsize>
      </font>
     </property>
@@ -216,6 +260,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>24</pointsize>
      </font>
     </property>
@@ -237,6 +282,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>24</pointsize>
      </font>
     </property>
@@ -256,6 +302,11 @@
       <height>441</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+     </font>
+    </property>
     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0">
      <property name="spacing">
       <number>0</number>
@@ -270,6 +321,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>119</pointsize>
          <bold>true</bold>
         </font>
@@ -292,6 +344,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>36</pointsize>
         </font>
        </property>
@@ -313,6 +366,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>36</pointsize>
         </font>
        </property>
@@ -334,6 +388,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>36</pointsize>
         </font>
        </property>
@@ -355,6 +410,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>36</pointsize>
         </font>
        </property>
@@ -376,6 +432,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>36</pointsize>
         </font>
        </property>
@@ -408,11 +465,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Road</class>
-   <extends>QOpenGLWidget</extends>
-   <header>road.h</header>
-  </customwidget>
-  <customwidget>
    <class>VerticalRoad</class>
    <extends>QOpenGLWidget</extends>
    <header>verticalroad.h</header>
@@ -426,6 +478,11 @@
    <class>StopSign</class>
    <extends>QOpenGLWidget</extends>
    <header>stopsign.h</header>
+  </customwidget>
+  <customwidget>
+   <class>HorizontalRoad</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">horizontalroad.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

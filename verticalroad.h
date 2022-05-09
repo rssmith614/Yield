@@ -21,14 +21,7 @@ protected slots:
     void updateCars();
 
 protected:
-    void drawCar(Car* car);
-    virtual Car* createCar();
-    virtual void paintGL();
-    virtual void initializeGL();
-
-private:
-
-    QOpenGLFunctions* openGLFunctions;
+    Car* createCar();
 
     // before/after intersection and off-screen depend on the car's direction
     void updateRelativeLoc(Car* car);
@@ -38,6 +31,10 @@ private:
 
     // relative distance to intersection depends on the car's direction
     qreal distanceToIntersection(Car* car);
+
+private:
+
+    QOpenGLFunctions* openGLFunctions;
 
     bool stopped;
 };

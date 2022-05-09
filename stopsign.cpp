@@ -1,11 +1,9 @@
 #include "stopsign.h"
-#include "verticalroad.h"
-#include "mainwindow.h"
 
 StopSign::StopSign(QWidget* parent) : QOpenGLWidget(parent)
 {
     stopped = true;
-    change = 1;
+    change = 1; // transparency changes when stop sign is inactive
 }
 
 void StopSign::initializeGL()
@@ -20,9 +18,9 @@ void StopSign::paintGL()
     glClearColor(0.0,0.0,0.0,0.0);
     glLoadIdentity();
 
-
+    // define vertices of an octagon
     glBegin(GL_POLYGON);
-        glColor4f(1,0,0,change);
+        glColor4f(0.8,0,0,change);
         glVertex2f(-1,0.5);
         glVertex2f(-0.5,1);
         glVertex2f(0.5,1);
@@ -53,7 +51,7 @@ void StopSign::set(bool active)
     if(stopped) {
         change = 1;
     } else {
-        change = 0.7;
+        change = 0.5;
     }
     update();
 }
@@ -64,7 +62,7 @@ void StopSign::toggle()
     if(stopped) {
         change = 1;
     } else {
-        change = 0.7;
+        change = 0.5;
     }
     update();
 }

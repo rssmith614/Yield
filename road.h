@@ -16,14 +16,13 @@ public:
     Road(QWidget* parent = nullptr);
 
     enum RoadPreset {
-        DISABLED = 0, RAND_A, RAND_B, RAND_C, FIXED
+        DISABLED = 0, RAND_A, RAND_B, RAND_C, RAND_U
     };
 
     enum Direction {
         UP, DOWN, LEFT, RIGHT
     };
 
-    RoadPreset getPreset() const;
     void setPreset(const RoadPreset, const Direction);
 
     void setPaused(bool paused);
@@ -44,44 +43,34 @@ protected:
     void paintGL();
     void initializeGL();
 
-    // right now just draws a rectangle by grabbing length and width of cars
     void drawCar(Car* car);
-
-    // helper function to construct new cars with random parameters
-    virtual Car* createCar();
 
     RoadPreset preset;
     Direction direction;
 
-    // hard-code the spatial gaps between cars
-    // will loop over
     std::vector<qreal> gaps;
 
     int currentCar;
 
     bool paused;
 
+    // helper function to construct new cars with random parameters
+    virtual Car* createCar() = 0;
+
+    // before/after intersection and off-screen depend on the car's direction
+    virtual void updateRelativeLoc(Car*) = 0;
+
+    // distance between two cars depends on movement direction
+    virtual bool carsTooClose(Car*, Car*) = 0;
+
 protected slots:
-    virtual void updateCars();
+    virtual void updateCars() = 0;
     // construct a car and add it to the queue
-    virtual void spawnCar();
+    void spawnCar();
 
 private:
 
     QOpenGLFunctions *openGLFunctions;
-
-    // before/after intersection and off-screen depend on the car's direction
-    void updateRelativeLoc(Car* car);
-
-    // distance between two cars depends on movement direction
-    bool carsTooClose(Car* behind, Car* front);
-
-    // decide whether car has passed spatial gap to allow next car to spawn
-    bool readyToSpawn();
-
-    // decide whether the preset corresponds to the road direction
-    bool validPreset();
-
 };
 
 #endif // ROAD_H

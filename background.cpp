@@ -18,7 +18,7 @@ void Background::init(qreal roadStart, qreal roadWidth) {
 
 void Background::initializeGL() {
     openGLFunctions = QOpenGLContext::currentContext()->functions();
-    glClearColor(0.13,0.55,0.13,1); // green
+    glClearColor(33/255.,140/255.,33/255.,1); // green
 }
 
 void Background::paintGL() {
