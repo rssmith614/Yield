@@ -118,6 +118,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>16</pointsize>
      </font>
     </property>
@@ -142,6 +143,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>16</pointsize>
      </font>
     </property>
@@ -181,6 +183,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>16</pointsize>
      </font>
     </property>
@@ -235,6 +238,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>24</pointsize>
      </font>
     </property>
@@ -256,6 +260,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>24</pointsize>
      </font>
     </property>
@@ -277,6 +282,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>24</pointsize>
      </font>
     </property>
@@ -293,7 +299,7 @@
       <x>110</x>
       <y>80</y>
       <width>391</width>
-      <height>441</height>
+      <height>470</height>
      </rect>
     </property>
     <property name="font">
@@ -315,6 +321,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>119</pointsize>
          <bold>true</bold>
         </font>
@@ -337,6 +344,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>36</pointsize>
         </font>
        </property>
@@ -358,6 +366,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>36</pointsize>
         </font>
        </property>
@@ -379,6 +388,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>36</pointsize>
         </font>
        </property>
@@ -422,6 +432,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>36</pointsize>
         </font>
        </property>
@@ -446,6 +457,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Times New Roman</family>
       <pointsize>15</pointsize>
      </font>
     </property>

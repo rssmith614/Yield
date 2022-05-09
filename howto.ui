@@ -84,6 +84,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Times New Roman</family>
      <pointsize>15</pointsize>
     </font>
    </property>

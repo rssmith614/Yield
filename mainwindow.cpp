@@ -494,12 +494,8 @@ void MainWindow::quit()
 }
 
 void MainWindow::openHowTo(){
-    init();
-    state = MENU;
+    init(level);
+    updateGameState(MENU);
     howTo = new HowTo();
-//    howTo->setStyleSheet("background-color:blue;");
     howTo->show();
-//    QPixmap pm ("/Users/fizaharoon/Documents/School/Spring 2022/CSE165/pogject/Yield.rightarrowkey.png");
-//    QPixmap pm2("/Users/fizaharoon/Documents/School/Spring 2022/CSE165/pogject/Yield");
-
 }
