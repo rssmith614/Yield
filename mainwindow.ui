@@ -93,7 +93,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Times New Roman</family>
       <pointsize>16</pointsize>
      </font>
     </property>
@@ -118,7 +117,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Times New Roman</family>
       <pointsize>16</pointsize>
      </font>
     </property>
@@ -153,7 +151,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Times New Roman</family>
       <pointsize>16</pointsize>
      </font>
     </property>
@@ -198,7 +195,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Times New Roman</family>
       <pointsize>24</pointsize>
      </font>
     </property>
@@ -220,7 +216,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Times New Roman</family>
       <pointsize>24</pointsize>
      </font>
     </property>
@@ -242,7 +237,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Times New Roman</family>
       <pointsize>24</pointsize>
      </font>
     </property>
@@ -276,7 +270,6 @@
        </property>
        <property name="font">
         <font>
-         <family>Times New Roman</family>
          <pointsize>119</pointsize>
          <bold>true</bold>
         </font>
@@ -299,7 +292,6 @@
        </property>
        <property name="font">
         <font>
-         <family>Times New Roman</family>
          <pointsize>36</pointsize>
         </font>
        </property>
@@ -321,7 +313,6 @@
        </property>
        <property name="font">
         <font>
-         <family>Times New Roman</family>
          <pointsize>36</pointsize>
         </font>
        </property>
@@ -343,7 +334,6 @@
        </property>
        <property name="font">
         <font>
-         <family>Times New Roman</family>
          <pointsize>36</pointsize>
         </font>
        </property>
@@ -365,7 +355,6 @@
        </property>
        <property name="font">
         <font>
-         <family>Times New Roman</family>
          <pointsize>36</pointsize>
         </font>
        </property>
@@ -378,6 +367,24 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QCommandLinkButton" name="howTo">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>550</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>How To</string>
+    </property>
    </widget>
    <zorder>backgroundWidget</zorder>
    <zorder>RoadA</zorder>
@@ -394,6 +401,7 @@
    <zorder>exitButton</zorder>
    <zorder>stopSign2</zorder>
    <zorder>stopSign1</zorder>
+   <zorder>howTo</zorder>
   </widget>
  </widget>
  <customwidgets>

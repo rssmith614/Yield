@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->levelTwo, SIGNAL(released()), this, SLOT(startLevelTwo()));
     connect(ui->levelThree, SIGNAL(released()), this, SLOT(startLevelThree()));
     connect(ui->quit, SIGNAL(released()), this, SLOT(quit()));
+    connect(ui->howTo, SIGNAL(released()), this, SLOT(openHowTo()));
 
     // these come in pairs
     state = MENU;
@@ -267,6 +268,7 @@ void MainWindow::updateGameState()
         ui->levelTwo->hide();
         ui->levelThree->hide();
         ui->quit->hide();
+        ui->howTo->hide();
 
         // hide pause menu elements
         ui->exitButton->hide();
@@ -338,7 +340,7 @@ void MainWindow::updateGameState()
         ui->levelTwo->show();
         ui->levelThree->show();
         ui->quit->show();
-
+        ui->howTo->show();
         // hide pause menu elements
         ui->exitButton->hide();
         ui->nextButton->hide();
@@ -438,4 +440,15 @@ void MainWindow::menu()
 void MainWindow::quit()
 {
     QCoreApplication::quit();
+}
+
+void MainWindow::openHowTo(){
+    init();
+    state = MENU;
+    howTo = new HowTo();
+//    howTo->setStyleSheet("background-color:blue;");
+    howTo->show();
+//    QPixmap pm ("/Users/fizaharoon/Documents/School/Spring 2022/CSE165/pogject/Yield.rightarrowkey.png");
+//    QPixmap pm2("/Users/fizaharoon/Documents/School/Spring 2022/CSE165/pogject/Yield");
+
 }
