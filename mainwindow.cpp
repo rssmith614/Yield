@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     countdownTimer->start(1000);
 
     // set up background - grass + roads
-    ui->backgroundWidget->init(ui->RoadA->geometry().y(), ui->RoadA->geometry().height());
+    ui->backgroundWidget->init();
 
     // connect menu buttons to their slots
     connect(ui->nextButton, SIGNAL (released()), this, SLOT(incLevel()));
