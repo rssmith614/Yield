@@ -9,9 +9,9 @@
 #include <QSoundEffect>
 #include <QDir>
 #include <QDebug>
-#include <QSound>
+//#include <QSound>
 #include <QtMultimedia>
-#include <QMediaPlaylist>
+//#include <QMediaPlaylist>
 #include "road.h"
 
 QT_BEGIN_NAMESPACE
@@ -73,7 +73,7 @@ private:
     QMediaPlayer *crashSound001;
     QMediaPlayer *deathSound001;
 
-    QMediaPlaylist *menuMusic;
+//    QMediaPlaylist *menuMusic;
 
     void init();
     // update all game parameters

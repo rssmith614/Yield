@@ -42,22 +42,31 @@ MainWindow::MainWindow(QWidget *parent)
     state = MENU;
     updateGameState();
 
+    QDir cwd(QDir::current());
+    cwd.cdUp();
+    cwd.cdUp();
+    cwd.cdUp();
+    cwd.cdUp();
+    cwd.cd("./Yield");
+
     theme = new QMediaPlayer;
-    theme->setMedia(QUrl::fromLocalFile("/Users/Kevin/Documents/School/UCM/2022 SS/CSE 165/Project/Yield/theme2.mp3"));
-    theme->setVolume(50);
+//    theme->setMedia(QUrl::fromLocalFile(cwd.path() + "/theme2.mp3"));
+    theme->setSource(QUrl::fromLocalFile(cwd.path() + "/theme2.mp3"));
+//    qDebug() << cwd.path() + "/theme2.mp3";
+//    theme->setVolume(50);
     theme->play();
 
     crashSound001 = new QMediaPlayer;
-    crashSound001->setMedia(QUrl::fromLocalFile("/Users/Kevin/Documents/School/UCM/2022 SS/CSE 165/Project/Yield/crash-sound-001.mp3"));
-    crashSound001->setVolume(50);
+    crashSound001->setSource(QUrl::fromLocalFile(cwd.path() + "/crash-sound-001.mp3"));
+//    crashSound001->setVolume(50);
 
     startSound = new QMediaPlayer;
-    startSound->setMedia(QUrl::fromLocalFile("/Users/Kevin/Documents/School/UCM/2022 SS/CSE 165/Project/Yield/sound_clip.mp3"));
-    startSound->setVolume(50);
+    startSound->setSource(QUrl::fromLocalFile(cwd.path() + "/sound_clip.mp3"));
+//    startSound->setVolume(50);
 
     deathSound001 = new QMediaPlayer;
-    deathSound001->setMedia(QUrl::fromLocalFile("/Users/Kevin/Documents/School/UCM/2022 SS/CSE 165/Project/Yield/old-man-scream.mp3"));
-    deathSound001->setVolume(50);
+    deathSound001->setSource(QUrl::fromLocalFile(cwd.path() + "/old-man-scream.mp3"));
+//    deathSound001->setVolume(50);
 }
 
 MainWindow::~MainWindow()
