@@ -61,8 +61,8 @@ private:
     int targetScore;
 
     // prepare the roads for a new level
-    void init();
+    void init(Level level);
     // update all game parameters
-    void updateGameState();
+    void updateGameState(GameState state);
 };
 #endif // MAINWINDOW_H

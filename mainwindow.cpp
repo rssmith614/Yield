@@ -35,9 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->levelThree, SIGNAL(released()), this, SLOT(startLevelThree()));
     connect(ui->quit, SIGNAL(released()), this, SLOT(quit()));
 
-    // these come in pairs
-    state = MENU;
-    updateGameState();
+    updateGameState(MENU);
 }
 
 MainWindow::~MainWindow()
@@ -50,17 +48,15 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
     // esc key pause button
     if (event->key() == Qt::Key_Escape) {
         if (state == RUN) {
-            state = PAUSED;
+            updateGameState(PAUSED);
         } else if (state == PAUSED){
-            state = RUN;
+            updateGameState(RUN);
         }
-        updateGameState();
     }
 
     // 'win' button for testing/demo
     if (event->key() == Qt::Key_D) {
-        state = WIN;
-        updateGameState();
+        updateGameState(WIN);
     }
 
     // left and right arrow keys control stop signs
@@ -101,8 +97,7 @@ void MainWindow::checkCollisions()
             if (car_1_bb.intersects(car_a_bb) && !(car_1->isCrashed() && car_a->isCrashed())) {
                 car_1->notifyCollision();
                 car_a->notifyCollision();
-                state = GAMEOVER;
-                updateGameState();
+                updateGameState(GAMEOVER);
             }
         }
 
@@ -116,8 +111,7 @@ void MainWindow::checkCollisions()
             if (car_1_bb.intersects(car_b_bb) && !(car_1->isCrashed() && car_b->isCrashed())) {
                 car_1->notifyCollision();
                 car_b->notifyCollision();
-                state = GAMEOVER;
-                updateGameState();
+                updateGameState(GAMEOVER);
             }
         }
     }
@@ -139,8 +133,7 @@ void MainWindow::checkCollisions()
             if (car_2_bb.intersects(car_a_bb) && !(car_2->isCrashed() && car_a->isCrashed())) {
                 car_2->notifyCollision();
                 car_a->notifyCollision();
-                state = GAMEOVER;
-                updateGameState();
+                updateGameState(GAMEOVER);
             }
         }
 
@@ -154,15 +147,15 @@ void MainWindow::checkCollisions()
             if (car_2_bb.intersects(car_b_bb) && !(car_2->isCrashed() && car_b->isCrashed())) {
                 car_2->notifyCollision();
                 car_b->notifyCollision();
-                state = GAMEOVER;
-                updateGameState();
+                updateGameState(GAMEOVER);
             }
         }
     }
 }
 
-void MainWindow::init()
+void MainWindow::init(Level level)
 {
+    this->level = level;
     // update on-screen level indicator
     ui->levelLabel->setText("Level " + QString::number(level));
     // reset score
@@ -198,7 +191,7 @@ void MainWindow::init()
     case TWO:
 
         // define win conditions
-        targetScore = 10;
+        targetScore = 15;
         remainingTime.setHMS(0,1,0);    // 1:00
 
         ui->stopSign1->hide();
@@ -238,8 +231,9 @@ void MainWindow::init()
     }
 }
 
-void MainWindow::updateGameState()
+void MainWindow::updateGameState(GameState state)
 {
+    this->state = state;
     switch(state) {
     case RUN:
 
@@ -254,6 +248,9 @@ void MainWindow::updateGameState()
         ui->RoadB->setPaused(false);
         ui->Road1->setPaused(false);
         ui->Road2->setPaused(false);
+
+        ui->stopSign1->setEnabled(true);
+        ui->stopSign2->setEnabled(true);
 
         // show ui elements
         ui->levelLabel->show();
@@ -287,6 +284,9 @@ void MainWindow::updateGameState()
         ui->Road1->setPaused(true);
         ui->Road2->setPaused(true);
 
+        ui->stopSign1->setEnabled(false);
+        ui->stopSign2->setEnabled(false);
+
         // show pause menu elements
         ui->title->show();
         ui->exitButton->show();
@@ -303,6 +303,9 @@ void MainWindow::updateGameState()
         // show game over menu elements
         ui->exitButton->show();
         ui->restartButton->show();
+
+        ui->stopSign1->setEnabled(false);
+        ui->stopSign2->setEnabled(false);
 
         break;
     case WIN:
@@ -322,6 +325,9 @@ void MainWindow::updateGameState()
         ui->exitButton->show();
         // unless level 3 was just beaten
         if (level != THREE) ui->nextButton->show();
+
+        ui->stopSign1->setEnabled(false);
+        ui->stopSign2->setEnabled(false);
 
         break;
     case MENU:
@@ -347,6 +353,8 @@ void MainWindow::updateGameState()
         // hide stop signs
         ui->stopSign1->hide();
         ui->stopSign2->hide();
+        ui->stopSign1->setEnabled(false);
+        ui->stopSign2->setEnabled(false);
 
         // stop spawning cars
         ui->RoadA->setPreset(Road::DISABLED, Road::LEFT);
@@ -368,8 +376,7 @@ void MainWindow::updateUI()
     ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars) + " / " + QString::number(targetScore));
     ui->progressBar->setValue(VerticalRoad::clearedCars);
     if (VerticalRoad::clearedCars >= targetScore) {
-        state = WIN;
-        updateGameState();
+        updateGameState(WIN);
     }
     ui->timerLabel->setText(remainingTime.toString("m:ss"));
 }
@@ -378,8 +385,7 @@ void MainWindow::updateCountdown()
 {
     // trigger game over if out of time
     if (remainingTime == QTime(0,0,0)) {
-        state = GAMEOVER;
-        updateGameState();
+        updateGameState(GAMEOVER);
     }
     // remove one second from remaining time
     remainingTime = remainingTime.addSecs(-1);
@@ -388,51 +394,41 @@ void MainWindow::updateCountdown()
 void MainWindow::startLevelOne()
 {
     // change level and update
-    level = ONE;
-    init();
-    // change game state and update
-    state = RUN;
-    updateGameState();
+    init(ONE);
+    // change game state
+    updateGameState(RUN);
 }
 
 void MainWindow::startLevelTwo()
 {
-    level = TWO;
-    init();
-    state = RUN;
-    updateGameState();
+    init(TWO);
+    updateGameState(RUN);
 }
 
 void MainWindow::startLevelThree()
 {
-    level = THREE;
-    init();
-    state = RUN;
-    updateGameState();
+    init(THREE);
+    updateGameState(RUN);
 }
 
 void MainWindow::incLevel()
 {
     // don't increase past level 3
     if (level == THREE) return;
-    level = (Level) ((int) level + 1);
-    init();
-    state = RUN;
-    updateGameState();
+    init((Level) ((int) level + 1));
+    updateGameState(RUN);
 }
 
 void MainWindow::restart()
 {
-    init();
-    state = RUN;
-    updateGameState();
+    init(ONE);
+    updateGameState(RUN);
 }
 
 void MainWindow::menu()
 {
-    init();
-    state = MENU;
-    updateGameState();
+    init(ONE);
+    updateGameState(MENU);
 }
 
 void MainWindow::quit()
