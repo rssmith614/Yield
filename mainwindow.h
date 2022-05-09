@@ -22,7 +22,7 @@ public:
     };
 
     enum Level {
-        ONE=1, TWO=2, THREE=3
+        ZEN=0, ONE=1, TWO=2, THREE=3
     };
 
     MainWindow(QWidget *parent = nullptr);
@@ -42,6 +42,7 @@ public slots:
     void startLevelOne();
     void startLevelTwo();
     void startLevelThree();
+    void startLevelZen();
     void quit();
     void incLevel();
     void restart();

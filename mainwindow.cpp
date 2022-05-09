@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->levelOne, SIGNAL(released()), this, SLOT(startLevelOne()));
     connect(ui->levelTwo, SIGNAL(released()), this, SLOT(startLevelTwo()));
     connect(ui->levelThree, SIGNAL(released()), this, SLOT(startLevelThree()));
+    connect(ui->levelZen, SIGNAL(released()), this, SLOT(startLevelZen()));
     connect(ui->quit, SIGNAL(released()), this, SLOT(quit()));
 
     updateGameState(MENU);
@@ -155,7 +156,14 @@ void MainWindow::init(Level level)
 {
     this->level = level;
     // update on-screen level indicator
-    ui->levelLabel->setText("Level " + QString::number(level));
+    if(level == ZEN)
+    {
+        ui->levelLabel->setText("Free Play");
+    } else
+    {
+        ui->levelLabel->setText("Level " + QString::number(level));
+    }
+
     // reset score
     VerticalRoad::clearedCars = 0;
 
@@ -166,6 +174,28 @@ void MainWindow::init(Level level)
     ui->RoadB->clear();
 
     switch(level) {
+    case ZEN:
+        targetScore = INT_MAX;
+        remainingTime.setHMS(1,0,0);    // 1:00
+
+        ui->stopSign1->show();
+        ui->stopSign2->show();
+        ui->stopSign1->set(true);
+        ui->stopSign2->set(true);
+
+        ui->progressBar->hide();
+
+        // define which preset each road made in the ui should have
+        ui->RoadA->setPreset(Road::RAND_C, Road::LEFT);
+        ui->RoadB->setPreset(Road::RAND_C, Road::RIGHT);
+        ui->Road1->setPreset(Road::FIXED, Road::DOWN);
+        ui->Road2->setPreset(Road::FIXED, Road::UP);
+
+        ui->progressBar->setMaximum(targetScore);
+
+        break;
+
+
     case ONE:
 
         // define win conditions
@@ -254,13 +284,19 @@ void MainWindow::updateGameState(GameState state)
         ui->levelLabel->show();
         ui->timerLabel->show();
         ui->scoreLabel->show();
-        ui->progressBar->show();
+
+        if(level != ZEN)
+        {
+            ui->progressBar->show();
+        }
+
 
         // hide main menu elements
         ui->title->hide();
         ui->levelOne->hide();
         ui->levelTwo->hide();
         ui->levelThree->hide();
+        ui->levelZen->hide();
         ui->quit->hide();
 
         // hide pause menu elements
@@ -341,6 +377,7 @@ void MainWindow::updateGameState(GameState state)
         ui->levelOne->show();
         ui->levelTwo->show();
         ui->levelThree->show();
+        ui->levelZen->show();
         ui->quit->show();
 
         // hide pause menu elements
@@ -371,7 +408,15 @@ void MainWindow::updateUI()
     ui->Road2->toggleStop(ui->stopSign2->isClicked());
   
     // update the score and time remaining
-    ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars) + " / " + QString::number(targetScore));
+    if(level == ZEN)
+    {
+        ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars));
+        Road::speed = 0.015 + qLn(VerticalRoad::clearedCars+1)*0.001;
+    } else
+    {
+        ui->scoreLabel->setText("Score: " + QString::number(VerticalRoad::clearedCars) + " / " + QString::number(targetScore));
+    }
+
     ui->progressBar->setValue(VerticalRoad::clearedCars);
     if (VerticalRoad::clearedCars >= targetScore) {
         updateGameState(WIN);
@@ -386,7 +431,13 @@ void MainWindow::updateCountdown()
         updateGameState(GAMEOVER);
     }
     // remove one second from remaining time
-    remainingTime = remainingTime.addSecs(-1);
+    if(level == ZEN)
+    {
+        remainingTime = remainingTime.addSecs(1);
+    } else
+    {
+        remainingTime = remainingTime.addSecs(-1);
+    }
 }
 
 void MainWindow::startLevelOne()
@@ -407,6 +458,14 @@ void MainWindow::startLevelThree()
 {
     init(THREE);
     updateGameState(RUN);
+}
+
+void MainWindow::startLevelZen()
+{
+    level = ZEN;
+    init();
+    state = RUN;
+    updateGameState();
 }
 
 void MainWindow::incLevel()

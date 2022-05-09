@@ -13,7 +13,7 @@ VerticalRoad::VerticalRoad(QWidget* parent) : Road(parent)
 Car* VerticalRoad::createCar()
 {
     // construct new car based on the road's direction
-    Car* car = new Car(direction == UP ? Car::UP : Car::DOWN);
+    Car* car = new Car(direction == UP ? Car::UP : Car::DOWN, speed);
 
     return car;
 }
@@ -59,6 +59,8 @@ void VerticalRoad::updateCars()
                 cars[i]->setBlocked(false);
             }
         }
+
+        cars[cars.size()-1]->setBlocked(false);
 
         // if it's off-screen, free the pointer and pop it from the queue
         if (cars[i]->getRelativeLoc() == Car::OFF_SCREEN) {

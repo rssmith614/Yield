@@ -1,5 +1,7 @@
 #include "road.h"
 
+float Road::speed = 0.015;
+
 Road::Road(QWidget* parent) : QOpenGLWidget(parent)
 {
     currentCar = 0;
