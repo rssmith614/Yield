@@ -188,8 +188,8 @@ void MainWindow::init(Level level)
         // define which preset each road made in the ui should have
         ui->RoadA->setPreset(Road::RAND_C, Road::LEFT);
         ui->RoadB->setPreset(Road::RAND_C, Road::RIGHT);
-        ui->Road1->setPreset(Road::FIXED, Road::DOWN);
-        ui->Road2->setPreset(Road::FIXED, Road::UP);
+        ui->Road1->setPreset(Road::RAND_U, Road::DOWN);
+        ui->Road2->setPreset(Road::RAND_U, Road::UP);
 
         ui->progressBar->setMaximum(targetScore);
 
@@ -462,10 +462,8 @@ void MainWindow::startLevelThree()
 
 void MainWindow::startLevelZen()
 {
-    level = ZEN;
-    init();
-    state = RUN;
-    updateGameState();
+    init(ZEN);
+    updateGameState(RUN);
 }
 
 void MainWindow::incLevel()
