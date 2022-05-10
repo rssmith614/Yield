@@ -10,7 +10,7 @@ class Background : public QOpenGLWidget
 public:
     Background(QWidget* parent);
 
-    void init(qreal roadStart, qreal roadWidth);
+    void init(/*qreal roadStart, qreal roadWidth*/);
 
 protected:
     void initializeGL();
