@@ -1,5 +1,4 @@
-QT       += multimedia core gui opengl
-LIBS    +=  -lopengl32 -lglu32
+QT       += multimedia core gui openglwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

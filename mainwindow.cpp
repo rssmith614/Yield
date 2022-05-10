@@ -50,25 +50,44 @@ MainWindow::MainWindow(QWidget *parent)
     cwd.cd("./Yield");
 
     test = new QAudioOutput();
-    test->setVolume(90);
+    test->setVolume(0.1);
 
     theme = new QMediaPlayer;
-//    theme->setMedia(QUrl::fromLocalFile(cwd.path() + "/theme2.mp3"));
     theme->setSource(QUrl::fromLocalFile(cwd.path() + "/theme2.mp3"));
-//    qDebug() << cwd.path() + "/theme2.mp3";
-//    theme->setVolume(50);
     theme->play();
 
-    crashSound001 = new QMediaPlayer;
-    crashSound001->setSource(QUrl::fromLocalFile(cwd.path() + "/crash-sound-001.mp3"));
-    crashSound001->setAudioOutput(test);
+    crashSound011 = new QMediaPlayer;
+    crashSound011->setSource(QUrl::fromLocalFile(cwd.path() + "/crash-sound-011.mp3"));
 
+    crashSound012 = new QMediaPlayer;
+    crashSound012->setSource(QUrl::fromLocalFile(cwd.path() + "/crash-sound-012.mp3"));
 
-    startSound = new QMediaPlayer;
-    startSound->setSource(QUrl::fromLocalFile(cwd.path() + "/sound_clip.mp3"));
+    crashSound013 = new QMediaPlayer;
+    crashSound013->setSource(QUrl::fromLocalFile(cwd.path() + "/crash-sound-013.mp3"));
 
-    deathSound001 = new QMediaPlayer;
-    deathSound001->setSource(QUrl::fromLocalFile(cwd.path() + "/old-man-scream.mp3"));
+    crashSound014 = new QMediaPlayer;
+    crashSound014->setSource(QUrl::fromLocalFile(cwd.path() + "/crash-sound-014.mp3"));
+
+    crashSound021 = new QMediaPlayer;
+    crashSound021->setSource(QUrl::fromLocalFile(cwd.path() + "/crash-sound-021.mp3"));
+
+    crashSound022 = new QMediaPlayer;
+    crashSound022->setSource(QUrl::fromLocalFile(cwd.path() + "/crash-sound-022.mp3"));
+
+    crashSound023 = new QMediaPlayer;
+    crashSound023->setSource(QUrl::fromLocalFile(cwd.path() + "/crash-sound-023.mp3"));
+
+    crashSound024 = new QMediaPlayer;
+    crashSound024->setSource(QUrl::fromLocalFile(cwd.path() + "/crash-sound-024.mp3"));
+
+    crashSounds.push_back(crashSound011);
+    crashSounds.push_back(crashSound012);
+    crashSounds.push_back(crashSound013);
+    crashSounds.push_back(crashSound014);
+    crashSounds.push_back(crashSound021);
+    crashSounds.push_back(crashSound022);
+    crashSounds.push_back(crashSound023);
+    crashSounds.push_back(crashSound024);
 }
 
 MainWindow::~MainWindow()
@@ -134,6 +153,8 @@ void MainWindow::checkCollisions()
                 car_a->notifyCollision();
                 state = GAMEOVER;
                 updateGameState();
+
+                playRandomCrashSound();
             }
         }
 
@@ -149,6 +170,8 @@ void MainWindow::checkCollisions()
                 car_b->notifyCollision();
                 state = GAMEOVER;
                 updateGameState();
+
+                playRandomCrashSound();
             }
         }
     }
@@ -172,6 +195,8 @@ void MainWindow::checkCollisions()
                 car_a->notifyCollision();
                 state = GAMEOVER;
                 updateGameState();
+
+                playRandomCrashSound();
             }
         }
 
@@ -473,12 +498,6 @@ void MainWindow::startLevelOne()
 {
     theme->stop();
 
-    startSound->play();
-
-    QTime dieTime= QTime::currentTime().addMSecs(1800);
-    while (QTime::currentTime() < dieTime)
-    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-
     level = ONE;
     init();
     // change game state and update
@@ -544,5 +563,6 @@ void MainWindow::quit()
 void MainWindow::playRandomCrashSound()
 {
     int rand_num = rand() % 8;
+    crashSounds[rand_num]->setAudioOutput(test);
     crashSounds[rand_num]->play();
 }
