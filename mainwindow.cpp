@@ -187,7 +187,7 @@ void MainWindow::init(Level level)
         ui->progressBar->hide();
 
         // define which preset each road made in the ui should have
-        ui->RoadA->setPreset(Road::RAND_C, Road::LEFT);
+        ui->RoadA->setPreset(Road::RAND_B, Road::LEFT);
         ui->RoadB->setPreset(Road::RAND_C, Road::RIGHT);
         ui->Road1->setPreset(Road::RAND_U, Road::DOWN);
         ui->Road2->setPreset(Road::RAND_U, Road::UP);
