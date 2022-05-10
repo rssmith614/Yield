@@ -61,18 +61,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     crashSound001 = new QMediaPlayer;
     crashSound001->setSource(QUrl::fromLocalFile(cwd.path() + "/crash-sound-001.mp3"));
-//    qDebug() << crashSound001->source();
     crashSound001->setAudioOutput(test);
 
-//    crashSound001->setVolume(50);
 
     startSound = new QMediaPlayer;
     startSound->setSource(QUrl::fromLocalFile(cwd.path() + "/sound_clip.mp3"));
-//    startSound->setVolume(50);
 
     deathSound001 = new QMediaPlayer;
     deathSound001->setSource(QUrl::fromLocalFile(cwd.path() + "/old-man-scream.mp3"));
-//    deathSound001->setVolume(50);
 }
 
 MainWindow::~MainWindow()
@@ -187,24 +183,13 @@ void MainWindow::checkCollisions()
 
             // check intersection between every car on road 2 and road b
             if (car_2_bb.intersects(car_b_bb) && !(car_2->isCrashed() && car_b->isCrashed())) {
-
-
                 car_2->notifyCollision();
                 car_b->notifyCollision();
                 state = GAMEOVER;
 
                 updateGameState();
 
-
-                crashSound001->play();
-
-                QTimer *delay = new QTimer;
-                delay->setInterval(800);
-                delay->start();
-
-//                while(delay->remainingTime()){ }
-
-                deathSound001->play();
+                playRandomCrashSound();
             }
         }
     }
@@ -554,4 +539,10 @@ void MainWindow::menu()
 void MainWindow::quit()
 {
     QCoreApplication::quit();
+}
+
+void MainWindow::playRandomCrashSound()
+{
+    int rand_num = rand() % 8;
+    crashSounds[rand_num]->play();
 }

@@ -70,15 +70,22 @@ private:
     QAudioOutput* test;
 
     QMediaPlayer *theme;
-    QMediaPlayer *player;
     QMediaPlayer *startSound;
-    QMediaPlayer *crashSound001;
-    QMediaPlayer *deathSound001;
+    QMediaPlayer *crashSound011;
+    QMediaPlayer *crashSound012;
+    QMediaPlayer *crashSound013;
+    QMediaPlayer *crashSound014;
+    QMediaPlayer *crashSound021;
+    QMediaPlayer *crashSound022;
+    QMediaPlayer *crashSound023;
+    QMediaPlayer *crashSound024;
 
-//    QMediaPlaylist *menuMusic;
+    std::vector<QMediaPlayer *> crashSounds;
 
     void init();
     // update all game parameters
     void updateGameState();
+
+    void playRandomCrashSound();
 };
 #endif // MAINWINDOW_H
