@@ -226,6 +226,12 @@
       <family>Times New Roman</family>
      </font>
     </property>
+    <property name="toolTip">
+     <string/>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="exitButton">
     <property name="geometry">

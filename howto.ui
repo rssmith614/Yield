@@ -11,7 +11,10 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>How To Play</string>
+  </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color:rgb(76, 87, 255) ;</string>
@@ -20,7 +23,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>130</y>
+     <y>140</y>
      <width>291</width>
      <height>31</height>
     </rect>
@@ -39,7 +42,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>100</y>
+     <y>110</y>
      <width>101</width>
      <height>101</height>
     </rect>
@@ -58,7 +61,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>0</y>
+     <y>10</y>
      <width>101</width>
      <height>101</height>
     </rect>
@@ -77,7 +80,7 @@
    <property name="geometry">
     <rect>
      <x>680</x>
-     <y>190</y>
+     <y>200</y>
      <width>91</width>
      <height>41</height>
     </rect>
@@ -96,7 +99,7 @@
    <property name="geometry">
     <rect>
      <x>450</x>
-     <y>30</y>
+     <y>40</y>
      <width>101</width>
      <height>51</height>
     </rect>
@@ -115,7 +118,7 @@
    <property name="geometry">
     <rect>
      <x>580</x>
-     <y>30</y>
+     <y>40</y>
      <width>231</width>
      <height>41</height>
     </rect>
@@ -134,7 +137,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>30</y>
+     <y>40</y>
      <width>281</width>
      <height>41</height>
     </rect>
@@ -153,7 +156,7 @@
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>110</y>
+     <y>120</y>
      <width>81</width>
      <height>81</height>
     </rect>
@@ -172,7 +175,7 @@
    <property name="geometry">
     <rect>
      <x>490</x>
-     <y>150</y>
+     <y>160</y>
      <width>41</width>
      <height>41</height>
     </rect>
@@ -194,7 +197,7 @@
    <property name="geometry">
     <rect>
      <x>580</x>
-     <y>130</y>
+     <y>140</y>
      <width>201</width>
      <height>31</height>
     </rect>

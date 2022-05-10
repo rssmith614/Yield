@@ -2,6 +2,10 @@
 #define HOWTO_H
 
 #include <QWidget>
+#include <QPixmap>
+#include <QGraphicsView>
+#include <QImage>
+#include <QDir>
 
 namespace Ui {
 class HowTo;

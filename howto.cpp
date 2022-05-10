@@ -1,10 +1,7 @@
 #include "howto.h"
 #include "mainwindow.h"
 #include "ui_howto.h"
-#include <QPixmap>
-#include <QGraphicsView>
-#include <QImage>
-#include <QDir>
+
 HowTo::HowTo(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::HowTo)
