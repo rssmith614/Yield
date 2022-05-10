@@ -49,6 +49,9 @@ MainWindow::MainWindow(QWidget *parent)
     cwd.cdUp();
     cwd.cd("./Yield");
 
+    test = new QAudioOutput();
+    test->setVolume(90);
+
     theme = new QMediaPlayer;
 //    theme->setMedia(QUrl::fromLocalFile(cwd.path() + "/theme2.mp3"));
     theme->setSource(QUrl::fromLocalFile(cwd.path() + "/theme2.mp3"));
@@ -58,6 +61,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     crashSound001 = new QMediaPlayer;
     crashSound001->setSource(QUrl::fromLocalFile(cwd.path() + "/crash-sound-001.mp3"));
+//    qDebug() << crashSound001->source();
+    crashSound001->setAudioOutput(test);
+
 //    crashSound001->setVolume(50);
 
     startSound = new QMediaPlayer;
@@ -196,7 +202,7 @@ void MainWindow::checkCollisions()
                 delay->setInterval(800);
                 delay->start();
 
-                while(delay->remainingTime()){ }
+//                while(delay->remainingTime()){ }
 
                 deathSound001->play();
             }

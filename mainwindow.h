@@ -67,6 +67,8 @@ private:
 
     int targetScore;
 
+    QAudioOutput* test;
+
     QMediaPlayer *theme;
     QMediaPlayer *player;
     QMediaPlayer *startSound;
